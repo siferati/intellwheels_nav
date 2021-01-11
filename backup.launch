@@ -1,0 +1,74 @@
+<launch>
+	<arg name="robot_id" default="wong" />
+	<arg name="robot_tf_ns" default="robot_0" />
+
+	<param name="/use_sim_time" value="true" />
+
+	<!-- load beacon data -->
+	<rosparam command="load" file="$(find intellwheels)/worlds/beacons.yaml" />
+
+	<!-- launch simulator with wong robot -->
+	<node name="jarvis_and_friends_simulator" pkg="stage_ros_h" type="stageros" args="$(find intellwheels)/worlds/lab.world" respawn="false" output="screen">
+		<remap from="$(arg robot_tf_ns)/base_scan" to="$(arg robot_id)/base_scan_sim" />
+		<remap from="$(arg robot_tf_ns)/cmd_vel" to="$(arg robot_id)/cmd_vel_filtered" />
+		<remap from="$(arg robot_tf_ns)/base_pose_ground_truth" to="$(arg robot_id)/base_pose_ground_truth" />
+		<remap from="$(arg robot_tf_ns)/odom" to="$(arg robot_id)/odom" />
+	</node>
+
+	<!-- launch wong node -->
+	<include file="$(find simulator_stage_jarvis_and_friends)/launch/aux.xml">
+		<arg name="robot_id" value="$(arg robot_id)" />
+		<arg name="robot_tf_namespace" value="$(arg robot_tf_ns)" />
+		<arg name="DisableDirectionWheelFunctionalities" value="true" />
+	</include>
+
+	<!-- launch simulated localization -->
+	<include file="$(find jarvis_and_friends_simulation)/launch/navigation/localization_simulated/run_localization_simulated_single_robot.xml">
+		<arg name="robot_id" value="$(arg robot_id)" />
+		<arg name="robot_tf_namespace" value="$(arg robot_tf_ns)" />
+	</include>
+
+	<!-- launch map server -->
+	<node name="map_server" pkg="map_server" type="map_server" args="$(find intellwheels)/worlds/lab.yaml">
+		<param name="frame_id" value="map" />
+	</node>
+
+	<!-- launch parametric trajectories control -->
+	<include file="$(find jarvis_and_friends_simulation)/launch/navigation/control_parametric_trajectories/run_control_parametric_trajectories_single_robot.xml">
+		<arg name="robot_id" value="$(arg robot_id)" />
+		<arg name="robot_tf_namespace" value="$(arg robot_tf_ns)" />
+	</include>
+
+	<!-- launch parametric trajectories editor -->
+	<include file="$(find jarvis_and_friends_simulation)/launch/human_machine_interfaces/trajectory_editor/run_trajectory_editor_single_robot.xml">
+		<arg name="robot_id" value="$(arg robot_id)" />
+	</include>
+
+	<!-- launch parametric trajectories decision -->
+	<include file="$(find jarvis_and_friends_simulation)/launch/decision/parametric_trajectories_decision/run_parametric_trajectories_decision_single_robot.xml">
+		<arg name="robot_id" value="$(arg robot_id)" />
+		<arg name="robot_tf_namespace" value="$(arg robot_tf_ns)" />
+	</include>
+
+	<!-- launch perfect match localization -->
+	<include file="$(find jarvis_and_friends_simulation)/launch/navigation/localization_perfect_match/run_localization_perfect_match.launch">
+		<arg name="robot_id" value="$(arg robot_id)" />
+		<arg name="robot_tf_namespace" value="$(arg robot_tf_ns)" />
+	</include>
+
+	<!-- launch extended kalman filter localization -->
+	<include file="$(find jarvis_and_friends_simulation)/launch/navigation/localization_ekf_beacons/run_localization_ekf_beacons.launch">
+		<arg name="robot_id" value="$(arg robot_id)" />
+		<arg name="robot_tf_namespace" value="$(arg robot_tf_ns)" />
+	</include>
+
+	<!-- launch adaptive monte carlo localization -->
+	<include file="$(find jarvis_and_friends_simulation)/launch/navigation/localization_amcl/run_localization_amcl.launch">
+		<arg name="robot_id" value="$(arg robot_id)" />
+		<arg name="robot_tf_namespace" value="$(arg robot_tf_ns)" />
+	</include>
+
+	<!-- launch rviz -->
+	<node pkg="rviz" type="rviz" name="rviz" output="screen" args="--display-config $(find intellwheels)/rviz/config.rviz">
+	</node>
+</launch>

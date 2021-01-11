@@ -1,0 +1,52 @@
+<launch>
+	<!-- arguments-->
+	<arg name="id" default="wong"/>
+	<arg name="tf_ns" default=""/>
+	<arg name="base_frame" default="base_footprint"/>
+
+
+	<!-- parameters -->
+	<param name="/use_sim_time" value="true"/>
+
+	<!-- map server -->
+	<node name="map_server" pkg="map_server" type="map_server" args="$(find intellwheels)/worlds/lab.yaml" output="screen"/>
+
+	<!-- rviz -->
+	<node name="rviz" pkg="rviz" type="rviz" args="--display-config $(find intellwheels)/rviz/config.rviz" output="screen"/>
+
+	<!-- simulator -->
+	<node name="stage" pkg="stage_ros_h" type="stageros" args="$(find intellwheels)/worlds/lab.world" output="screen">
+		<remap from="$(arg tf_ns)/base_scan" to="$(arg id)/base_scan_sim"/>
+		<remap from="$(arg tf_ns)/cmd_vel" to="$(arg id)/cmd_vel_filtered"/>
+		<remap from="$(arg tf_ns)/base_pose_ground_truth" to="$(arg id)/base_pose_ground_truth"/>
+		<remap from="$(arg tf_ns)/odom" to="$(arg id)/odom"/>
+	</node>
+
+	<!-- wong nodes -->
+	<group ns="$(arg id)">
+		<!-- core -->
+		<node name="core" pkg="simulator_stage_jarvis_and_friends" type="jarvis_simulator_and_friends_aux" output="screen">
+			<param name="MaxDirectionWheelSpeed" value="90.0"/>
+			<param name="std_range" value="0.0"/>
+			<param name="BaseFrameId" value="$(arg tf_ns)/base_footprint"/>
+			<param name="DirectionWheelFrameId" value="$(arg tf_ns)/direction_wheel"/>
+			<param name="DisableDirectionWheelFunctionalities" value="true"/>
+		</node>
+
+		<!-- localization -->
+		<node name="loc" pkg="pose_stamped_to_tf" type="pose_stamped_to_tf" output="screen">
+			<param name="OdomFrameId" value="$(arg tf_ns)/odom"/>
+			<param name="BaseFrameId" value="$(arg tf_ns)/base_footprint"/>
+		</node>
+
+		<!-- navigation -->
+		<node name="nav" pkg="move_base" type="move_base" output="screen">
+			<remap from="map" to="/map"/>
+			<rosparam ns="global_costmap" file="$(find intellwheels)/nav/common_costmap_params.yaml" subst_value="true"/>
+			<rosparam ns="local_costmap" file="$(find intellwheels)/nav/common_costmap_params.yaml" subst_value="true"/>
+			<rosparam file="$(find intellwheels)/nav/local_costmap_params.yaml"/>
+			<rosparam file="$(find intellwheels)/nav/global_costmap_params.yaml"/>
+			<rosparam file="$(find intellwheels)/nav/base_local_planner_params.yaml"/>
+		</node>
+	</group>
+</launch>

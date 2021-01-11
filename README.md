@@ -3,5 +3,5 @@
 ```
 > catkin_make
 > source devel/setup.bash
-> roslaunch intellwheels sim.launch
+> roslaunch intellwheels intellwheels.launch
 ```

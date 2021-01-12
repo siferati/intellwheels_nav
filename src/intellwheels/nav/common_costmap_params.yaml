@@ -5,9 +5,9 @@ inflation_radius: 0.55
 
 observation_sources: laser_scan_sensor
 
-laser_scan_sensor: {sensor_frame: $(arg base_frame), data_type: LaserScan, topic: $(arg id)/base_scan, marking: true, clearing: true}
+laser_scan_sensor: {sensor_frame: base_footprint, data_type: LaserScan, topic: base_scan, marking: true, clearing: true}
 
 global_frame: map
-robot_base_frame: $(arg base_frame)
+robot_base_frame: base_footprint
 update_frequency: 5.0
 static_map: true

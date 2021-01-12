@@ -44,7 +44,7 @@ Visualization Manager:
     - Alpha: 0.699999988079071
       Class: rviz/Map
       Color Scheme: map
-      Draw Behind: true
+      Draw Behind: false
       Enabled: true
       Name: Map
       Topic: /map
@@ -57,7 +57,7 @@ Visualization Manager:
       Draw Behind: true
       Enabled: true
       Name: Global Costmap
-      Topic: /wong/nav/global_costmap/costmap
+      Topic: /nav/global_costmap/costmap
       Unreliable: false
       Use Timestamp: false
       Value: true
@@ -67,7 +67,7 @@ Visualization Manager:
       Draw Behind: false
       Enabled: true
       Name: Local Costmap
-      Topic: /wong/nav/local_costmap/costmap
+      Topic: /nav/local_costmap/costmap
       Unreliable: false
       Use Timestamp: false
       Value: true
@@ -75,15 +75,15 @@ Visualization Manager:
       Axes Length: 1
       Axes Radius: 0.10000000149011612
       Class: rviz/Pose
-      Color: 255; 0; 0
+      Color: 255; 25; 0
       Enabled: true
       Head Length: 0.30000001192092896
       Head Radius: 0.30000001192092896
       Name: Robot Pose
-      Shaft Length: 0.5
-      Shaft Radius: 0.10000000149011612
+      Shaft Length: -0.4000000059604645
+      Shaft Radius: 0
       Shape: Arrow
-      Topic: /wong/pose_ground_truth
+      Topic: /pose_ground_truth
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -91,7 +91,7 @@ Visualization Manager:
       Color: 239; 41; 41
       Enabled: true
       Name: Robot Footprint
-      Topic: /wong/nav/global_costmap/footprint
+      Topic: /nav/global_costmap/footprint
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -106,7 +106,7 @@ Visualization Manager:
       Shaft Length: 0.5
       Shaft Radius: 0.10000000149011612
       Shape: Arrow
-      Topic: /wong/nav/current_goal
+      Topic: /nav/current_goal
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -134,7 +134,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.009999999776482582
       Style: Points
-      Topic: /wong/base_scan
+      Topic: /base_scan
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: false
@@ -147,9 +147,9 @@ Visualization Manager:
       Head Diameter: 0.10000000149011612
       Head Length: 0.10000000149011612
       Length: 0.10000000149011612
-      Line Style: Lines
-      Line Width: 0.029999999329447746
-      Name: Path
+      Line Style: Billboards
+      Line Width: 0.05000000074505806
+      Name: Full Path
       Offset:
         X: 0
         Y: 0
@@ -159,7 +159,53 @@ Visualization Manager:
       Radius: 0.009999999776482582
       Shaft Diameter: 0.10000000149011612
       Shaft Length: 0.5
-      Topic: /wong/nav/NavfnROS/plan
+      Topic: /nav/NavfnROS/plan
+      Unreliable: false
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 78; 154; 6
+      Enabled: true
+      Head Diameter: 0.30000001192092896
+      Head Length: 0.20000000298023224
+      Length: 0.30000001192092896
+      Line Style: Billboards
+      Line Width: 0.05000000074505806
+      Name: Global Path
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Pose Color: 255; 85; 255
+      Pose Style: None
+      Radius: 0.029999999329447746
+      Shaft Diameter: 0.10000000149011612
+      Shaft Length: 0.10000000149011612
+      Topic: /nav/TrajectoryPlannerROS/global_plan
+      Unreliable: false
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 239; 41; 41
+      Enabled: true
+      Head Diameter: 0.30000001192092896
+      Head Length: 0.20000000298023224
+      Length: 0.30000001192092896
+      Line Style: Billboards
+      Line Width: 0.05000000074505806
+      Name: Local Path
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Pose Color: 255; 85; 255
+      Pose Style: None
+      Radius: 0.029999999329447746
+      Shaft Diameter: 0.10000000149011612
+      Shaft Length: 0.10000000149011612
+      Topic: /nav/TrajectoryPlannerROS/local_plan
       Unreliable: false
       Value: true
   Enabled: true
@@ -178,11 +224,11 @@ Visualization Manager:
     - Class: rviz/Measure
     - Class: rviz/SetInitialPose
       Theta std deviation: 0.2617993950843811
-      Topic: /wong/initialpose
+      Topic: /initialpose
       X std deviation: 0.5
       Y std deviation: 0.5
     - Class: rviz/SetGoal
-      Topic: /wong/move_base_simple/goal
+      Topic: /move_base_simple/goal
     - Class: rviz/PublishPoint
       Single click: true
       Topic: /clicked_point
@@ -199,11 +245,11 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 28.118682861328125
+      Scale: 36.61922836303711
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: 26.740901947021484
-      Y: 20.938819885253906
+      X: 22.95909881591797
+      Y: 19.16292953491211
     Saved: ~
 Window Geometry:
   Displays:

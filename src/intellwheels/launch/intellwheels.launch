@@ -31,10 +31,17 @@
 
 	<!-- navigation -->
 	<node name="nav" pkg="move_base" type="move_base" output="screen">
+		<!-- base global planner -->
+		<param name="base_global_planner" value="global_planner/GlobalPlanner"/>
+		<rosparam file="$(find intellwheels)/nav/base_global_planner_params.yaml"/>		
+
+		<!-- base local planner -->
+		<rosparam file="$(find intellwheels)/nav/base_local_planner_params.yaml"/>
+
+		<!-- 2d costmaps -->
 		<rosparam ns="local_costmap" file="$(find intellwheels)/nav/common_costmap_params.yaml"/>
 		<rosparam ns="global_costmap" file="$(find intellwheels)/nav/common_costmap_params.yaml"/>
 		<rosparam file="$(find intellwheels)/nav/local_costmap_params.yaml"/>
 		<rosparam file="$(find intellwheels)/nav/global_costmap_params.yaml"/>
-		<rosparam file="$(find intellwheels)/nav/local_planner_params.yaml"/>
 	</node>	
 </launch>

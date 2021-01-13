@@ -26,7 +26,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: ""
   - Class: rviz/Displays
     Help Height: 75
     Name: Displays
@@ -121,7 +121,7 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: Intensity
       Decay Time: 0
-      Enabled: true
+      Enabled: false
       Invert Rainbow: false
       Max Color: 0; 0; 0
       Max Intensity: 1
@@ -137,8 +137,8 @@ Visualization Manager:
       Topic: /base_scan
       Unreliable: false
       Use Fixed Frame: true
-      Use rainbow: false
-      Value: true
+      Use rainbow: true
+      Value: false
     - Alpha: 1
       Buffer Length: 1
       Class: rviz/Path
@@ -159,7 +159,7 @@ Visualization Manager:
       Radius: 0.009999999776482582
       Shaft Diameter: 0.10000000149011612
       Shaft Length: 0.5
-      Topic: /nav/NavfnROS/plan
+      Topic: /nav/GlobalPlanner/plan
       Unreliable: false
       Value: true
     - Alpha: 1

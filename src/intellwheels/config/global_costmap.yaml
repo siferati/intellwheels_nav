@@ -1,0 +1,29 @@
+global_costmap:
+  plugins:
+    - {name: map, type: 'costmap_2d::StaticLayer'}
+    - {name: obstacles, type: 'costmap_2d::ObstacleLayer'}
+    - {name: inflation, type: 'costmap_2d::InflationLayer'}
+
+  robot_base_frame: base_footprint
+  footprint: [[-0.395, -0.25], [0.395, -0.25], [0.395, 0.25], [-0.395, 0.25]]
+  publish_frequency: 5
+
+  map:
+    subscribe_to_updates: true
+
+  obstacles:
+    observation_sources: base_scan
+    track_unknown_space: true
+    max_obstacle_height: 2
+    obstacle_range: 3
+    raytrace_range: 3
+
+    base_scan:
+      data_type: LaserScan
+      expected_update_rate: 0
+      clearing: true
+      marking: true
+
+  inflation:
+    inflation_radius: 1
+    cost_scaling_factor: 1

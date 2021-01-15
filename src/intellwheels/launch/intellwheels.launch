@@ -39,10 +39,14 @@
 		<param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/>
 		<rosparam file="$(find intellwheels)/nav/base_local_planner_params.yaml"/>
 
-		<!-- 2d costmaps -->
+		<!-- 2d costmaps 
 		<rosparam ns="local_costmap" file="$(find intellwheels)/nav/common_costmap_params.yaml"/>
 		<rosparam ns="global_costmap" file="$(find intellwheels)/nav/common_costmap_params.yaml"/>
 		<rosparam file="$(find intellwheels)/nav/local_costmap_params.yaml"/>
-		<rosparam file="$(find intellwheels)/nav/global_costmap_params.yaml"/>
+		<rosparam file="$(find intellwheels)/nav/global_costmap_params.yaml"/>-->
+
+		<rosparam file="$(find intellwheels)/config/global_costmap.yaml"/>
+		<rosparam file="$(find intellwheels)/config/local_costmap.yaml"/>
+
 	</node>	
 </launch>

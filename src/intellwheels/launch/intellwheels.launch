@@ -31,12 +31,14 @@
 
 	<!-- navigation -->
 	<node name="nav" pkg="move_base" type="move_base" output="screen">
+		<param name="controller_frequency" value="10"/>
+
 		<!-- base global planner -->
 		<param name="base_global_planner" value="global_planner/GlobalPlanner"/>
 		<rosparam file="$(find intellwheels)/config/global_planner.yaml"/>		
 
 		<!-- base local planner -->
-		<param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/>
+		<param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS"/>
 		<rosparam file="$(find intellwheels)/config/local_planner.yaml"/>
 
 		<!-- 2d costmaps -->

@@ -14,7 +14,3 @@ obstacles:
     expected_update_rate: 0
     clearing: true
     marking: true
-
-inflation:
-  inflation_radius: 1
-  cost_scaling_factor: 1

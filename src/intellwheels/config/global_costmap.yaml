@@ -6,3 +6,7 @@ global_costmap:
 
   map:
     subscribe_to_updates: true
+
+  inflation:
+    inflation_radius: 1
+    cost_scaling_factor: 1

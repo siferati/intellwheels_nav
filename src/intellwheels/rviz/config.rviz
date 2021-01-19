@@ -55,22 +55,22 @@ Visualization Manager:
       Class: rviz/Map
       Color Scheme: costmap
       Draw Behind: true
-      Enabled: true
+      Enabled: false
       Name: Global Costmap
       Topic: /nav/global_costmap/costmap
       Unreliable: false
       Use Timestamp: false
-      Value: true
+      Value: false
     - Alpha: 0.699999988079071
       Class: rviz/Map
       Color Scheme: costmap
       Draw Behind: false
-      Enabled: true
+      Enabled: false
       Name: Local Costmap
       Topic: /nav/local_costmap/costmap
       Unreliable: false
       Use Timestamp: false
-      Value: true
+      Value: false
     - Alpha: 1
       Axes Length: 1
       Axes Radius: 0.10000000149011612
@@ -159,7 +159,7 @@ Visualization Manager:
       Radius: 0.009999999776482582
       Shaft Diameter: 0.10000000149011612
       Shaft Length: 0.5
-      Topic: /nav/GlobalPlanner/plan
+      Topic: /nav/TebLocalPlannerROS/global_plan
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -184,6 +184,17 @@ Visualization Manager:
       Shaft Length: 0.10000000149011612
       Topic: /nav/TebLocalPlannerROS/local_plan
       Unreliable: false
+      Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /nav/TebLocalPlannerROS/teb_markers
+      Name: Marker
+      Namespaces:
+        LineObstacles: true
+        PointObstacles: true
+        RobotFootprintModel: true
+        TebContainer: true
+      Queue Size: 100
       Value: true
   Enabled: true
   Global Options:
@@ -222,11 +233,11 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 36.61922836303711
+      Scale: 39.26714324951172
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: 22.95909881591797
-      Y: 19.16292953491211
+      X: 22.22024154663086
+      Y: 18.57843589782715
     Saved: ~
 Window Geometry:
   Displays:

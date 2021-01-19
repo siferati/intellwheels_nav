@@ -32,6 +32,7 @@
 	<!-- navigation -->
 	<node name="nav" pkg="move_base" type="move_base" output="screen">
 		<param name="controller_frequency" value="10"/>
+		<param name="planner_frequency" value="10"/>
 
 		<!-- base global planner -->
 		<param name="base_global_planner" value="global_planner/GlobalPlanner"/>

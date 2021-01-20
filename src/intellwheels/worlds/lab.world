@@ -154,7 +154,7 @@ define jarvis_robot_model position(
 )
 
 jarvis_robot_model(
-  pose [ 28.007 12.729 0.000 90.249 ]
+  pose [ 28 13 0 90 ]
   localization "odom"
   name "wong"
   drive "diff"

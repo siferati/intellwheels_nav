@@ -31,7 +31,8 @@ Panels:
     Help Height: 75
     Name: Displays
     Property Tree Widget:
-      Expanded: ~
+      Expanded:
+        - /Marker1/Namespaces1
       Splitter Ratio: 0.5
     Tree Height: 395
 Preferences:
@@ -44,7 +45,7 @@ Visualization Manager:
     - Alpha: 0.699999988079071
       Class: rviz/Map
       Color Scheme: map
-      Draw Behind: false
+      Draw Behind: true
       Enabled: true
       Name: Map
       Topic: /map
@@ -54,7 +55,7 @@ Visualization Manager:
     - Alpha: 0.699999988079071
       Class: rviz/Map
       Color Scheme: costmap
-      Draw Behind: true
+      Draw Behind: false
       Enabled: false
       Name: Global Costmap
       Topic: /nav/global_costmap/costmap
@@ -79,7 +80,7 @@ Visualization Manager:
       Enabled: true
       Head Length: 0.30000001192092896
       Head Radius: 0.30000001192092896
-      Name: Robot Pose
+      Name: Robot True Pose
       Shaft Length: -0.4000000059604645
       Shaft Radius: 0
       Shape: Arrow
@@ -91,7 +92,7 @@ Visualization Manager:
       Color: 239; 41; 41
       Enabled: true
       Name: Robot Footprint
-      Topic: /nav/global_costmap/footprint
+      Topic: /nav/local_costmap/footprint
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -109,36 +110,6 @@ Visualization Manager:
       Topic: /nav/current_goal
       Unreliable: false
       Value: true
-    - Alpha: 1
-      Autocompute Intensity Bounds: true
-      Autocompute Value Bounds:
-        Max Value: 10
-        Min Value: -10
-        Value: true
-      Axis: Z
-      Channel Name: intensities
-      Class: rviz/LaserScan
-      Color: 255; 255; 255
-      Color Transformer: Intensity
-      Decay Time: 0
-      Enabled: false
-      Invert Rainbow: false
-      Max Color: 0; 0; 0
-      Max Intensity: 1
-      Min Color: 0; 0; 0
-      Min Intensity: 0
-      Name: LaserScan
-      Position Transformer: XYZ
-      Queue Size: 10
-      Selectable: true
-      Size (Pixels): 3
-      Size (m): 0.009999999776482582
-      Style: Points
-      Topic: /base_scan
-      Unreliable: false
-      Use Fixed Frame: true
-      Use rainbow: true
-      Value: false
     - Alpha: 1
       Buffer Length: 1
       Class: rviz/Path
@@ -196,6 +167,62 @@ Visualization Manager:
         TebContainer: true
       Queue Size: 100
       Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensities
+      Class: rviz/LaserScan
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 0
+      Enabled: false
+      Invert Rainbow: false
+      Max Color: 0; 0; 0
+      Max Intensity: 1
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: LaserScan
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.009999999776482582
+      Style: Points
+      Topic: /base_scan
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: false
+    - Alpha: 1
+      Arrow Length: 0.30000001192092896
+      Axes Length: 0.30000001192092896
+      Axes Radius: 0.009999999776482582
+      Class: rviz/PoseArray
+      Color: 211; 215; 207
+      Enabled: false
+      Head Length: 0.07000000029802322
+      Head Radius: 0.029999999329447746
+      Name: AMCL Particles
+      Shaft Length: 0.23000000417232513
+      Shaft Radius: 0.009999999776482582
+      Shape: Arrow (Flat)
+      Topic: /particlecloud
+      Unreliable: false
+      Value: false
+    - Alpha: 0.8999999761581421
+      Class: rviz/Map
+      Color Scheme: costmap
+      Draw Behind: false
+      Enabled: false
+      Name: Global Potential
+      Topic: /nav/GlobalPlanner/potential
+      Unreliable: false
+      Use Timestamp: false
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 255; 255; 255
@@ -236,8 +263,8 @@ Visualization Manager:
       Scale: 39.26714324951172
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: 22.22024154663086
-      Y: 18.57843589782715
+      X: 23.31532859802246
+      Y: 18.298297882080078
     Saved: ~
 Window Geometry:
   Displays:

@@ -23,30 +23,26 @@
 	<!-- map server -->
 	<node name="map_server" pkg="map_server" type="map_server" args="$(find intellwheels)/worlds/lab.yaml" output="screen"/>
 
-	<!-- localization -->
+	<!-- perfect localization -->
 	<node name="loc" pkg="pose_stamped_to_tf" type="pose_stamped_to_tf" output="screen">
 		<param name="OdomFrameId" value="odom"/>
 		<param name="BaseFrameId" value="base_footprint"/>
 	</node>
 
+	<!-- amcl localization 
+	<node name="loc" pkg="amcl" type="amcl" output="screen">
+		<remap from="scan" to="base_scan"/>
+		<rosparam file="$(find intellwheels)/config/amcl.yaml"/>
+	</node>-->
+
 	<!-- navigation -->
 	<node name="nav" pkg="move_base" type="move_base" output="screen">
-		<param name="controller_frequency" value="10"/>
-		<param name="planner_frequency" value="10"/>
-
-		<!-- base global planner -->
-		<param name="base_global_planner" value="global_planner/GlobalPlanner"/>
-		<rosparam file="$(find intellwheels)/config/global_planner.yaml"/>		
-
-		<!-- base local planner -->
-		<param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS"/>
+		<rosparam file="$(find intellwheels)/config/nav.yaml"/>
+		<rosparam file="$(find intellwheels)/config/global_planner.yaml"/>
 		<rosparam file="$(find intellwheels)/config/local_planner.yaml"/>
-
-		<!-- 2d costmaps -->
 		<rosparam ns="local_costmap" file="$(find intellwheels)/config/common_costmap.yaml"/>
 		<rosparam ns="global_costmap" file="$(find intellwheels)/config/common_costmap.yaml"/>
 		<rosparam file="$(find intellwheels)/config/local_costmap.yaml"/>
 		<rosparam file="$(find intellwheels)/config/global_costmap.yaml"/>
-
 	</node>	
 </launch>

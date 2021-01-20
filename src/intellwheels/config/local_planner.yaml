@@ -7,6 +7,6 @@ TebLocalPlannerROS:
     type: polygon
     vertices: [[-0.395, -0.25], [0.395, -0.25], [0.395, 0.25], [-0.395, 0.25]]
 
-  costmap_converter_plugin: 'costmap_converter::CostmapToLinesDBSRANSAC'
+  costmap_converter_plugin: costmap_converter::CostmapToLinesDBSRANSAC
   costmap_converter_spin_thread: true
   costmap_converter_rate: 5

@@ -6,7 +6,7 @@ ARG UID=1000
 ARG GID=$UID
 
 # install packages and clean up afterwards
-ARG PKGS="sudo gdb ros-$ROS_DISTRO-stage ros-$ROS_DISTRO-rqt ros-$ROS_DISTRO-rqt-common-plugins"
+ARG PKGS="sudo gdb ros-$ROS_DISTRO-stage ros-$ROS_DISTRO-global-planner ros-$ROS_DISTRO-teb-local-planner ros-$ROS_DISTRO-rqt ros-$ROS_DISTRO-rqt-common-plugins"
 RUN apt-get update \
 	&& apt-get -y install --no-install-recommends $PKGS \
 	&& apt-get -y autoremove \

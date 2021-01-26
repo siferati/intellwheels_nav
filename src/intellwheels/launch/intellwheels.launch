@@ -6,28 +6,10 @@
 	<node name="rviz" pkg="rviz" type="rviz" args="--display-config $(find intellwheels)/rviz/config.rviz" output="screen"/>
 
 	<!-- simulator -->
-	<node name="stage" pkg="stage_ros_h" type="stageros" args="$(find intellwheels)/worlds/lab.world" output="screen">
-		<remap from="base_scan" to="base_scan_sim"/>
-		<remap from="cmd_vel" to="cmd_vel_filtered"/>
-	</node>
-	
-	<!-- core -->
-	<node name="core" pkg="simulator_stage_jarvis_and_friends" type="jarvis_simulator_and_friends_aux" output="screen">
-		<param name="MaxDirectionWheelSpeed" value="90.0"/>
-		<param name="std_range" value="0.0"/>
-		<param name="BaseFrameId" value="base_footprint"/>
-		<param name="DirectionWheelFrameId" value="direction_wheel"/>
-		<param name="DisableDirectionWheelFunctionalities" value="true"/>
-	</node>
+	<node name="stage" pkg="stage_ros" type="stageros" args="$(find intellwheels)/worlds/lab.world" output="screen"/>
 
 	<!-- map server -->
 	<node name="map_server" pkg="map_server" type="map_server" args="$(find intellwheels)/worlds/lab.yaml" output="screen"/>
-
-	<!-- perfect localization 
-	<node name="loc" pkg="pose_stamped_to_tf" type="pose_stamped_to_tf" output="screen">
-		<param name="OdomFrameId" value="odom"/>
-		<param name="BaseFrameId" value="base_footprint"/>
-	</node>-->
 
 	<!-- amcl localization -->
 	<node name="loc" pkg="amcl" type="amcl" output="screen">

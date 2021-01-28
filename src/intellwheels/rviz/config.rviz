@@ -73,6 +73,21 @@ Visualization Manager:
       Use Timestamp: false
       Value: false
     - Alpha: 1
+      Axes Length: 1
+      Axes Radius: 0.10000000149011612
+      Class: rviz/Pose
+      Color: 255; 25; 0
+      Enabled: true
+      Head Length: 0.4000000059604645
+      Head Radius: 0.5
+      Name: Robot True Pose
+      Shaft Length: -0.4000000059604645
+      Shaft Radius: 0
+      Shape: Arrow
+      Topic: /true_pose
+      Unreliable: false
+      Value: true
+    - Alpha: 1
       Class: rviz/Polygon
       Color: 239; 41; 41
       Enabled: true
@@ -146,6 +161,7 @@ Visualization Manager:
       Marker Topic: /nav/TebLocalPlannerROS/teb_markers
       Name: Markers
       Namespaces:
+        InfeasibleRobotPoses: true
         LineObstacles: true
         PointObstacles: true
         RobotFootprintModel: false

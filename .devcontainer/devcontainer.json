@@ -1,5 +1,5 @@
 {
-	"name": "Intellwheels",
+	"name": "Intellwheels Navigation",
 	"build": {
 		"dockerfile": "Dockerfile"
 	},
@@ -10,5 +10,5 @@
 		"NVIDIA_VISIBLE_DEVICES": "all"
 	},
 	"mounts": [ "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind" ],
-	"runArgs": [ "--hostname=container", "--runtime=nvidia", "--device=/dev/bus/usb:/dev/bus/usb" ]
+	"runArgs": [ "--hostname=container", "--runtime=nvidia" ]
 }

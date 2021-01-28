@@ -78,10 +78,10 @@ Visualization Manager:
       Class: rviz/Pose
       Color: 255; 25; 0
       Enabled: true
-      Head Length: 0.4000000059604645
-      Head Radius: 0.5
+      Head Length: 0.30000001192092896
+      Head Radius: 0.30000001192092896
       Name: Robot True Pose
-      Shaft Length: -0.4000000059604645
+      Shaft Length: -0.30000001192092896
       Shaft Radius: 0
       Shape: Arrow
       Topic: /true_pose
@@ -161,7 +161,6 @@ Visualization Manager:
       Marker Topic: /nav/TebLocalPlannerROS/teb_markers
       Name: Markers
       Namespaces:
-        InfeasibleRobotPoses: true
         LineObstacles: true
         PointObstacles: true
         RobotFootprintModel: false

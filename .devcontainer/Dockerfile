@@ -8,9 +8,9 @@ ARG GID=$UID
 # dependencies
 ARG PKGS="sudo gdb \
 	ros-$ROS_DISTRO-stage ros-$ROS_DISTRO-stage-ros \
-	ros-$ROS_DISTRO-rqt ros-$ROS_DISTRO-rqt-common-plugins \
 	ros-$ROS_DISTRO-global-planner ros-$ROS_DISTRO-teb-local-planner \
-	ros-$ROS_DISTRO-move-base ros-$ROS_DISTRO-amcl ros-$ROS_DISTRO-rviz"
+	ros-$ROS_DISTRO-move-base ros-$ROS_DISTRO-map-server \
+	ros-$ROS_DISTRO-amcl ros-$ROS_DISTRO-rviz"
 
 # install dependencies and clean up afterwards
 RUN apt-get update \

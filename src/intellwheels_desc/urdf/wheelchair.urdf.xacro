@@ -1,0 +1,235 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="wheelchair">
+	<xacro:property name="PI" value="3.1415926535897931"/>
+	<xacro:property name="default_inertia">
+		<inertia
+			ixx="0.001" ixy="0" ixz="0"
+			iyy="0.001" iyz="0"
+			izz="0.001"/>
+	</xacro:property>
+
+
+	<!-- ******************** CHAIR ******************** -->
+	<xacro:macro name="chair">
+		<xacro:property name="height" value="0.56"/>
+		<xacro:property name="origin">
+			<origin xyz="0 0 ${-height / 2}"/>
+		</xacro:property>
+
+		<link name="base_footprint">
+			<inertial>
+				<mass value="1"/>
+				<inertia
+					ixx="1" ixy="0" ixz="0"
+					iyy="1" iyz="0"
+					izz="1"/>
+			</inertial>
+		</link>
+
+		<link name="base_link">
+			<inertial>
+				<xacro:insert_block name="origin"/>
+				<mass value="145"/>
+				<inertia
+					ixx="3.64053" ixy="-0.06186" ixz="-0.00036"
+					iyy="2.77052" iyz="0.35856"
+					izz="0.20333"/>
+			</inertial>
+
+			<visual>
+				<xacro:insert_block name="origin"/>
+				<geometry>
+					<mesh filename="package://intellwheels_desc/meshes/chair.dae" scale="0.25952 0.24638 0.17893"/>
+				</geometry>
+			</visual>
+
+			<collision>
+				<origin xyz="-0.1 -0.02 0.55" rpy="0 -0.2 0"/>
+				<geometry>
+					<box size="1.2 1.2 1.4"/>
+				</geometry>
+			</collision>
+
+			<collision>
+				<origin xyz="0.59 0 -0.21" rpy="0 -0.1 0"/>
+				<geometry>
+					<box size="0.25 0.4 0.45"/>
+				</geometry>
+			</collision>
+		</link>
+
+		<joint name="base_joint" type="fixed">
+			<parent link="base_footprint"/>
+			<child link="base_link" />
+			<origin xyz="0 0 ${height}"/>
+		</joint>
+
+		<gazebo reference='base_joint'>
+			<preserveFixedJoint>true</preserveFixedJoint>
+		</gazebo>
+	</xacro:macro>
+
+
+	<!-- ******************** CASTER ARM ******************** -->
+	<xacro:macro name="caster_arm" params="prefix right:=0 back:=0">
+		<xacro:property name="origin">
+			<origin xyz="-0.035 0 -0.04"/>
+		</xacro:property>
+
+		<link name="${prefix}_caster_arm_link">
+			<inertial>
+				<xacro:insert_block name="origin"/>
+				<mass value="0.5"/>
+				<xacro:insert_block name="default_inertia"/>
+			</inertial>
+
+			<visual>
+				<xacro:insert_block name="origin"/>
+				<geometry>
+					<mesh filename="package://intellwheels_desc/meshes/caster_arm.dae" scale="0.00951 0.00951 0.1731"/>
+				</geometry>
+			</visual>
+		</link>
+
+		<joint name="${prefix}_caster_arm_joint" type="continuous">
+			<parent link="base_link"/>
+			<child link="${prefix}_caster_arm_link"/>
+			<origin
+				xyz="${0.435 - back * 0.92} ${0.3 - right * 0.62} -0.24"
+				rpy="0 0 ${(1 - back) * -PI}"/>
+			<axis xyz="0 0 1"/>
+			<limit effort="5" velocity="5"/>
+			<dynamics friction="1"/>
+		</joint>
+
+	</xacro:macro>
+
+
+	<!-- ******************** CASTER WHEEL ******************** -->
+	<xacro:macro name="caster_wheel" params="prefix right:=0 back:=0">
+		<xacro:property name="origin">
+			<origin rpy="0 0 ${right * PI}"/>
+		</xacro:property>
+
+		<link name="${prefix}_caster_wheel_link">
+			<inertial>
+				<xacro:insert_block name="origin"/>
+				<mass value="1"/>
+				<xacro:insert_block name="default_inertia"/>
+			</inertial>
+
+			<visual>
+				<xacro:insert_block name="origin"/>
+				<geometry>
+					<mesh filename="package://intellwheels_desc/meshes/wheel.dae" scale="0.01306 0.01306 0.01306"/>
+				</geometry>
+			</visual>
+
+			<collision>
+				<origin rpy="${PI / 2} 0 0"/>
+				<geometry>
+					<cylinder radius="0.115" length="0.1"/>
+				</geometry>
+			</collision>
+		</link>
+
+		<joint name="${prefix}_caster_wheel_joint" type="continuous">
+			<origin xyz="-0.065 0 -0.2" rpy="0 0 ${(1 - back) * PI}"/>
+			<parent link="${prefix}_caster_arm_link"/>
+			<child link="${prefix}_caster_wheel_link"/>
+			<axis xyz="0 1 0"/>
+			<limit effort="10" velocity="0"/>
+		</joint>
+
+		<gazebo reference="${prefix}_caster_wheel_link">
+			<mu1 value="200"/>
+			<mu2 value="100"/>
+			<material>Gazebo/Grey</material>
+		</gazebo>
+	</xacro:macro>
+
+
+	<!-- ******************** CASTER ******************** -->
+	<xacro:macro name="caster" params="prefix right:=0 back:=0">
+		<xacro:caster_arm prefix="${prefix}" right="${right}" back="${back}"/>
+		<xacro:caster_wheel prefix="${prefix}" right="${right}" back="${back}"/>
+	</xacro:macro>
+
+
+	<!-- ******************** DRIVE WHEEL ******************** -->
+	<xacro:macro name="drive_wheel" params="prefix right:=0">
+		<xacro:property name="origin">
+			<origin rpy="0 0 ${right * PI}"/>
+		</xacro:property>
+
+		<link name="${prefix}_drive_wheel_link">
+			<inertial>
+				<xacro:insert_block name="origin"/>
+				<mass value="3"/>
+				<xacro:insert_block name="default_inertia"/>
+			</inertial>
+
+			<visual>
+				<xacro:insert_block name="origin"/>
+				<geometry>
+					<mesh filename="package://intellwheels_desc/meshes/wheel.dae" scale="0.024 0.024 0.024"/>
+				</geometry>
+			</visual>
+
+			<collision>
+				<origin rpy="${PI / 2} 0 0"/>
+				<geometry>
+					<cylinder radius="0.21" length="0.1"/>
+				</geometry>
+			</collision>
+		</link>
+
+		<joint name="${prefix}_drive_wheel_joint" type="continuous">
+			<origin xyz="0 ${0.38 - right * 0.78} -0.345"/>
+			<parent link="base_link"/>
+			<child link="${prefix}_drive_wheel_link"/>
+			<axis xyz="0 1 0"/>
+			<limit effort="0" velocity="0"/>
+		</joint>
+
+		<gazebo reference="${prefix}_drive_wheel_link">
+			<mu1 value="200"/>
+			<mu2 value="100"/>
+			<material>Gazebo/Grey</material>
+		</gazebo>
+	</xacro:macro>
+
+
+	<!-- ******************** WHEELCHAIR ******************** -->
+	<xacro:chair/>
+	<xacro:drive_wheel prefix="left"/>
+	<xacro:drive_wheel prefix="right" right="1"/>
+	<xacro:caster prefix="left_front"/>
+	<xacro:caster prefix="right_front" right="1"/>
+	<xacro:caster prefix="left_back" back="1"/>
+	<xacro:caster prefix="right_back" right="1" back="1"/>
+
+	<gazebo>
+		<plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+			<updateRate>100</updateRate>
+			<leftJoint>left_drive_wheel_joint</leftJoint>
+			<rightJoint>right_drive_wheel_joint</rightJoint>
+			<wheelSeparation>0.78</wheelSeparation>
+			<wheelDiameter>0.42</wheelDiameter>
+			<wheelAcceleration>1</wheelAcceleration>
+			<wheelTorque>20</wheelTorque>
+			<commandTopic>cmd_vel</commandTopic>
+			<odometryTopic>odom</odometryTopic>
+			<odometryFrame>odom</odometryFrame>
+			<robotBaseFrame>base_footprint</robotBaseFrame>
+			<odometrySource>world</odometrySource>
+			<publishWheelTF>false</publishWheelTF>
+			<publishOdomTF>true</publishOdomTF>
+			<publishWheelJointState>false</publishWheelJointState>
+			<legacyMode>false</legacyMode>
+			<rosDebugLevel>na</rosDebugLevel>
+			<publishTf>true</publishTf>
+		</plugin>
+	</gazebo>
+
+</robot>

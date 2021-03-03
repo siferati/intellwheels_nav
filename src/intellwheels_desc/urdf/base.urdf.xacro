@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+	<xacro:macro name="base">
+
+		<xacro:property name="height" value="0.56"/>
+		<xacro:property name="origin">
+			<origin xyz="0 0 ${-height / 2}"/>
+		</xacro:property>
+
+		<link name="base_footprint"/>
+
+		<link name="base_link">
+			<inertial>
+				<xacro:insert_block name="origin"/>
+				<mass value="145"/>
+				<inertia
+					ixx="3.64053" ixy="-0.06186" ixz="-0.00036"
+					iyy="2.77052" iyz="0.35856"
+					izz="0.20333"/>
+			</inertial>
+
+			<visual>
+				<xacro:insert_block name="origin"/>
+				<geometry>
+					<mesh filename="package://intellwheels_desc/meshes/base.dae" scale="0.25952 0.24638 0.17893"/>
+				</geometry>
+			</visual>
+
+			<collision>
+				<origin xyz="-0.1 -0.02 0.55" rpy="0 -0.2 0"/>
+				<geometry>
+					<box size="1.2 1.2 1.4"/>
+				</geometry>
+			</collision>
+
+			<collision>
+				<origin xyz="0.59 0 -0.21" rpy="0 -0.1 0"/>
+				<geometry>
+					<box size="0.25 0.4 0.45"/>
+				</geometry>
+			</collision>
+		</link>
+
+		<joint name="base_joint" type="fixed">
+			<parent link="base_footprint"/>
+			<child link="base_link" />
+			<origin xyz="0 0 ${height}"/>
+		</joint>
+
+	</xacro:macro>
+
+</robot>

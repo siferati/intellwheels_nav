@@ -1,4 +1,7 @@
 <launch>
+	<!-- arguments -->
+	<arg name="pkg" value="$(find intellwheels_nav)"/>
+
 	<!-- wheelchair spawner -->
 	<include file="$(find intellwheels_desc)/launch/wheelchair.launch"/>
 
@@ -6,7 +9,7 @@
 	<include file="$(find gazebo_ros)/launch/empty_world.launch">
 		<arg name="verbose" value="true"/>
 		<arg name="gui_required" value="true"/>
-		<arg name="world_name" value="$(find intellwheels_nav)/worlds/lab.gazebo.world"/>
+		<arg name="world_name" value="$(arg pkg)/worlds/lab.gazebo.world"/>
 	</include>
 
 	<!-- manual control -->

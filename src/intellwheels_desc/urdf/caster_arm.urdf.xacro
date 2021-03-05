@@ -25,9 +25,9 @@
 		</link>
 
 		<joint name="${prefix}_caster_arm_joint" type="continuous">
+			<origin xyz="${front * 0.435 - back * 0.485} ${left * 0.3 - right * 0.32} -0.24"/>
 			<parent link="base_link"/>
 			<child link="${prefix}_caster_arm_link"/>
-			<origin xyz="${front * 0.435 - back * 0.485} ${left * 0.3 - right * 0.32} -0.24"/>
 			<axis xyz="0 0 1"/>
 		</joint>
 

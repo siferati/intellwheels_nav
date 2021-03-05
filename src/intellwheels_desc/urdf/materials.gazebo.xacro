@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+	<gazebo reference="base_link">
+		<visual>
+			<material>
+				<ambient>0.24 0.4 0.42 1</ambient>
+				<diffuse>0.31 0.51 0.53 1</diffuse>
+				<specular>0.2 0.2 0.2 0</specular>
+				<emissive>0.1 0 0.1 1</emissive>
+			</material>
+		</visual>
+	</gazebo>
+
+	<xacro:macro name="drive_wheel_mat" params="prefix">
+		<gazebo reference="${prefix}_drive_wheel_link">
+			<visual>
+				<material>
+					<ambient>0.64 0.64 0.64 1</ambient>
+					<diffuse>0.64 0.64 0.64 1</diffuse>
+					<specular>0.5 0.5 0.5 1</specular>
+				</material>
+			</visual>
+		</gazebo>
+	</xacro:macro>
+
+	<xacro:drive_wheel_mat prefix="left"/>
+	<xacro:drive_wheel_mat prefix="right"/>
+
+</robot>

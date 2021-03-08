@@ -1,0 +1,16 @@
+robot_base_frame: base_footprint
+footprint: [[-0.7, -0.55], [0.7, -0.55], [0.7, 0.55], [-0.7, 0.55]]
+publish_frequency: 1
+
+obstacles:
+  observation_sources: base_scan
+  track_unknown_space: true
+  max_obstacle_height: 2
+  obstacle_range: 3
+  raytrace_range: 3
+
+  base_scan:
+    data_type: LaserScan
+    expected_update_rate: 30
+    clearing: true
+    marking: true

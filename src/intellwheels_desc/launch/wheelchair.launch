@@ -8,7 +8,4 @@
 	<!-- tf publisher -->
 	<node name="joint_pub" pkg="joint_state_publisher" type="joint_state_publisher"/>
 	<node name="robot_pub" pkg="robot_state_publisher" type="robot_state_publisher"/>
-
-	<!-- model spawner -->
-	<node name="spawner" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model wheelchair"/>
 </launch>

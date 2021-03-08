@@ -27,7 +27,7 @@
 					</noise>
 				</ray>
 				<plugin name="${prefix}_rplidar_controller" filename="libgazebo_ros_laser.so">
-					<topicName>${prefix}_rplidar_scan</topicName>
+					<topicName>base_scan</topicName>
 					<frameName>${prefix}_rplidar_link</frameName>
 				</plugin>
 			</sensor>

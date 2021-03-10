@@ -73,21 +73,6 @@ Visualization Manager:
       Use Timestamp: false
       Value: false
     - Alpha: 1
-      Axes Length: 1
-      Axes Radius: 0.10000000149011612
-      Class: rviz/Pose
-      Color: 255; 25; 0
-      Enabled: true
-      Head Length: 0.30000001192092896
-      Head Radius: 0.30000001192092896
-      Name: Robot True Pose
-      Shaft Length: -0.30000001192092896
-      Shaft Radius: 0
-      Shape: Arrow
-      Topic: /true_pose
-      Unreliable: false
-      Value: true
-    - Alpha: 1
       Class: rviz/Polygon
       Color: 239; 41; 41
       Enabled: true
@@ -161,10 +146,7 @@ Visualization Manager:
       Marker Topic: /nav/TebLocalPlannerROS/teb_markers
       Name: Markers
       Namespaces:
-        LineObstacles: true
-        PointObstacles: true
-        RobotFootprintModel: true
-        TebContainer: true
+        {}
       Queue Size: 100
       Value: true
     - Alpha: 1
@@ -203,7 +185,7 @@ Visualization Manager:
       Axes Radius: 0.009999999776482582
       Class: rviz/PoseArray
       Color: 211; 215; 207
-      Enabled: false
+      Enabled: true
       Head Length: 0.07000000029802322
       Head Radius: 0.029999999329447746
       Name: AMCL Particles
@@ -212,7 +194,7 @@ Visualization Manager:
       Shape: Arrow (Flat)
       Topic: /particlecloud
       Unreliable: false
-      Value: false
+      Value: true
     - Alpha: 0.8999999761581421
       Class: rviz/Map
       Color Scheme: costmap
@@ -260,11 +242,11 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 28.69441795349121
+      Scale: 14.804105758666992
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: 23.31532859802246
-      Y: 18.298297882080078
+      X: 49.38654327392578
+      Y: 40.55669403076172
     Saved: ~
 Window Geometry:
   Displays:

@@ -13,6 +13,7 @@
 
 	<!-- gazebo -->
 	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+		<arg name="gui_required" value="true"/>
 		<arg name="world_name" value="$(arg pkg)/worlds/lab.world"/>
 	</include>
 

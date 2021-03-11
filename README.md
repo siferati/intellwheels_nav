@@ -28,17 +28,17 @@ $ roslaunch <package> <file>
 
 Describes the wheelchair 3d robot model.
 
-* `wheelchair.launch` - loads the robot description and publishes the joints and robot state.
+* `wheelchair.launch` - loads the robot description and publishes the joints and robot states.
 * `debug.launch` - useful for debugging the robot model. Spawns the wheelchair in an empty gazebo world with manual steering.
 
 ### intellwheels_gazebo_nav
 
-Navigates the wheelchair in a gazebo world.
+Navigates the wheelchair in the lab gazebo world.
 
 * `main.launch` - launches everything.
 
 ### intellwheels_nav
 
-Navigates the wheelchair in a stage world.
+Navigates the wheelchair in the lab stage world.
 
 * `main.launch` - launches everything.

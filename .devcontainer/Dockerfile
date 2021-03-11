@@ -6,11 +6,7 @@ ARG UID=1000
 ARG GID=$UID
 
 # dependencies
-ARG PKGS="sudo gdb \
-	ros-$ROS_DISTRO-stage ros-$ROS_DISTRO-stage-ros \
-	ros-$ROS_DISTRO-global-planner ros-$ROS_DISTRO-teb-local-planner \
-	ros-$ROS_DISTRO-move-base ros-$ROS_DISTRO-map-server \
-	ros-$ROS_DISTRO-amcl ros-$ROS_DISTRO-rviz"
+ARG PKGS="python-catkin-tools"
 
 # install dependencies and clean up afterwards
 RUN apt-get update \

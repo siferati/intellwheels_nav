@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="wheelchair">
+
+	<xacro:property name="urdf" value="$(find intellwheels_desc)/urdf"/>
+	
+	<!-- import wheelchair parts -->
+	<xacro:include filename="${urdf}/common.urdf.xacro"/>
+	<xacro:include filename="${urdf}/base.urdf.xacro"/>
+	<xacro:include filename="${urdf}/caster_arm.urdf.xacro"/>
+	<xacro:include filename="${urdf}/caster_wheel.urdf.xacro"/>
+	<xacro:include filename="${urdf}/caster.urdf.xacro"/>
+	<xacro:include filename="${urdf}/drive_wheel.urdf.xacro"/>
+	<xacro:include filename="${urdf}/rplidar.urdf.xacro"/>
+
+	<!-- build wheelchair -->
+	<xacro:base/>
+	<xacro:drive_wheel prefix="left"/>
+	<xacro:drive_wheel prefix="right" right="1"/>
+	<xacro:caster prefix="left_front"/>
+	<xacro:caster prefix="right_front" right="1"/>
+	<xacro:caster prefix="left_back" back="1"/>
+	<xacro:caster prefix="right_back" right="1" back="1"/>
+	<xacro:rplidar prefix="left_front"/>
+	<xacro:rplidar prefix="right_back" right="1" back="1"/>
+
+	<!-- import gazebo stuff: controllers, materials, sensors, etc... -->
+	<xacro:include filename="${urdf}/materials.gazebo.xacro"/>
+	<xacro:include filename="${urdf}/diff_drive.gazebo.xacro"/>
+	<xacro:include filename="${urdf}/rplidar.gazebo.xacro"/>
+</robot>

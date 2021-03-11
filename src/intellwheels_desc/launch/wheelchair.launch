@@ -1,0 +1,11 @@
+<launch>
+	<!-- arguments -->
+	<arg name="pkg" value="$(find intellwheels_desc)"/>
+
+	<!-- parameters -->
+	<param name="robot_description" command="xacro '$(arg pkg)/urdf/wheelchair.urdf.xacro'"/>
+
+	<!-- tf publisher -->
+	<node name="joint_pub" pkg="joint_state_publisher" type="joint_state_publisher"/>
+	<node name="robot_pub" pkg="robot_state_publisher" type="robot_state_publisher"/>
+</launch>

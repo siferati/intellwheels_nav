@@ -1,0 +1,21 @@
+<launch>
+	<!-- arguments -->
+	<arg name="pkg" value="$(find intellwheels_desc)"/>
+
+	<!-- model description -->
+	<include file="$(arg pkg)/launch/wheelchair.launch"/>
+
+	<!-- model spawner -->
+	<node name="spawner" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model wheelchair"/>
+	
+	<!-- rviz -->
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(arg pkg)/rviz/config.rviz"/>
+
+	<!-- gazebo -->
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+		<arg name="gui_required" value="true"/>
+	</include>
+
+	<!-- manual control -->
+	<node name="rqt_robot_steering" pkg="rqt_robot_steering" type="rqt_robot_steering"/>
+</launch>

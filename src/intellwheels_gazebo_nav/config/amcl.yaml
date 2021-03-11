@@ -1,0 +1,6 @@
+initial_pose_x: 58
+initial_pose_y: 28
+initial_pose_a: 1.57
+use_map_topic: true
+odom_model_type: diff
+base_frame_id: base_footprint

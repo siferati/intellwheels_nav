@@ -11,6 +11,7 @@
 	<xacro:include filename="${urdf}/caster.urdf.xacro"/>
 	<xacro:include filename="${urdf}/drive_wheel.urdf.xacro"/>
 	<xacro:include filename="${urdf}/rplidar.urdf.xacro"/>
+	<xacro:include filename="${urdf}/realsense.urdf.xacro"/>
 
 	<!-- build wheelchair -->
 	<xacro:base/>
@@ -22,9 +23,13 @@
 	<xacro:caster prefix="right_back" right="1" back="1"/>
 	<xacro:rplidar prefix="left_front"/>
 	<xacro:rplidar prefix="right_back" right="1" back="1"/>
+	<xacro:realsense prefix="right_front" right="1"/>
+	<xacro:realsense prefix="left_back" back="1"/>
+	
 
 	<!-- import gazebo stuff: controllers, materials, sensors, etc... -->
 	<xacro:include filename="${urdf}/materials.gazebo.xacro"/>
 	<xacro:include filename="${urdf}/diff_drive.gazebo.xacro"/>
 	<xacro:include filename="${urdf}/rplidar.gazebo.xacro"/>
+	<xacro:include filename="${urdf}/realsense.gazebo.xacro"/>
 </robot>

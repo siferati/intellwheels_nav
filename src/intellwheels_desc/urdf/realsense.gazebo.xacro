@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+	<xacro:macro name="realsense_sensor" params="prefix">
+		<gazebo reference="${prefix}_realsense_link">
+			<sensor name="${prefix}_realsense" type="depth">
+				<update_rate>30</update_rate>
+				<camera>
+					<horizontal_fov>1.22</horizontal_fov>
+					<image>
+						<width>1024</width>
+						<height>768</height>
+					</image>
+					<clip>
+						<near>0.25</near>
+						<far>9</far>
+					</clip>
+				</camera>
+				<plugin name="${prefix}_realsense_controller" filename="libgazebo_ros_openni_kinect.so">
+					<baseline>0.2</baseline>
+					<cameraName>${prefix}_realsense</cameraName>
+					<imageTopicName>color/image_raw</imageTopicName>
+					<cameraInfoTopicName>color/camera_info</cameraInfoTopicName>
+					<depthImageTopicName>depth/image_raw</depthImageTopicName>
+					<depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
+					<pointCloudTopicName>depth/points</pointCloudTopicName>
+					<frameName>${prefix}_realsense_optical_link</frameName>
+					<distortionK1>0</distortionK1>
+					<distortionK2>0</distortionK2>
+					<distortionK3>0</distortionK3>
+					<distortionT1>0</distortionT1>
+					<distortionT2>0</distortionT2>
+					<CxPrime>0</CxPrime>
+					<Cx>0</Cx>
+					<Cy>0</Cy>
+					<focalLength>0</focalLength>
+					<hackBaseline>0</hackBaseline>
+				</plugin>
+			</sensor>
+		</gazebo>
+	</xacro:macro>
+
+	<xacro:realsense_sensor prefix="right_front"/>
+	<xacro:realsense_sensor prefix="left_back"/>
+
+</robot>

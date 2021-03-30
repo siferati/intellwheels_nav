@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-	<xacro:macro name="rplidar" params="prefix">
+	<xacro:macro name="rplidar_sensor" params="prefix">
 		<gazebo reference="${prefix}_rplidar_link">
 			<sensor name="${prefix}_rplidar" type="ray">
 				<visualize>true</visualize>
@@ -34,7 +34,7 @@
 		</gazebo>
 	</xacro:macro>
 
-	<xacro:rplidar prefix="left_front"/>
-	<xacro:rplidar prefix="right_back"/>
+	<xacro:rplidar_sensor prefix="left_front"/>
+	<xacro:rplidar_sensor prefix="right_back"/>
 
 </robot>

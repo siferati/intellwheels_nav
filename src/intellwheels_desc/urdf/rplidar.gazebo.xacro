@@ -4,7 +4,7 @@
 	<xacro:macro name="rplidar_sensor" params="prefix">
 		<gazebo reference="${prefix}_rplidar_link">
 			<sensor name="${prefix}_rplidar" type="ray">
-				<visualize>true</visualize>
+				<visualize>false</visualize>
 				<update_rate>30</update_rate>
 				<ray>
 					<scan>
@@ -33,8 +33,5 @@
 			</sensor>
 		</gazebo>
 	</xacro:macro>
-
-	<xacro:rplidar_sensor prefix="left_front"/>
-	<xacro:rplidar_sensor prefix="right_back"/>
 
 </robot>

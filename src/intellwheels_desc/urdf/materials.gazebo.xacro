@@ -24,7 +24,4 @@
 		</gazebo>
 	</xacro:macro>
 
-	<xacro:drive_wheel_mat prefix="left"/>
-	<xacro:drive_wheel_mat prefix="right"/>
-
 </robot>

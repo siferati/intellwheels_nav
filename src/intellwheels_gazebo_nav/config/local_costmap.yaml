@@ -1,6 +1,7 @@
 local_costmap:
   plugins:
-    - {name: obstacles, type: 'costmap_2d::ObstacleLayer'}
+    #- {name: laser_obstacles, type: 'costmap_2d::ObstacleLayer'}
+    - {name: rgdb_obstacles, type: 'spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer'}
 
   rolling_window: true
   width: 6

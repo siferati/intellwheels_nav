@@ -21,8 +21,11 @@
 	<node name="map_server" pkg="map_server" type="map_server" args="$(arg pkg)/worlds/lab.yaml" output="screen"/>
 
 	<!-- relay scan data to the same topic so amcl can use it -->
-	<node name="left_front_rplidar_scan_relay" pkg="topic_tools" type="relay" args="left_front_rplidar_scan base_scan"/>
-	<node name="right_back_rplidar_scan_relay" pkg="topic_tools" type="relay" args="right_back_rplidar_scan base_scan"/>
+	<group>
+		<node name="left_front_rplidar_scan_relay" pkg="topic_tools" type="relay" args="left_front_rplidar_scan base_scan"/>
+		
+		<node name="right_back_rplidar_scan_relay" pkg="topic_tools" type="relay" args="right_back_rplidar_scan base_scan"/>
+	</group>
 
 	<!-- amcl localization -->
 	<node name="loc" pkg="amcl" type="amcl" output="screen">

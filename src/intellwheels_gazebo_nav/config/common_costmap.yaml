@@ -1,13 +1,12 @@
 robot_base_frame: base_footprint
 footprint: [[-0.7, -0.55], [0.7, -0.55], [0.7, 0.55], [-0.7, 0.55]]
-publish_frequency: 1
+publish_frequency: 30
 
-obstacles:
+laser_obstacles:
   observation_sources: left_front_rplidar_scan right_back_rplidar_scan
   track_unknown_space: true
-  max_obstacle_height: 2
-  obstacle_range: 3
-  raytrace_range: 3
+  obstacle_range: 4.5
+  raytrace_range: 5
 
   left_front_rplidar_scan:
     data_type: LaserScan
@@ -20,3 +19,40 @@ obstacles:
     expected_update_rate: 0
     clearing: true
     marking: true
+
+rgdb_obstacles:
+  enabled:                  true
+  voxel_decay:              60
+  decay_model:              0
+  voxel_size:               0.05
+  track_unknown_space:      true
+  max_obstacle_height:      3.0
+  unknown_threshold:        15
+  mark_threshold:           0
+  update_footprint_enabled: true
+  combination_method:       1
+  obstacle_range:           8.5
+  origin_z:                 0.0
+  publish_voxel_map:        true
+  observation_sources:      realsense_mark realsense_clear
+
+  realsense_mark:
+    data_type: PointCloud2
+    topic: realsense/depth/points
+    marking: true
+    clearing: false
+    min_obstacle_height: 0.01
+    max_obstacle_height: 3.0
+    voxel_filter: true
+    
+  realsense_clear:
+    data_type: PointCloud2
+    topic: realsense/depth/points
+    marking: false
+    clearing: true
+    min_z: 0.01
+    max_z: 9.0
+    vertical_fov_angle: 0.96
+    horizontal_fov_angle: 1.22
+    decay_acceleration: 5
+    model_type: 0

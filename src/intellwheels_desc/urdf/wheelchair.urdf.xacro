@@ -23,13 +23,20 @@
 	<xacro:caster prefix="right_back" right="1" back="1"/>
 	<xacro:rplidar prefix="left_front"/>
 	<xacro:rplidar prefix="right_back" right="1" back="1"/>
-	<xacro:realsense prefix="right_front" right="1"/>
-	<xacro:realsense prefix="left_back" back="1"/>
+	<xacro:realsense/>
 	
-
 	<!-- import gazebo stuff: controllers, materials, sensors, etc... -->
 	<xacro:include filename="${urdf}/materials.gazebo.xacro"/>
 	<xacro:include filename="${urdf}/diff_drive.gazebo.xacro"/>
 	<xacro:include filename="${urdf}/rplidar.gazebo.xacro"/>
 	<xacro:include filename="${urdf}/realsense.gazebo.xacro"/>
+
+	<!-- build gazebo stuff -->
+	<xacro:diff_drive_controller/>
+	<xacro:drive_wheel_mat prefix="left"/>
+	<xacro:drive_wheel_mat prefix="right"/>
+	<xacro:rplidar_sensor prefix="left_front"/>
+	<xacro:rplidar_sensor prefix="right_back"/>
+	<xacro:realsense_sensor/>
+
 </robot>

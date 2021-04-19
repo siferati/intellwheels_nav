@@ -1,6 +1,6 @@
 global_frame: jeeves/map_nn0
 robot_base_frame: jeeves/base_footprint
-footprint: [[-0.395, -0.25], [0.395, -0.25], [0.395, 0.25], [-0.395, 0.25]]
+footprint: [[-0.2,-0.35],[0.82,-0.35],[0.82,0.35],[-0.2,0.35]]
 update_frequency: 5
 publish_frequency: 1
 

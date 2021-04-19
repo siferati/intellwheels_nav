@@ -10,6 +10,5 @@
 		<rosparam file="$(arg pkg)/config/global_costmap.yaml"/>
 
 		<remap from="map" to="map_server_nn0/map"/>
-		<remap from="cmd_vel" to="asd"/>
 	</node>
 </launch>

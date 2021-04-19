@@ -4,7 +4,7 @@
 
 Install the [Code Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) VS Code extension and *clone this repository in container volume.*
 
-**This is only supported for Nvidia GPUs.** If you are using an AMD or Intel GPU you need to edit `.devcontainer/devcontainer.json` to fit your needs - [this](http://wiki.ros.org/docker/Tutorials/Hardware%20Acceleration) is a good place to start.
+**This is only supported for NVIDIA Container Toolkit.** If you are using an AMD or Intel GPU you need to edit `.devcontainer/devcontainer.json` to fit your needs - [this](http://wiki.ros.org/docker/Tutorials/Hardware%20Acceleration) is a good place to start.
 
 If you are just looking for a Dockerfile, you can find one inside the `.devcontainer` folder.
 

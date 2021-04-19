@@ -6,7 +6,7 @@ ARG UID=1000
 ARG GID=$UID
 
 # dependencies
-ARG PKGS="python-catkin-tools iputils-ping net-tools htop psmisc"
+ARG PKGS="python-catkin-tools iputils-ping net-tools htop psmisc ros-$ROS_DISTRO-rqt ros-$ROS_DISTRO-rqt-common-plugins ros-$ROS_DISTRO-rqt-robot-plugins"
 
 # install dependencies and clean up afterwards
 RUN apt-get update \

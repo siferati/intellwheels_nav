@@ -1,5 +1,5 @@
 TebLocalPlannerROS:
-  map_frame: map
+  map_frame: jeeves/map_nn0
   min_obstacle_dist: 0.2
   inflation_dist: 0.6
 
@@ -7,7 +7,7 @@ TebLocalPlannerROS:
   max_vel_theta: 0.5
   acc_lim_x: 0.3
   max_vel_x: 0.3
-  max_vel_x_backwards: 0.1
+  max_vel_x_backwards: 0.3
   weight_kinematics_forward_drive: 1000
 
   footprint_model:
@@ -16,4 +16,4 @@ TebLocalPlannerROS:
 
   costmap_converter_plugin: costmap_converter::CostmapToLinesDBSRANSAC
   costmap_converter_spin_thread: true
-  costmap_converter_rate: 30
+  costmap_converter_rate: 5

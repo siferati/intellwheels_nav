@@ -1,20 +1,22 @@
-robot_base_frame: base_footprint
+global_frame: jeeves/map_nn0
+robot_base_frame: jeeves/base_footprint
 footprint: [[-0.395, -0.25], [0.395, -0.25], [0.395, 0.25], [-0.395, 0.25]]
-publish_frequency: 30
+update_frequency: 5
+publish_frequency: 1
 
 obstacles:
-  observation_sources: left_front_rplidar_scan right_back_rplidar_scan
+  observation_sources: scan scanNav
   track_unknown_space: true
   obstacle_range: 4.5
   raytrace_range: 5
 
-  left_front_rplidar_scan:
+  scan:
     data_type: LaserScan
     expected_update_rate: 0
     clearing: true
     marking: true
 
-  right_back_rplidar_scan:
+  scanNav:
     data_type: LaserScan
     expected_update_rate: 0
     clearing: true

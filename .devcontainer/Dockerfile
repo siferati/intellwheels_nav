@@ -6,7 +6,7 @@ ARG UID=1000
 ARG GID=$UID
 
 # dependencies
-ARG PKGS="python-catkin-tools"
+ARG PKGS="python-catkin-tools iputils-ping net-tools htop psmisc"
 
 # install dependencies and clean up afterwards
 RUN apt-get update \

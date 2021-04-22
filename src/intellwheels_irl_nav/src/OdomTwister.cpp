@@ -25,8 +25,8 @@ void OdomTwister::callback(const nav_msgs::OdometryPtr& msg)
 	double prev_dist = tf2::Vector3(this->prev_pos.x, this->prev_pos.y, this->prev_pos.z).length();
 	double dist = tf2::Vector3(msg->pose.pose.position.x, msg->pose.pose.position.y, msg->pose.pose.position.z).length();
 
-	// add twist to msg
-	msg->twist.twist.linear.x = (dist - prev_dist) / dt;
+	// add twist to msg (always assume it's going forward)
+	msg->twist.twist.linear.x = abs((dist - prev_dist) / dt);
 	msg->twist.twist.angular.z = (ori - this->prev_ori) / dt;
 
 	// update

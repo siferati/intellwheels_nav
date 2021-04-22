@@ -1,14 +1,14 @@
 TebLocalPlannerROS:
   map_frame: jeeves/map_nn0
-  min_obstacle_dist: 0.2
+  min_obstacle_dist: 0.05
   inflation_dist: 0.6
 
   acc_lim_theta: 0.5
   max_vel_theta: 0.5
-  acc_lim_x: 0.3
-  max_vel_x: 0.3
+  acc_lim_x: 0.5
+  max_vel_x: 0.5
   max_vel_x_backwards: 0.3
-  weight_kinematics_forward_drive: 1000
+  weight_kinematics_forward_drive: 100
 
   footprint_model:
     type: polygon

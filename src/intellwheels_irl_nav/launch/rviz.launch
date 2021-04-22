@@ -1,4 +1,5 @@
 <launch>	
 	<arg name="pkg" value="$(find intellwheels_irl_nav)"/>
+	<node name="odom_twister" pkg="intellwheels_nav" type="odom_twister" output="screen"/>
 	<node name="rviz" pkg="rviz" type="rviz" args="--display-config $(arg pkg)/rviz/config.rviz" output="screen"/>
 </launch>

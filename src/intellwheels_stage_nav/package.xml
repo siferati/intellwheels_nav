@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-	<name>intellwheels_nav</name>
+	<name>intellwheels_stage_nav</name>
 	<version>0.0.0</version>
-	<description>Intellwheels navigation package</description>
+	<description>Intellwheels navigation package for the stage simulator</description>
 	<maintainer email="todo@todo.todo">todo</maintainer>
 	<license>TODO</license>
 

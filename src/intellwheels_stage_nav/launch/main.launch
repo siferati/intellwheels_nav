@@ -3,7 +3,7 @@
 	<param name="/use_sim_time" value="true"/>
 
 	<!-- arguments -->
-	<arg name="pkg" value="$(find intellwheels_nav)"/>
+	<arg name="pkg" value="$(find intellwheels_stage_nav)"/>
 
 	<!-- rviz -->
 	<node name="rviz" pkg="rviz" type="rviz" args="--display-config $(arg pkg)/rviz/config.rviz" output="screen"/>

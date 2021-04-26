@@ -14,13 +14,9 @@
 	<!-- map server -->
 	<node name="map_server" pkg="map_server" type="map_server" args="$(arg pkg)/worlds/lab.yaml" output="screen"/>
 
-	<!-- pose ground truth -->
-	<node name="pose_converter" pkg="topic_tools" type="transform" args="/base_pose_ground_truth /true_pose geometry_msgs/PoseStamped 'geometry_msgs.msg.PoseStamped(header=std_msgs.msg.Header(seq=m.header.seq,stamp=m.header.stamp,frame_id=&quot;map&quot;),pose=m.pose.pose)' --import geometry_msgs std_msgs" output="screen" launch-prefix="bash -c 'sleep 1; $0 $@'"/>
-
-	<!-- amcl localization -->
-	<node name="loc" pkg="amcl" type="amcl" output="screen">
-		<remap from="scan" to="base_scan"/>
-		<rosparam file="$(arg pkg)/config/amcl.yaml"/>
+	<!-- fake localization -->
+	<node name="loc" pkg="fake_localization" type="fake_localization" output="screen">
+		<rosparam file="$(arg pkg)/config/loc.yaml"/>
 	</node>
 
 	<!-- navigation -->

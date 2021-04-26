@@ -8,8 +8,8 @@
 
 	<buildtool_depend>catkin</buildtool_depend>
 
-	<exec_depend>amcl</exec_depend>
 	<exec_depend>costmap_converter</exec_depend>
+	<exec_depend>fake_localization</exec_depend>
 	<exec_depend>global_planner</exec_depend>
 	<exec_depend>map_server</exec_depend>
 	<exec_depend>move_base</exec_depend>

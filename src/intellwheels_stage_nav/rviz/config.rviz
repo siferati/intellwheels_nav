@@ -26,7 +26,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: LaserScan
   - Class: rviz/Displays
     Help Height: 75
     Name: Displays
@@ -72,21 +72,6 @@ Visualization Manager:
       Unreliable: false
       Use Timestamp: false
       Value: false
-    - Alpha: 1
-      Axes Length: 1
-      Axes Radius: 0.10000000149011612
-      Class: rviz/Pose
-      Color: 255; 25; 0
-      Enabled: true
-      Head Length: 0.30000001192092896
-      Head Radius: 0.30000001192092896
-      Name: Robot True Pose
-      Shaft Length: -0.30000001192092896
-      Shaft Radius: 0
-      Shape: Arrow
-      Topic: /true_pose
-      Unreliable: false
-      Value: true
     - Alpha: 1
       Class: rviz/Polygon
       Color: 239; 41; 41
@@ -184,7 +169,7 @@ Visualization Manager:
       Max Color: 0; 0; 0
       Max Intensity: 1
       Min Color: 0; 0; 0
-      Min Intensity: 0
+      Min Intensity: 1
       Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
@@ -196,32 +181,6 @@ Visualization Manager:
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
-      Value: false
-    - Alpha: 1
-      Arrow Length: 0.30000001192092896
-      Axes Length: 0.30000001192092896
-      Axes Radius: 0.009999999776482582
-      Class: rviz/PoseArray
-      Color: 211; 215; 207
-      Enabled: false
-      Head Length: 0.07000000029802322
-      Head Radius: 0.029999999329447746
-      Name: AMCL Particles
-      Shaft Length: 0.23000000417232513
-      Shaft Radius: 0.009999999776482582
-      Shape: Arrow (Flat)
-      Topic: /particlecloud
-      Unreliable: false
-      Value: false
-    - Alpha: 0.8999999761581421
-      Class: rviz/Map
-      Color Scheme: costmap
-      Draw Behind: false
-      Enabled: false
-      Name: Global Potential
-      Topic: /nav/GlobalPlanner/potential
-      Unreliable: false
-      Use Timestamp: false
       Value: false
   Enabled: true
   Global Options:
@@ -260,7 +219,7 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 42.721717834472656
+      Scale: 35.702945709228516
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
       X: 23.31532859802246

@@ -27,13 +27,13 @@ window(
 
   #camera options
   #location of the center of the window in world coordinates (meters)
-  center [29.128 22.141]
+  center [23.697 20.033]
 
   #angle relative to straight up, angle of rotation (degrees), rotate [ <pitch:float> <yaw:float> ]
   rotate [0.000 0.000]
 
   #ratio of world to pixel coordinates (window zoom)
-  scale 21.436
+  scale 28.531
 
   # perspective camera options
   #location of the perspective camera (meters), pcam_loc [ <x:int> <y:int> <z:int> ]
@@ -124,7 +124,7 @@ define low_resolution_laser ranger
 
 define jarvis_robot_model position(
   #specify the size of the model in each dimension, specify the size of the model in each dimension, size [ x:<float> y:<float> z:<float> ]
-  size [1.02 0.7 0.230]
+  size [1.020 0.700 0.230]
 
   # position properties
   #select differential-steer model(like a Pioneer), omnidirectional mode or carlike (velocity and steering angle), drive "diff", "omni" or "car"
@@ -154,7 +154,7 @@ define jarvis_robot_model position(
 )
 
 jarvis_robot_model(
-  pose [ 28 13 0 90 ]
+  pose [ 29.268 16.101 0.000 178.112 ]
   localization "odom"
   name "wong"
   drive "diff"
@@ -162,8 +162,8 @@ jarvis_robot_model(
 )
 
 # obstacles
-block_small(pose [32 14 0 0])
-block_small(pose [34 14 0 0])
-block_small(pose [36 14 0 0])
-block_small(pose [38 14 0 0])
-block_small(pose [40 14 0 0])
+block_small(pose [25.486 20.317 0.000 0.000])
+block_small(pose [34.000 14.000 0.000 0.000])
+block_small(pose [36.000 14.000 0.000 0.000])
+block_small(pose [38.000 14.000 0.000 0.000])
+block_small(pose [40.000 14.000 0.000 0.000])

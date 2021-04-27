@@ -9,7 +9,7 @@
 	<node name="rviz" pkg="rviz" type="rviz" args="--display-config $(arg pkg)/rviz/config.rviz" output="screen"/>
 
 	<!-- simulator -->
-	<node name="stage" pkg="stage_ros" type="stageros" args="$(arg pkg)/worlds/lab.world" output="screen"/>
+	<node name="stage" pkg="stage_ros" type="stageros" args="$(arg pkg)/worlds/lab2.world" output="screen"/>
 
 	<!-- map server -->
 	<node name="map_server" pkg="map_server" type="map_server" args="$(arg pkg)/worlds/lab.yaml" output="screen"/>

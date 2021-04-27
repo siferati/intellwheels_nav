@@ -1,11 +1,12 @@
 robot_base_frame: base_footprint
-footprint: [[-0.395, -0.25], [0.395, -0.25], [0.395, 0.25], [-0.395, 0.25]]
+footprint: [[-0.51,-0.35],[0.51,-0.35],[0.51,0.35],[-0.51,0.35]]
+update_frequency: 5
 publish_frequency: 1
+footprint_padding: 0.0
 
 obstacles:
   observation_sources: base_scan
   track_unknown_space: true
-  max_obstacle_height: 2
   obstacle_range: 3
   raytrace_range: 3
 

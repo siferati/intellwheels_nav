@@ -26,13 +26,12 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: ""
   - Class: rviz/Displays
     Help Height: 75
     Name: Displays
     Property Tree Widget:
-      Expanded:
-        - /Markers1/Namespaces1
+      Expanded: ~
       Splitter Ratio: 0.5
     Tree Height: 395
 Preferences:
@@ -149,7 +148,7 @@ Visualization Manager:
         LineObstacles: true
         PointObstacles: true
         RobotFootprintModel: false
-        TebContainer: true
+        TebContainer: false
       Queue Size: 100
       Value: true
     - Alpha: 1
@@ -209,7 +208,7 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: -7.450580596923828e-9
+      Angle: -0.004999992437660694
       Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
@@ -219,11 +218,11 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 35.702945709228516
+      Scale: 63.334415435791016
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: 23.31532859802246
-      Y: 18.298297882080078
+      X: 28.19439697265625
+      Y: 19.82457160949707
     Saved: ~
 Window Geometry:
   Displays:

@@ -22,6 +22,7 @@
 	<!-- navigation -->
 	<node name="nav" pkg="move_base" type="move_base" output="screen">
 		<rosparam file="$(arg pkg)/config/nav.yaml"/>
+		<rosparam file="$(arg pkg)/config/recovery.yaml"/>
 		<rosparam file="$(arg pkg)/config/global_planner.yaml"/>
 		<rosparam file="$(arg pkg)/config/local_planner.yaml"/>
 		<rosparam ns="local_costmap" file="$(arg pkg)/config/common_costmap.yaml"/>

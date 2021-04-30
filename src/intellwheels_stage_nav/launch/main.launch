@@ -4,15 +4,16 @@
 
 	<!-- arguments -->
 	<arg name="pkg" value="$(find intellwheels_stage_nav)"/>
+	<arg name="world" default="lab_feup"/>
 
 	<!-- rviz -->
-	<node name="rviz" pkg="rviz" type="rviz" args="--display-config $(arg pkg)/rviz/config.rviz" output="screen"/>
+	<node name="rviz" pkg="rviz" type="rviz" args="--display-config $(arg pkg)/rviz/$(arg world).rviz" output="screen"/>
 
 	<!-- simulator -->
-	<node name="stage" pkg="stage_ros" type="stageros" args="$(arg pkg)/worlds/lab2.world" output="screen"/>
+	<node name="stage" pkg="stage_ros" type="stageros" args="$(arg pkg)/worlds/$(arg world)/$(arg world).world" output="screen"/>
 
 	<!-- map server -->
-	<node name="map_server" pkg="map_server" type="map_server" args="$(arg pkg)/worlds/lab.yaml" output="screen"/>
+	<node name="map_server" pkg="map_server" type="map_server" args="$(arg pkg)/worlds/$(arg world)/$(arg world).yaml" output="screen"/>
 
 	<!-- fake localization -->
 	<node name="loc" pkg="fake_localization" type="fake_localization" output="screen">

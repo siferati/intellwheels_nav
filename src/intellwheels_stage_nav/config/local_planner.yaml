@@ -12,7 +12,7 @@ TebLocalPlannerROS:
 
   dt_ref: 0.1
   dt_hysteresis: 0.01
-  max_global_plan_lookahead_dist: 3
+  max_global_plan_lookahead_dist: -1
 
   enable_homotopy_class_planning: true
   enable_multithreading: true

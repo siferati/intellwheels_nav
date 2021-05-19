@@ -1,20 +1,20 @@
 robot_base_frame: base_footprint
-footprint: [[-0.7, -0.55], [0.7, -0.55], [0.7, 0.55], [-0.7, 0.55]]
+footprint: [[-0.5, -0.325], [0.7, -0.325], [0.7, 0.325], [-0.5, 0.325]]
 publish_frequency: 30
 
 laser_obstacles:
-  observation_sources: left_front_rplidar_scan right_back_rplidar_scan
+  observation_sources: right_front_rplidar_scan left_back_rplidar_scan
   track_unknown_space: true
   obstacle_range: 4.5
   raytrace_range: 5
 
-  left_front_rplidar_scan:
+  right_front_rplidar_scan:
     data_type: LaserScan
     expected_update_rate: 0
     clearing: true
     marking: true
 
-  right_back_rplidar_scan:
+  left_back_rplidar_scan:
     data_type: LaserScan
     expected_update_rate: 0
     clearing: true

@@ -6,7 +6,7 @@
 		<xacro:property name="left" value="${1 - right}"/>
 		<xacro:property name="front" value="${1 - back}"/>
 		<xacro:property name="origin">
-			<origin rpy="0 0 ${right * PI}"/>
+			<origin xyz="0 0 -0.005" rpy="0 0 ${PI / 2 - right * PI}" />
 		</xacro:property>
 
 		<link name="${prefix}_drive_wheel_link">
@@ -19,20 +19,20 @@
 			<visual>
 				<xacro:insert_block name="origin"/>
 				<geometry>
-					<mesh filename="package://intellwheels_desc/meshes/wheel.dae" scale="0.024 0.024 0.024"/>
+					<mesh filename="package://intellwheels_desc/meshes/wheel.dae"/>
 				</geometry>
 			</visual>
 
 			<collision>
 				<origin rpy="${PI / 2} 0 0"/>
 				<geometry>
-					<cylinder radius="0.21" length="0.1"/>
+					<cylinder radius="0.184" length="0.07"/>
 				</geometry>
 			</collision>
 		</link>
 
 		<joint name="${prefix}_drive_wheel_joint" type="continuous">
-			<origin xyz="0 ${left * 0.38 - right * 0.4} -0.345"/>
+			<origin xyz="0 ${left * 0.294 - right * 0.278} 0"/>
 			<parent link="base_link"/>
 			<child link="${prefix}_drive_wheel_link"/>
 			<axis xyz="0 1 0"/>

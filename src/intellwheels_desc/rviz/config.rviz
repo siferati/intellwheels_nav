@@ -80,6 +80,11 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        left_back_rplidar_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         left_drive_wheel_link:
           Alpha: 1
           Show Axes: false
@@ -91,11 +96,6 @@ Visualization Manager:
           Show Trail: false
           Value: true
         left_front_caster_wheel_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        left_front_rplidar_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -124,11 +124,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        right_back_rplidar_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         right_drive_wheel_link:
           Alpha: 1
           Show Axes: false
@@ -140,6 +135,11 @@ Visualization Manager:
           Show Trail: false
           Value: true
         right_front_caster_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_front_rplidar_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -163,13 +163,13 @@ Visualization Manager:
           Value: true
         left_back_caster_wheel_link:
           Value: true
+        left_back_rplidar_link:
+          Value: true
         left_drive_wheel_link:
           Value: true
         left_front_caster_arm_link:
           Value: true
         left_front_caster_wheel_link:
-          Value: true
-        left_front_rplidar_link:
           Value: true
         odom:
           Value: true
@@ -183,13 +183,13 @@ Visualization Manager:
           Value: true
         right_back_caster_wheel_link:
           Value: true
-        right_back_rplidar_link:
-          Value: true
         right_drive_wheel_link:
           Value: true
         right_front_caster_arm_link:
           Value: true
         right_front_caster_wheel_link:
+          Value: true
+        right_front_rplidar_link:
           Value: true
       Marker Scale: 0.5
       Name: TF
@@ -198,31 +198,32 @@ Visualization Manager:
       Show Names: true
       Tree:
         base_footprint:
-          base_link:
-            left_back_caster_arm_link:
-              left_back_caster_wheel_link:
-                {}
-            left_drive_wheel_link:
+          {}
+        base_link:
+          left_back_caster_arm_link:
+            left_back_caster_wheel_link:
               {}
-            left_front_caster_arm_link:
-              left_front_caster_wheel_link:
-                {}
-            left_front_rplidar_link:
+          left_back_rplidar_link:
+            {}
+          left_drive_wheel_link:
+            {}
+          left_front_caster_arm_link:
+            left_front_caster_wheel_link:
               {}
-            realsense_support_link:
-              realsense_link:
-                realsense_optical_link:
-                  {}
-            right_back_caster_arm_link:
-              right_back_caster_wheel_link:
+          realsense_support_link:
+            realsense_link:
+              realsense_optical_link:
                 {}
-            right_back_rplidar_link:
+          right_back_caster_arm_link:
+            right_back_caster_wheel_link:
               {}
-            right_drive_wheel_link:
+          right_drive_wheel_link:
+            {}
+          right_front_caster_arm_link:
+            right_front_caster_wheel_link:
               {}
-            right_front_caster_arm_link:
-              right_front_caster_wheel_link:
-                {}
+          right_front_rplidar_link:
+            {}
         odom:
           {}
       Update Interval: 0
@@ -230,8 +231,8 @@ Visualization Manager:
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
-        Max Value: -0.15000000596046448
-        Min Value: -0.15000000596046448
+        Max Value: 0.23999999463558197
+        Min Value: 0.23999999463558197
         Value: true
       Axis: Z
       Channel Name: intensities
@@ -252,7 +253,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.009999999776482582
       Style: Points
-      Topic: /left_front_rplidar_scan
+      Topic: /right_front_rplidar_scan
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
@@ -260,8 +261,8 @@ Visualization Manager:
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
-        Max Value: -9999
-        Min Value: 9999
+        Max Value: 0.23999999463558197
+        Min Value: 0.23999999463558197
         Value: true
       Axis: Z
       Channel Name: x
@@ -282,7 +283,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.009999999776482582
       Style: Points
-      Topic: /right_back_rplidar_scan
+      Topic: /left_back_rplidar_scan
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true

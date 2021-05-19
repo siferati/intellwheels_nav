@@ -5,19 +5,17 @@
 
 		<xacro:property name="left" value="${1 - right}"/>
 		<xacro:property name="front" value="${1 - back}"/>
-		<xacro:property name="origin">
-			<origin rpy="0 0 ${PI}"/>
-		</xacro:property>
+		<xacro:property name="front_angle_calib" value="${0.075*PI}"/>
+		<xacro:property name="back_angle_calib" value="0"/>
+		
 
 		<link name="${prefix}_rplidar_link">
 			<inertial>
-				<xacro:insert_block name="origin"/>
 				<mass value="1"/>
 				<xacro:insert_block name="default_inertia"/>
 			</inertial>
 
 			<visual>
-				<xacro:insert_block name="origin"/>
 				<geometry>
 					<mesh filename="package://intellwheels_desc/meshes/rplidar.dae"/>
 				</geometry>
@@ -26,8 +24,8 @@
 
 		<joint name="${prefix}_rplidar_joint" type="fixed">
 			<origin
-				xyz="${front * 0.435 - back * 0.485} ${left * 0.3 - right * 0.32} -0.15"
-				rpy="0 0 ${back * PI}"/>
+				xyz="${front * 0.578 - back * 0.377} ${back * 0.245 - front * 0.235} ${back*(0.41-0.17) + front*(0.41-0.17)}"
+				rpy="0 0 ${front*(PI + front_angle_calib) + back*(0+back_angle_calib)}"/>
 			<parent link="base_link"/>
 			<child link="${prefix}_rplidar_link"/>
 		</joint>

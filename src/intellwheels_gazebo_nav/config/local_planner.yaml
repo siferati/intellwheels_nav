@@ -12,7 +12,7 @@ TebLocalPlannerROS:
 
   footprint_model:
     type: polygon
-    vertices: [[-0.7, -0.55], [0.7, -0.55], [0.7, 0.55], [-0.7, 0.55]]
+    vertices: [[-0.5, -0.325], [0.7, -0.325], [0.7, 0.325], [-0.5, 0.325]]
 
   costmap_converter_plugin: costmap_converter::CostmapToLinesDBSRANSAC
   costmap_converter_spin_thread: true

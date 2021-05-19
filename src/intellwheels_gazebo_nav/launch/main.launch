@@ -1,6 +1,7 @@
 <launch>
 	<!-- arguments -->
 	<arg name="pkg" value="$(find intellwheels_gazebo_nav)"/>
+	<arg name="world" default="lab"/>
 
 	<!-- model description -->
 	<include file="$(find intellwheels_desc)/launch/wheelchair.launch"/>
@@ -9,22 +10,22 @@
 	<node name="spawner" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model wheelchair"/>
 
 	<!-- rviz -->
-	<node name="rviz" pkg="rviz" type="rviz" args="--display-config $(arg pkg)/rviz/config.rviz" output="screen"/>
+	<node name="rviz" pkg="rviz" type="rviz" args="--display-config $(arg pkg)/rviz/$(arg world).rviz" output="screen"/>
 
 	<!-- gazebo -->
 	<include file="$(find gazebo_ros)/launch/empty_world.launch">
 		<arg name="gui_required" value="true"/>
-		<arg name="world_name" value="$(arg pkg)/worlds/lab.world"/>
+		<arg name="world_name" value="$(arg pkg)/worlds/$(arg world)/$(arg world).world"/>
 	</include>
 
 	<!-- map server -->
-	<node name="map_server" pkg="map_server" type="map_server" args="$(arg pkg)/worlds/lab.yaml" output="screen"/>
+	<node name="map_server" pkg="map_server" type="map_server" args="$(arg pkg)/worlds/$(arg world)/$(arg world).yaml" output="screen"/>
 
 	<!-- relay scan data to the same topic so amcl can use it -->
 	<group>
-		<node name="left_front_rplidar_scan_relay" pkg="topic_tools" type="relay" args="left_front_rplidar_scan base_scan"/>
+		<node name="right_front_rplidar_scan_relay" pkg="topic_tools" type="relay" args="right_front_rplidar_scan base_scan"/>
 		
-		<node name="right_back_rplidar_scan_relay" pkg="topic_tools" type="relay" args="right_back_rplidar_scan base_scan"/>
+		<node name="left_back_rplidar_scan_relay" pkg="topic_tools" type="relay" args="left_back_rplidar_scan base_scan"/>
 	</group>
 
 	<!-- amcl localization -->
@@ -36,6 +37,7 @@
 	<!-- navigation -->
 	<node name="nav" pkg="move_base" type="move_base" output="screen">
 		<rosparam file="$(arg pkg)/config/nav.yaml"/>
+		<rosparam file="$(arg pkg)/config/recovery.yaml"/>
 		<rosparam file="$(arg pkg)/config/global_planner.yaml"/>
 		<rosparam file="$(arg pkg)/config/local_planner.yaml"/>
 		<rosparam ns="local_costmap" file="$(arg pkg)/config/common_costmap.yaml"/>

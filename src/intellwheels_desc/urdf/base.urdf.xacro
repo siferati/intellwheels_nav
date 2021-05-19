@@ -3,16 +3,15 @@
 
 	<xacro:macro name="base">
 
-		<xacro:property name="height" value="0.56"/>
-		<xacro:property name="origin">
-			<origin xyz="0 0 ${-height / 2}"/>
-		</xacro:property>
+		<xacro:property name="dimX" value="0.45"/> <!-- sem as rodas -->
+		<xacro:property name="dimY" value="1.30"/> <!-- com as rodas pequenas -->
+		<xacro:property name="dimZ" value="1.00"/> <!-- sem o apoio da cabeca -->
+		<xacro:property name="height" value="0.17"/> <!-- A origem da base.dae esta' no meio dos centros das rodas grandes-->
 
 		<link name="base_footprint"/>
 
 		<link name="base_link">
 			<inertial>
-				<xacro:insert_block name="origin"/>
 				<mass value="145"/>
 				<inertia
 					ixx="3.64053" ixy="-0.06186" ixz="-0.00036"
@@ -21,23 +20,23 @@
 			</inertial>
 
 			<visual>
-				<xacro:insert_block name="origin"/>
+				<origin rpy="0 0 ${-PI/2}" />
 				<geometry>
-					<mesh filename="package://intellwheels_desc/meshes/base.dae" scale="0.25952 0.24638 0.17893"/>
+					<mesh filename="package://intellwheels_desc/meshes/base.dae"/>
 				</geometry>
 			</visual>
 
 			<collision>
-				<origin xyz="-0.1 -0.02 0.65" rpy="0 -0.2 0"/>
+				<origin xyz="0 0 ${dimZ/1.7}" rpy="0.2 0 ${-PI/2}"/>
 				<geometry>
-					<box size="1 1.2 1.4"/>
+					<box size="${dimX} ${dimY*0.6} ${dimZ/1.3}"/>
 				</geometry>
 			</collision>
 
 			<collision>
-				<origin xyz="0.59 0 -0.35" rpy="0 -0.1 0"/>
+				<origin xyz="${dimX/1.2} 0 0.08" rpy="0 0 ${-PI/2}"/>
 				<geometry>
-					<box size="0.25 0.4 0.2"/>
+					<box size="0.6 0.6 0.25"/>
 				</geometry>
 			</collision>
 		</link>

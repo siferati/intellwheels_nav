@@ -5,27 +5,22 @@
 		
 		<xacro:property name="left" value="${1 - right}"/>
 		<xacro:property name="front" value="${1 - back}"/>
-		<xacro:property name="origin">
-			<origin xyz="-0.035 0 -0.04"/>
-		</xacro:property>
 
 		<link name="${prefix}_caster_arm_link">
 			<inertial>
-				<xacro:insert_block name="origin"/>
 				<mass value="0.5"/>
 				<xacro:insert_block name="default_inertia"/>
 			</inertial>
 
 			<visual>
-				<xacro:insert_block name="origin"/>
 				<geometry>
-					<mesh filename="package://intellwheels_desc/meshes/caster_arm.dae" scale="0.00951 0.00951 0.1731"/>
+					<mesh filename="package://intellwheels_desc/meshes/caster_arm.dae"/>
 				</geometry>
 			</visual>
 		</link>
 
 		<joint name="${prefix}_caster_arm_joint" type="continuous">
-			<origin xyz="${front * 0.435 - back * 0.485} ${left * 0.3 - right * 0.32} -0.24"/>
+			<origin xyz="${front * 0.35 - back * 0.392} ${left * 0.196 - right * 0.21} 0.122" rpy="0 0 ${-PI/2}" />
 			<parent link="base_link"/>
 			<child link="${prefix}_caster_arm_link"/>
 			<axis xyz="0 0 1"/>

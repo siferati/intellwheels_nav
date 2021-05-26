@@ -3,10 +3,10 @@ TebLocalPlannerROS:
   min_obstacle_dist: 0.01
   inflation_dist: 0.1
 
-  acc_lim_theta: 0.8
-  max_vel_theta: 0.8
-  acc_lim_x: 0.5
-  max_vel_x: 0.5
+  acc_lim_theta: 0.3
+  max_vel_theta: 0.3
+  acc_lim_x: 0.3
+  max_vel_x: 0.3
   max_vel_x_backwards: 0.3
   weight_kinematics_forward_drive: 100
 
@@ -20,4 +20,4 @@ TebLocalPlannerROS:
 
   footprint_model:
     type: polygon
-    vertices: [[-0.24,-0.33],[0.81,-0.33],[0.81,0.33],[-0.24,0.33]]
+    vertices: [[-0.25,-0.3],[0.83,-0.3],[0.83,0.34],[-0.25,0.34]]

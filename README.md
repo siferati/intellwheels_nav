@@ -44,8 +44,8 @@ Navigates the real (jeeves) wheelchair.
 * `nav.launch` - launches the navigation module.
 * `rviz.launch` - launches rviz.
 
-### intellwheels_nav
+### intellwheels_stage_nav
 
 Navigates the wheelchair in the lab stage world.
 
-* `main.launch` - launches everything.
+* `main.launch world:=<lab_feup | lab>` - launches everything related to the given world name.

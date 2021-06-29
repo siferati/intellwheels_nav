@@ -26,5 +26,4 @@ USER $USERNAME
 WORKDIR /home/$USERNAME
 
 # auto source ros stuff
-RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc \
-	&& echo "export ROS_MASTER_URI=http://jeeves:11311" >> ~/.bashrc
+RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc

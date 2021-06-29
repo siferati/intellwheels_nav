@@ -37,6 +37,13 @@ Navigates the wheelchair in the lab gazebo world.
 
 * `main.launch` - launches everything.
 
+### intellwheels_irl_nav
+
+Navigates the real (jeeves) wheelchair.
+
+* `nav.launch` - launches the navigation module.
+* `rviz.launch` - launches rviz.
+
 ### intellwheels_nav
 
 Navigates the wheelchair in the lab stage world.

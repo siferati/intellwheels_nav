@@ -1,0 +1,23 @@
+TebLocalPlannerROS:
+  map_frame: map
+  min_obstacle_dist: 0.005
+  inflation_dist: 0.1
+
+  acc_lim_theta: 0.8
+  max_vel_theta: 0.8
+  acc_lim_x: 0.5
+  max_vel_x: 0.5
+  max_vel_x_backwards: 0.5
+  weight_kinematics_forward_drive: 100
+
+  dt_ref: 0.1
+  dt_hysteresis: 0.01
+  max_global_plan_lookahead_dist: -1
+
+  enable_homotopy_class_planning: true
+  enable_multithreading: true
+  max_number_classes: 4
+
+  footprint_model:
+    type: polygon
+    vertices: [[-0.51,-0.35],[0.51,-0.35],[0.51,0.35],[-0.51,0.35]]

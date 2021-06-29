@@ -1,0 +1,168 @@
+#Configuration to simulate ProAGV
+
+name "IntellWheels"
+
+# simulation timestep in milliseconds
+interval_sim 100
+
+# stop the simulation after this many simulated seconds have elapsed
+quit_time 0
+
+# set the resolution of the underlying raytrace model in meters
+resolution 0.01
+
+#if non-zero, print the simulation time on stdout every $show_clock_interval updates
+#show_clock 0
+
+#sets the number of updates between printing the time on stdoutm, if $show_clock is enabled
+show_clock_interval 100
+
+#the number of worker threads to spawn. Some models can be updated in parallel (e.g. laser, ranger), and running 2 or more threads here may make the simulation run faster
+threads 2
+
+#visualization definition
+window(
+  #size of the window in pixels
+  size [851 527]
+
+  #camera options
+  #location of the center of the window in world coordinates (meters)
+  center [89.247 98.705]
+
+  #angle relative to straight up, angle of rotation (degrees), rotate [ <pitch:float> <yaw:float> ]
+  rotate [0.000 0.000]
+
+  #ratio of world to pixel coordinates (window zoom)
+  scale 37.976
+
+  # perspective camera options
+  #location of the perspective camera (meters), pcam_loc [ <x:int> <y:int> <z:int> ]
+  pcam_loc [ 0.000 -2.000 2.000 ]
+
+  #verticle and horizontal angle of the perspective camera, pcam_angle [ <pitch:float> <yaw:float> ]
+  pcam_angle [ 60.000 0.000 ]
+
+  #whether to start with the perspective camera enabled (0/1)
+  pcam_on 0
+
+  # GUI options
+  show_data 1
+  show_flags 1
+  show_blocks 1
+  show_clock 1
+  show_footprints 0
+  show_grid 0
+  show_trailarrows 0
+  show_trailrise 0
+  show_trailfast 0
+  show_occupancy 0
+  #show_tree 0 doesn't work
+  pcam_on 0
+  screenshots 0
+)
+
+#Map definition
+model
+(
+  name "deec_map"
+
+  #specify the pose of the model in its parent's coordinate system, pose [ x:<float> y:<float> z:<float> heading:<float> ] 
+  pose [0.000 0.000 0.000 0.000]
+
+  #specify the size of the model in each dimension, specify the size of the model in each dimension, size [ x:<float> y:<float> z:<float> ]
+  size [199.680 199.680 2.500]
+
+  #specify the position of the object's center, relative to its pose, origin [ x:<float> y:<float> z:<float> heading:<float> ]
+  origin [ 99.840 99.840 0.000 0.000 ]
+
+  #specify the color of the object using a color name from the X11 database (rgb.txt)
+  color "gray30"
+
+  #Iff true, 4 thin blocks are automatically added to the model, forming a solid boundary around the bounding box of the model
+  boundary 0
+
+  #Draw the model by interpreting the lines in a bitmap (bmp, jpeg, gif, png supported). The file is opened and parsed into a set of lines.
+  #The lines are scaled to fit inside the rectangle defined by the model's current size
+  bitmap "lab_feup.pgm"
+	
+  # GUI properties
+  #if 1, draw a bounding box around the model, indicating its size
+  gui_outline 1
+  
+  #if 1, the model can be moved by the mouse in the GUI window
+  gui_move 0
+
+  # determine how the model appears in various sensors	
+  ranger_return 1.000
+)
+
+define block_small model(
+  name "block"
+  #specify the pose of the model in its parent's coordinate system, pose [ x:<float> y:<float> z:<float> heading:<float> ]
+  pose [0 0.5 0 0]
+  #specify the size of the model in each dimension, specify the size of the model in each dimension, size [ x:<float> y:<float> z:<float> ]
+  size [2.000 5.000 2.500]
+  #if 1, draw a nose on the model showing its heading (positive X axis)
+  gui_nose 0
+  color "red"
+
+  # determine how the model appears in various sensors	
+  ranger_return 1.000	
+)
+
+define low_resolution_laser ranger
+(
+  sensor(
+    range [0 50]
+    fov 360
+    samples 288
+  )
+  # generic model properties
+  size [0.050 0.050 0.100]
+  color "blue"
+)
+
+define jarvis_robot_model position(
+  #specify the size of the model in each dimension, specify the size of the model in each dimension, size [ x:<float> y:<float> z:<float> ]
+  size [1.020 0.700 0.230]
+
+  # position properties
+  #select differential-steer model(like a Pioneer), omnidirectional mode or carlike (velocity and steering angle), drive "diff", "omni" or "car"
+  drive "car"
+
+  #if "gps" the position model reports its position with perfect accuracy.
+  #If "odom", a simple odometry model is used and position data drifts from the ground truth over time.
+  #The odometry model is parameterized by the odom_error property
+  localization "gps"
+
+  #specify the position of the object's center, relative to its pose, origin [ x:<float> y:<float> z:<float> heading:<float> ]
+  origin [0.260 0.000 0.000 0.000]
+
+  # odometry error model parameters, 
+  # only used if localization is set to "odom"
+  #parameters for the odometry error model used when specifying localization "odom".
+  #Each value is the maximum proportion of error in intergrating x, y, and theta velocities to compute odometric position estimate.
+  #For each axis, if the the value specified here is E, the actual proportion is chosen at startup at random in the range -E/2 to +E/2.
+  #Note that due to rounding errors, setting these values to zero does NOT give you perfect localization - for that you need to choose localization "gps". 
+  odom_error [0.001 0.0003 00.00 0.2]
+
+  # GUI properties
+  #if 1, draw a nose on the model showing its heading (positive X axis)
+  gui_nose 1
+
+  low_resolution_laser(pose [0.000 0.000 0.000 0.000])
+)
+
+jarvis_robot_model(
+  pose [ 79.782 99.250 0.000 0.122 ]
+  localization "odom"
+  name "wong"
+  drive "diff"
+  origin [0.000 0.000 0.000 0.000]
+)
+
+# obstacles
+block_small(pose [80.359 95.669 0.000 0.000])
+block_small(pose [84.396 95.581 0.000 0.000])
+block_small(pose [88.282 95.545 0.000 0.000])
+block_small(pose [86.374 100.121 0.000 0.000] size [1.000 1.000 1.000])

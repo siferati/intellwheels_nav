@@ -1,8 +1,0 @@
-local_costmap:
-  plugins:
-    - {name: obstacles, type: 'costmap_2d::ObstacleLayer'}
-
-  rolling_window: true
-  width: 6
-  height: 6
-  resolution: 0.05

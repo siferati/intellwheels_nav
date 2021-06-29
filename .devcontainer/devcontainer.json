@@ -10,5 +10,12 @@
 		"NVIDIA_VISIBLE_DEVICES": "all"
 	},
 	"mounts": [ "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind" ],
-	"runArgs": [ "--hostname=container", "--runtime=nvidia" ]
+	"runArgs": [
+		"--hostname=container",
+		"--runtime=nvidia",
+		"--add-host=jeeves:172.16.60.1"
+	],
+	"extensions": [
+		"ms-iot.vscode-ros"
+	]
 }

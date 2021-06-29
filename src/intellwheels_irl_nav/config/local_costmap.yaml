@@ -1,0 +1,26 @@
+local_costmap:
+  plugins:
+    - {name: obstacles, type: 'costmap_2d::ObstacleLayer'}
+
+  rolling_window: true
+  width: 3
+  height: 3
+  resolution: 0.01
+
+TebLocalPlannerROS:
+  costmap_converter_plugin: costmap_converter::CostmapToLinesDBSRANSAC
+  costmap_converter_spin_thread: true
+  costmap_converter_rate: 5
+  
+  costmap_converter:
+    CostmapToLinesDBSRANSAC:
+      cluster_max_distance: 0.5
+      cluster_min_pts: 2
+      cluster_max_pts: 50
+      ransac_inlier_distance: 0.02
+      ransac_min_inliers: 10
+      ransac_no_iterations: 10000
+      ransac_remainig_outliers: 1
+      ransac_convert_outlier_pts: false
+      ransac_filter_remaining_outlier_pts: false
+      convex_hull_min_pt_separation: 0.1

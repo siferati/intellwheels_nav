@@ -1,0 +1,24 @@
+global_frame: jeeves/map_nn0
+robot_base_frame: jeeves/base_footprint
+footprint: [[-0.24,-0.33],[0.81,-0.33],[0.81,0.33],[-0.24,0.33]]
+update_frequency: 5
+publish_frequency: 1
+footprint_padding: 0.01
+
+obstacles:
+  observation_sources: scan scanNav
+  track_unknown_space: true
+  obstacle_range: 4.5
+  raytrace_range: 5
+
+  scan:
+    data_type: LaserScan
+    expected_update_rate: 0
+    clearing: true
+    marking: true
+
+  scanNav:
+    data_type: LaserScan
+    expected_update_rate: 0
+    clearing: true
+    marking: true

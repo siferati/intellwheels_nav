@@ -1,0 +1,4 @@
+controller_frequency: 10
+planner_frequency: 1
+base_global_planner: global_planner/GlobalPlanner
+base_local_planner: teb_local_planner/TebLocalPlannerROS

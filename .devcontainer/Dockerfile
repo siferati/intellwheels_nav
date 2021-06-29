@@ -6,7 +6,7 @@ ARG UID=1000
 ARG GID=$UID
 
 # dependencies
-ARG PKGS="python-catkin-tools"
+ARG PKGS="python-catkin-tools iputils-ping net-tools htop psmisc ros-$ROS_DISTRO-rqt ros-$ROS_DISTRO-rqt-common-plugins ros-$ROS_DISTRO-rqt-robot-plugins"
 
 # install dependencies and clean up afterwards
 RUN apt-get update \
@@ -26,4 +26,5 @@ USER $USERNAME
 WORKDIR /home/$USERNAME
 
 # auto source ros stuff
-RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
+RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc \
+	&& echo "export ROS_MASTER_URI=http://jeeves:11311" >> ~/.bashrc

@@ -4,6 +4,7 @@
 
 	<!-- parameters -->
 	<param name="robot_description" command="xacro '$(arg pkg)/urdf/wheelchair.urdf.xacro'"/>
+	<param name="robot_description2" command="xacro '$(arg pkg)/urdf/wheelchair2.urdf.xacro'"/>
 
 	<!-- tf publisher -->
 	<node name="joint_pub" pkg="joint_state_publisher" type="joint_state_publisher"/>

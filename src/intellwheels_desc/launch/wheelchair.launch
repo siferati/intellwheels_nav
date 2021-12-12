@@ -4,9 +4,10 @@
 
 	<!-- parameters -->
 	<param name="robot_description" command="xacro '$(arg pkg)/urdf/wheelchair.urdf.xacro'"/>
-	<param name="robot_description2" command="xacro '$(arg pkg)/urdf/wheelchair2.urdf.xacro'"/>
+
+	<node name="spawner" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model wheelchair -x 0 -y 0"/>
 
 	<!-- tf publisher -->
-	<node name="joint_pub" pkg="joint_state_publisher" type="joint_state_publisher"/>
-	<node name="robot_pub" pkg="robot_state_publisher" type="robot_state_publisher"/>
+	<node name="r1_joint_pub" pkg="joint_state_publisher" type="joint_state_publisher"/>
+	<node name="r1_robot_pub" pkg="robot_state_publisher" type="robot_state_publisher"/>
 </launch>

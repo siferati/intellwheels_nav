@@ -7,7 +7,6 @@
   <param name="robot_description" command="xacro $(find turtlebot_description)/robots/kobuki_hexagons_asus_xtion_pro.urdf.xacro"/>
 
 
- 
 
   <!-- BEGIN ROBOT 1-->
   <group ns="robot1">
@@ -62,11 +61,9 @@
 
 
     <include file="$(find intellwheels_multi_chairs)/launch/move_base_1.launch" />
-
-<!--
     <include file="$(find intellwheels_multi_chairs)/launch/move_base_2.launch" />
     <include file="$(find intellwheels_multi_chairs)/launch/move_base_3.launch" />
--->
+
 
 
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find intellwheels_multi_chairs)/rviz/navigation.rviz" />

@@ -2,16 +2,19 @@
   <!-- No namespace here as we will share this description. 
        Access with slash at the beginning -->
 
-  <arg name="pkg" value="$(find intellwheels_desc)"/>
-  <param name="robot_description" command="xacro '$(arg pkg)/urdf/wheelchair.urdf.xacro'" />
+  <arg name="pkg_desc" value="$(find intellwheels_desc)"/>
+  <param name="robot_description" command="xacro '$(arg pkg_desc)/urdf/wheelchair.urdf.xacro'" />
 
+  <arg name="pkg_nav" value="$(find intellwheels_gazebo_nav)"/>
+
+  
   <!--
   <node name="spawner" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model wheelchair -x 0 -y 0"/>
-  <node name="r1_joint_pub" pkg="joint_state_publisher" type="joint_state_publisher"/>
-  <node name="r1_robot_pub" pkg="robot_state_publisher" type="robot_state_publisher"/>
+  <node name="joint_pub" pkg="joint_state_publisher" type="joint_state_publisher"/>
+  <node name="robot_pub" pkg="robot_state_publisher" type="robot_state_publisher"/>
   -->
+
   
- <!-- BEGIN ROBOT 1-->
 
   <group ns="robot1">
     <param name="tf_prefix" value="robot1_tf" />
@@ -19,11 +22,9 @@
       <arg name="init_pose" value="-x 0 -y 0 -z 0" />
       <arg name="robot_name"  value="Robot1" />
     </include>
+
   </group>
 
-
-  <!-- BEGIN ROBOT 2-->
-  <!--
   <group ns="robot2">
     <param name="tf_prefix" value="robot2_tf" />
     <include file="$(find intellwheels_desc)/launch/one_robot.launch" >
@@ -31,7 +32,9 @@
       <arg name="robot_name"  value="Robot2" />
     </include>
   </group>
-  -->
+
+  
+
   <!-- BEGIN ROBOT 3-->
   <!--
   <group ns="robot3">

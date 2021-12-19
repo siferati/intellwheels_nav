@@ -4,19 +4,13 @@
 	<arg name="world" default="lab"/>
 
 	<!-- model description -->
-	<!--<include file="$(find intellwheels_desc)/launch/wheelchair.launch"/>-->
-	<!--<include file="$(find intellwheels_desc)/launch/wheelchair2.launch"/>-->
-	
-	<include file="$(find intellwheels_desc)/launch/robots.launch"/>
-
-	<!-- model spawner -->
-	<!--<node name="spawner" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model wheelchair -x 0 -y 0"/>
-	<node name="spawner2" pkg="gazebo_ros" type="spawn_model" args="-param robot_description2 -urdf -model wheelchair2 -x 2 -y 2"/>-->
+	<include file="$(find intellwheels_desc)/launch/wheelchair.launch"/>
 	
 	<!-- rviz -->
 	<node name="rviz" pkg="rviz" type="rviz" args="--display-config $(arg pkg)/rviz/$(arg world).rviz" output="screen"/>
 
 	<!-- gazebo -->
+
 	<include file="$(find gazebo_ros)/launch/empty_world.launch">
 		<arg name="gui_required" value="true"/>
 		<arg name="world_name" value="$(arg pkg)/worlds/$(arg world)/$(arg world).world"/>

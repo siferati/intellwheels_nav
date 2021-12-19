@@ -1,5 +1,5 @@
 TebLocalPlannerROS:
-  map_frame: map
+  map_frame: robot1_tf/map_nn0
   min_obstacle_dist: 0.5
   inflation_dist: 0.6
 

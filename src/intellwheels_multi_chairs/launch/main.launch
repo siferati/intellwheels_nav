@@ -1,0 +1,17 @@
+<launch>
+
+<arg name="pkg" value="$(find intellwheels_multi_chairs)"/>
+<arg name="world" default="lab"/>
+
+<param name="/use_sim_time" value="true" />
+
+  <!-- start world -->
+<include file="$(find gazebo_ros)/launch/empty_world.launch">
+		<arg name="gui_required" value="true"/>
+		<arg name="world_name" value="$(arg pkg)/worlds/$(arg world)/$(arg world).world"/>
+	</include>
+
+  <!-- include our robots -->
+  <include file="$(arg pkg)/launch/robots.launch"/>
+  
+</launch>

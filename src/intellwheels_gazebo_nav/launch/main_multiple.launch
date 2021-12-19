@@ -17,12 +17,15 @@
 	</include>
 
 	<!-- map server -->
-	<node name="map_server" pkg="map_server" type="map_server" args="$(arg pkg)/worlds/$(arg world)/$(arg world).yaml" output="screen"/>
+
+	<node name="map_server" pkg="map_server" type="map_server" args="$(arg pkg)/worlds/lab.yaml" clear_params="true" output="screen">
+			<param name="frame_id" value="robot1_tf/map_nn0"/>
+		</node>
 
 	<!-- relay scan data to the same topic so amcl can use it -->
 	<group>
-		<node name="right_front_rplidar_scan_relay" pkg="topic_tools" type="relay" args="Robot1::rright_front_rplidar_scan base_scan"/>
-		<node name="left_back_rplidar_scan_relay" pkg="topic_tools" type="relay" args="Robot1::rleft_back_rplidar_scan base_scan"/>
+		<node name="right_front_rplidar_scan_relay" pkg="topic_tools" type="relay" args="/robot1/right_front_rplidar_scan base_scan"/>
+		<node name="left_back_rplidar_scan_relay" pkg="topic_tools" type="relay" args="/robot1/rleft_back_rplidar_scan base_scan"/>
 	</group>
 
 	<!-- amcl localization -->

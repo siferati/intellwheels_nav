@@ -373,7 +373,7 @@ Visualization Manager:
           Value: true
       Name: RobotModel
       Robot Description: robot_description
-      TF Prefix: ""
+      TF Prefix: "robot1_tf"
       Update Interval: 0
       Value: true
       Visual Enabled: true

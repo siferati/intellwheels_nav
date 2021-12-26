@@ -66,6 +66,8 @@
  <!--   <include file="$(find intellwheels_multi_chairs)/launch/move_base_3.launch" /> -->
 
 
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find intellwheels_multi_chairs)/rviz/navigation2chairs.rviz" />
+  <!--<node name="rviz" pkg="rviz" type="rviz" args="-d $(find intellwheels_multi_chairs)/rviz/navigation.rviz" />-->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find intellwheels_multi_chairs)/rviz/navigation1chairs.rviz" />
+  <!--<node name="rviz" pkg="rviz" type="rviz" args="-d $(find intellwheels_multi_chairs)/rviz/navigation2chairs.rviz" />-->
 
 </launch>

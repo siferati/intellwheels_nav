@@ -1,10 +1,10 @@
 <launch>
 
 	<!-- parameters -->
- <!--	<param name="robot_description" command="xacro '$(find  intellwheels_desc)/urdf/wheelchair.urdf.xacro'"/> -->
+ <param name="robot_description" command="xacro '$(find intellwheels_desc)/urdf/wheelchair.urdf.xacro'"/> 
 
 
-  <param name="robot_description" command="xacro $(find turtlebot_description)/robots/kobuki_hexagons_asus_xtion_pro.urdf.xacro"/>
+ <!--- <param name="robot_description" command="xacro $(find turtlebot_description)/robots/kobuki_hexagons_asus_xtion_pro.urdf.xacro"/> -->
 
 
 
@@ -20,7 +20,7 @@
   <!-- BEGIN ROBOT 2-->
 
 
-
+<!--
   <group ns="robot2">
     <param name="tf_prefix" value="robot2_tf" />
     <include file="$(find intellwheels_multi_chairs)/launch/one_robot.launch" >
@@ -28,11 +28,11 @@
       <arg name="robot_name"  value="Robot2" />
     </include>
   </group>
-
+-->
 
   <!-- BEGIN ROBOT 3-->
   
- 
+ <!--
   <group ns="robot3">
     <param name="tf_prefix" value="robot3_tf" />
     <include file="$(find intellwheels_multi_chairs)/launch/one_robot.launch" >
@@ -41,10 +41,11 @@
     </include>
   </group>
 
+-->
 
    <!-- Run the map server -->
   <node name="map_server" pkg="map_server" type="map_server" args="$(find intellwheels_multi_chairs)/config/my_map.yaml" >
-    <param name="frame_id" value="/map" />
+    <param name="frame_id" value="map" />
   </node>
 
 
@@ -54,18 +55,17 @@
   <!-- AMCL      -->
 
     <include file="$(find intellwheels_multi_chairs)/launch/amcl_robot1.launch" />
-    <include file="$(find intellwheels_multi_chairs)/launch/amcl_robot2.launch" />
-    <include file="$(find intellwheels_multi_chairs)/launch/amcl_robot3.launch" />
+   <!-- <include file="$(find intellwheels_multi_chairs)/launch/amcl_robot2.launch" /> -->
+   <!-- <include file="$(find intellwheels_multi_chairs)/launch/amcl_robot3.launch" /> -->
 
 <!-- MOVE_BASE-->
 
 
     <include file="$(find intellwheels_multi_chairs)/launch/move_base_1.launch" />
-    <include file="$(find intellwheels_multi_chairs)/launch/move_base_2.launch" />
-    <include file="$(find intellwheels_multi_chairs)/launch/move_base_3.launch" />
+ <!--   <include file="$(find intellwheels_multi_chairs)/launch/move_base_2.launch" /> -->
+ <!--   <include file="$(find intellwheels_multi_chairs)/launch/move_base_3.launch" /> -->
 
 
-
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find intellwheels_multi_chairs)/rviz/navigation.rviz" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find intellwheels_multi_chairs)/rviz/navigation2chairs.rviz" />
 
 </launch>

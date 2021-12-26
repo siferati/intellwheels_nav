@@ -1,7 +1,7 @@
 <launch>
 
   <arg name="use_map_topic"   default="false"/>
-  <arg name="scan_topic"      default="/robot1/kobuki/laser/scan"/>
+  <arg name="scan_topic"      default="/robot1/right_front_rplidar_scan"/>
   <arg name="initial_pose_x"  default="3.0"/>
   <arg name="initial_pose_y"  default="1.0"/>
   <arg name="initial_pose_a"  default="0.0"/>
@@ -52,7 +52,8 @@
     <remap from="initialpose"               to="/robot1/initialpose"/>
     <remap from="amcl_pose"                 to="/robot1/amcl_pose"/>
     <remap from="particlecloud"             to="/robot1/particlecloud"/>
-
+    <remap from="left_back_caster_arm_link" to="left_back_caster_arm_link"/>
+   
   </node>
 
 </launch>

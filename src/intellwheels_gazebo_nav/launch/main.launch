@@ -6,8 +6,6 @@
 	<!-- model description -->
 	<include file="$(find intellwheels_desc)/launch/wheelchair.launch"/>
 
-	<!-- model spawner -->
-	<node name="spawner" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model wheelchair"/>
 
 	<!-- rviz -->
 	<node name="rviz" pkg="rviz" type="rviz" args="--display-config $(arg pkg)/rviz/$(arg world).rviz" output="screen"/>

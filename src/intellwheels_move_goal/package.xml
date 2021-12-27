@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>intellwheels_move_goal</name>
+  <version>0.0.0</version>
+  <description>Intellwheels navigation move two robots to a goal</description>
+  <maintainer email="todo@todo.todo">guest</maintainer>
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  
+  <exec_depend>costmap_converter</exec_depend>
+  <exec_depend>global_planner</exec_depend>
+  <exec_depend>map_server</exec_depend>
+	<exec_depend>move_base</exec_depend>
+  <exec_depend>rviz</exec_depend>
+	<exec_depend>teb_local_planner</exec_depend>
+</package>

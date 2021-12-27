@@ -3,25 +3,28 @@
 	<!-- parameters -->
   <param name="robot_description" command="xacro '$(find intellwheels_desc)/urdf/wheelchair.urdf.xacro'"/> 
   
-  <!-- BEGIN ROBOT 1-->
   <group ns="robot1">
     <param name="tf_prefix" value="robot1_tf" />
-    <include file="$(find intellwheels_multi_chairs)/launch/one_robot.launch" >
-      <arg name="init_pose" value="-x 3 -y 1 -z 0" />
-      <arg name="robot_name"  value="Robot1" />
-    </include>
+    <arg name="init_pose" value="-x 0 -y 0 -z 0" />
+    <arg name="robot_name"  value="robot1" />
+    
+    <param name="/robot1/robot_description" command="xacro '$(find intellwheels_desc)/urdf/wheelchair.urdf.xacro'"/>
+    <node name="spawn_model" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+          args="$(arg init_pose) -urdf -model $(arg robot_name) -param /robot1/robot_description" />
+    <node name="joint_pub" pkg="joint_state_publisher" type="joint_state_publisher"/> 
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen"/>	
   </group>
-
-  <!-- BEGIN ROBOT 2-->
 
   <group ns="robot2">
     <param name="tf_prefix" value="robot2_tf" />
-    <include file="$(find intellwheels_multi_chairs)/launch/one_robot.launch" >
-      <arg name="init_pose" value="-x -4 -y 1 -z 0" />
-      <arg name="robot_name"  value="Robot2" />
-    </include>
+    <arg name="init_pose" value="-x -4 -y 1 -z 0" />
+    <arg name="robot_name"  value="robot2" />
+    <param name="/robot2/robot_description" command="xacro '$(find intellwheels_desc)/urdf/wheelchair.urdf.xacro'"/>
+    <node name="spawn_model" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+          args="-urdf $(arg init_pose) -model $(arg robot_name) -param /robot2/robot_description" />
+    <node name="joint_pub" pkg="joint_state_publisher" type="joint_state_publisher"/> 
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen"/>
   </group>
-
 
    <!-- Run the map server -->
   <node name="map_server" pkg="map_server" type="map_server" args="$(find intellwheels_multi_chairs)/config/my_map.yaml" >
@@ -39,7 +42,7 @@
 <!-- MOVE_BASE-->
 
   <include file="$(find intellwheels_multi_chairs)/launch/move_base_1.launch" />
-  <include file="$(find intellwheels_multi_chairs)/launch/move_base_2.launch" /> 
+  <include file="$(find intellwheels_multi_chairs)/launch/move_base_2.launch"/>
 
 
   <!--<node name="rviz" pkg="rviz" type="rviz" args="-d $(find intellwheels_multi_chairs)/rviz/navigation.rviz" />-->

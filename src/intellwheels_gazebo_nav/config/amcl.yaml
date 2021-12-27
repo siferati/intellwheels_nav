@@ -3,6 +3,4 @@ initial_pose_y: 28
 initial_pose_a: 1.57
 use_map_topic: true
 odom_model_type: diff
-base_frame_id: robot1_tf/base_footprint
-global_frame_id: robot1_tf/map
-odom_frame_id: robot1_tf/odom
+base_frame_id: base_footprint

@@ -52,8 +52,7 @@
     <remap from="initialpose"               to="/robot1/initialpose"/>
     <remap from="amcl_pose"                 to="/robot1/amcl_pose"/>
     <remap from="particlecloud"             to="/robot1/particlecloud"/>
-    <remap from="left_back_caster_arm_link" to="left_back_caster_arm_link"/>
-   
+       
   </node>
 
 </launch>

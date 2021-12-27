@@ -11,7 +11,7 @@
 		<arg name="world_name" value="$(arg pkg)/worlds/tiago/$(arg world).world"/>
 	</include>
 
-    <!-- include our robots -->
-  <include file="$(arg pkg)/launch/robots.launch"/>
+<!-- include our robots -->
+<include file="$(arg pkg)/launch/robots.launch"/>
   
 </launch>

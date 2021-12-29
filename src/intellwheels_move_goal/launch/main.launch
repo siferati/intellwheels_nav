@@ -2,13 +2,15 @@
   <node name="send_goal_robot1" pkg="intellwheels_move_goal" type="send_goal_robot1.py" output="screen">
     <param name="node" value="movebase_client_goal_robot1" />
     <param name="topic" value="robot1/move_base" />
-    <param name="x" value="3.0" />
-    <param name="y" value="1.0" />
+    <param name="x" value="0.5" />
+    <param name="y" value="-10.0" />
   </node>
+  
   <node name="send_goal_robot2" pkg="intellwheels_move_goal" type="send_goal_robot2.py" output="screen">
     <param name="node" value="movebase_client_goal_robot2" />
     <param name="topic" value="robot2/move_base" />
-    <param name="x" value="3.0" />
-    <param name="y" value="1.0" />
+    <param name="x" value="0.5" />
+    <param name="y" value="-6.0" />
   </node>
+  
 </launch>

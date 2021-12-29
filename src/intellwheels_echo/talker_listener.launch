@@ -1,0 +1,4 @@
+<launch>
+  <node name="listener" pkg="intellwheels_echo" type="listener.py" output="screen"/>
+  <node name="talker"   pkg="intellwheels_echo" type="talker.py" output="screen"/>
+</launch>

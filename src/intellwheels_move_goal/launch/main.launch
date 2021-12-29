@@ -1,0 +1,7 @@
+<launch>
+  
+  <arg name="pkg" value="$(find intellwheels_move_goal)"/>
+
+  <node name="listener" pkg="$(arg pkg)" type="src/listener.py" output="screen"/>
+  <node name="talker"   pkg="$(arg pkg)" type="src/talker.py" output="screen"/>
+</launch>

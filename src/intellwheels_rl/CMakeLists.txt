@@ -1,13 +1,52 @@
-cmake_minimum_required(VERSION 3.0.2)
+################################################################################
+# Set minimum required version of cmake, project name and compile options
+################################################################################
+cmake_minimum_required(VERSION 2.8.3)
 project(intellwheels_rl)
 
-find_package(catkin REQUIRED COMPONENTS message_generation std_msgs)
-find_package(catkin REQUIRED genmsg actionlib_msgs actionlib)
+################################################################################
+# Find catkin packages and libraries for catkin and system dependencies
+################################################################################
+find_package(catkin REQUIRED COMPONENTS rospy)
 
-generate_messages(DEPENDENCIES std_msgs actionlib_msgs)
+################################################################################
+# Setup for python modules and scripts
+################################################################################
+catkin_python_setup()
 
-catkin_package(CATKIN_DEPENDS message_runtime std_msgs)
+################################################################################
+# Declare ROS messages, services and actions
+################################################################################
 
-catkin_install_python()
-install()
+################################################################################
+# Declare ROS dynamic reconfigure parameters
+################################################################################
 
+################################################################################
+# Declare catkin specific configuration to be passed to dependent projects
+################################################################################
+catkin_package(
+  CATKIN_DEPENDS rospy
+)
+
+################################################################################
+# Build
+################################################################################
+
+################################################################################
+# Install
+################################################################################
+catkin_install_python(PROGRAMS
+  nodes/dqn_stage_1
+  src/${PROJECT_NAME}/environment_stage_1.py
+  src/${PROJECT_NAME}/respawnGoal.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+install(DIRECTORY launch save_model
+	DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
+
+################################################################################
+# Test
+################################################################################

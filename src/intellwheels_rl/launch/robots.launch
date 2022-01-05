@@ -1,0 +1,55 @@
+<launch>
+
+	<!-- parameters -->
+  <param name="robot_description" command="xacro '$(find intellwheels_desc)/urdf/wheelchair.urdf.xacro'"/> 
+  
+  <group ns="robot1">
+    <param name="tf_prefix" value="robot1_tf" />
+    <arg name="init_pose" value="-x 3 -y 1 -z 0" />
+    <arg name="robot_name"  value="robot1" />
+    
+    <param name="/robot1/robot_description" command="xacro '$(find intellwheels_desc)/urdf/wheelchair.urdf.xacro'"/>
+    <node name="spawn_model" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+          args="$(arg init_pose) -urdf -model $(arg robot_name) -param /robot1/robot_description" />
+    <node name="joint_pub" pkg="joint_state_publisher" type="joint_state_publisher"/> 
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen"/>	
+  </group>
+
+<!--
+  <group ns="robot2">
+    <param name="tf_prefix" value="robot2_tf" />
+    <arg name="init_pose" value="-x -4 -y 1 -z 0" />
+    <arg name="robot_name"  value="robot2" />
+    <param name="/robot2/robot_description" command="xacro '$(find intellwheels_desc)/urdf/wheelchair.urdf.xacro'"/>
+    <node name="spawn_model" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+          args="-urdf $(arg init_pose) -model $(arg robot_name) -param /robot2/robot_description" />
+    <node name="joint_pub" pkg="joint_state_publisher" type="joint_state_publisher"/> 
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen"/>
+  </group>
+
+-->
+
+   <!-- Run the map server -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find intellwheels_rl)/config/my_map.yaml" >
+    <param name="frame_id" value="map" />
+  </node>
+
+
+ <!-- Properties of each robot      -->
+
+<!-- AMCL      -->
+
+<include file="$(find intellwheels_rl)/launch/amcl_robot1.launch" />
+<!--  <include file="$(find intellwheels_rl)/launch/amcl_robot2.launch" /> -->
+  
+<!-- MOVE_BASE-->
+
+  <include file="$(find intellwheels_rl)/launch/move_base_1.launch" />
+ <!-- <include file="$(find intellwheels_rl)/launch/move_base_2.launch"/> -->
+
+
+  <!--<node name="rviz" pkg="rviz" type="rviz" args="-d $(find intellwheels_rl)/rviz/navigation.rviz" />-->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find intellwheels_rl)/rviz/navigation1chairs.rviz" />
+  <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find intellwheels_rl)/rviz/navigation2chairs.rviz" /> -->
+
+</launch>

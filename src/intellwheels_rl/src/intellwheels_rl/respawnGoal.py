@@ -26,8 +26,8 @@ class Respawn():
         self.f = open(self.modelPath, 'r')
         self.model = self.f.read()
         self.goal_position = Pose()
-        self.init_goal_x = 0.6
-        self.init_goal_y = 0.0
+        self.init_goal_x = 1.5
+        self.init_goal_y = -2.2
         self.goal_position.position.x = self.init_goal_x
         self.goal_position.position.y = self.init_goal_y
         self.modelName = 'goal'

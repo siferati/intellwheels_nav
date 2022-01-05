@@ -54,7 +54,11 @@ class Env():
         heading = self.heading
         min_range = 0.13
         done = False
+        
+        #laser_ranges_len = len(scan.ranges)
+        #print("Scan Ranges: ", len(scan.ranges) )
 
+        #for i in range(0,24):
         for i in range(len(scan.ranges)):
             if scan.ranges[i] == float('Inf'):
                 scan_range.append(3.5)
@@ -111,14 +115,16 @@ class Env():
         # publish the new speed
         self.pub_cmd_vel.publish(vel_cmd)
 
-        print ("New speed: ", vel_cmd)
+        # print ("New speed: ", vel_cmd)
 
         data = None
         while data is None:
             try:
-                data = rospy.wait_for_message('scan', LaserScan, timeout=5)
+                data = rospy.wait_for_message('base_scan', LaserScan, timeout=5)
             except:
                 pass
+
+        #print("Data: ", data)
 
         state, done = self.getState(data)
         reward = self.setReward(state, done, action)
@@ -126,6 +132,7 @@ class Env():
         return np.asarray(state), reward, done
 
     def reset(self):
+        
         rospy.wait_for_service('gazebo/reset_simulation')
         try:
             self.reset_proxy()
@@ -135,7 +142,7 @@ class Env():
         data = None
         while data is None:
             try:
-                data = rospy.wait_for_message('scan', LaserScan, timeout=5)
+                data = rospy.wait_for_message('base_scan', LaserScan, timeout=50)
             except:
                 pass
 

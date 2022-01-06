@@ -12,20 +12,22 @@ sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
 from collections import deque
 from std_msgs.msg import Float32MultiArray
-from src.intellwheels_rl.environment_stage_1 import Env
+from src.base_robot_environment_stage_1 import Env
 
 from keras.models import Sequential, load_model
 from keras.optimizers import RMSprop
 from keras.layers import Dense, Dropout, Activation
 
 
-EPISODES = 5
+EPISODES = 20
 
 class ReinforceAgent():
     def __init__(self, state_size, action_size):
         self.pub_result = rospy.Publisher('result', Float32MultiArray, queue_size=50)
         self.dirPath = os.path.dirname(os.path.realpath(__file__))
-        self.dirPath = self.dirPath.replace('intellwheels_rl/nodes', 'intellwheels_rl/save_model/stage_1_')
+
+        self.dirPath = self.dirPath.replace('intellwheels_rl/src', 'intellwheels_rl/save_model/base_robot_stage_1_')
+        
         self.result = Float32MultiArray()
 
 #       Assuming there is no previous model
@@ -132,13 +134,15 @@ class ReinforceAgent():
         self.model.fit(X_batch, Y_batch, batch_size=self.batch_size, epochs=1, verbose=0)
 
 if __name__ == '__main__':
-    rospy.init_node('dqn_stage_1')
+    rospy.init_node('base_robot_dqn_stage_1')
+
     pub_result = rospy.Publisher('result', Float32MultiArray, queue_size=5)
     pub_get_action = rospy.Publisher('get_action', Float32MultiArray, queue_size=5)
+    
     result = Float32MultiArray()
     get_action = Float32MultiArray()
 
-    state_size = 722
+    state_size = 722 # input of the network
     action_size = 5
 
     env = Env(action_size)
@@ -168,31 +172,16 @@ if __name__ == '__main__':
     
     # Run every new episode
     for e in range(agent.load_episode + 1, EPISODES):
-
-
-
         done = False
-
-        print("Antes do env ...")
-
         state = env.reset()
-
-        print("Depois do env ...")
-
-
         score = 0
         # Loop t over a maximum of '.episode_step = 6000'
         #    if t >= 500 => it causes a rospy.loginfo("Time out!!")
         for t in range(agent.episode_step):
 
-            #print ("Loop range")
-
             action = agent.getAction(state)
-
             next_state, reward, done = env.step(action)
-
             agent.appendMemory(state, action, reward, next_state, done)
-
 
             if len(agent.memory) >= agent.train_start:
                 # global_step  <=,else  (.target_update = 2000)
@@ -208,8 +197,12 @@ if __name__ == '__main__':
             get_action.data = [action, score, reward]
             pub_get_action.publish(get_action)
 
+            # save the model at 10 in 10 steps
             if e % 10 == 0:
                 agent.model.save(agent.dirPath + str(e) + '.h5')
+
+                #print ("SAVE MODEL AT: ", agent.dirPath)
+                
                 with open(agent.dirPath + str(e) + '.json', 'w') as outfile:
                     json.dump(param_dictionary, outfile)
 

@@ -37,9 +37,9 @@ catkin_package(
 # Install
 ################################################################################
 catkin_install_python(PROGRAMS
-  nodes/dqn_stage_1
-  src/${PROJECT_NAME}/environment_stage_1.py
-  src/${PROJECT_NAME}/respawnGoal.py
+  src/base_robot_dqn_stage_1.py
+  src/base_robot_environment_stage_1.py
+  src/respawnGoal.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

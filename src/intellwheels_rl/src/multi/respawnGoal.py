@@ -15,7 +15,7 @@ from geometry_msgs.msg import Pose
 class Respawn():
     def __init__(self):
         self.modelPath = os.path.dirname(os.path.realpath(__file__))
-        self.modelPath = self.modelPath.replace('intellwheels_rl/src',
+        self.modelPath = self.modelPath.replace('intellwheels_rl/src/multi',
                                                 'intellwheels_rl/meshes/goal_box/model.sdf')
         self.f = open(self.modelPath, 'r')
         self.model = self.f.read()

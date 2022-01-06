@@ -16,6 +16,7 @@
   </group>
 
 <!--
+
   <group ns="robot2">
     <param name="tf_prefix" value="robot2_tf" />
     <arg name="init_pose" value="-x -4 -y 1 -z 0" />
@@ -29,27 +30,40 @@
 
 -->
 
+
    <!-- Run the map server -->
-  <node name="map_server" pkg="map_server" type="map_server" args="$(find intellwheels_rl)/config/my_map.yaml" >
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find intellwheels_multi_chairs)/config/my_map.yaml" >
     <param name="frame_id" value="map" />
   </node>
 
 
  <!-- Properties of each robot      -->
 
-<!-- AMCL      -->
+  <!-- AMCL      -->
 
-<include file="$(find intellwheels_rl)/launch/amcl_robot1.launch" />
-<!--  <include file="$(find intellwheels_rl)/launch/amcl_robot2.launch" /> -->
+  <group>
+		<node name="right_front_rplidar_scan_relay_robot1" pkg="topic_tools" type="relay" args="/robot1/right_front_rplidar_scan robot1_base_scan"/>
+		<node name="left_back_rplidar_scan_relay_robot1" pkg="topic_tools" type="relay" args="/robot1/left_back_rplidar_scan robot1_base_scan"/>
+	</group>
+  <include file="$(find intellwheels_multi_chairs)/launch/amcl_robot1.launch" />
+  
+  <!--
+  <group>
+		<node name="right_front_rplidar_scan_relay_robot2" pkg="topic_tools" type="relay" args="/robot2/right_front_rplidar_scan robot2_base_scan"/>
+		<node name="left_back_rplidar_scan_relay_robot2" pkg="topic_tools" type="relay" args="/robot2/left_back_rplidar_scan robot2_base_scan"/>
+	</group>
+ 
+  <include file="$(find intellwheels_multi_chairs)/launch/amcl_robot2.launch" />
+
+  -->
   
 <!-- MOVE_BASE-->
 
-  <include file="$(find intellwheels_rl)/launch/move_base_1.launch" />
- <!-- <include file="$(find intellwheels_rl)/launch/move_base_2.launch"/> -->
+  <include file="$(find intellwheels_multi_chairs)/launch/move_base_1.launch" />
+<!-- <include file="$(find intellwheels_multi_chairs)/launch/move_base_2.launch"/> -->
 
-
-  <!--<node name="rviz" pkg="rviz" type="rviz" args="-d $(find intellwheels_rl)/rviz/navigation.rviz" />-->
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find intellwheels_rl)/rviz/navigation1chairs.rviz" />
-  <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find intellwheels_rl)/rviz/navigation2chairs.rviz" /> -->
+  <!--<node name="rviz" pkg="rviz" type="rviz" args="-d $(find intellwheels_multi_chairs)/rviz/navigation.rviz" />-->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find intellwheels_multi_chairs)/rviz/navigation1chairs_robot1.rviz" />
+  <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find intellwheels_multi_chairs)/rviz/navigation2chairs.rviz" />  -->
 
 </launch>

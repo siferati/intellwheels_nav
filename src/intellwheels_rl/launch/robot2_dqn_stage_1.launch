@@ -1,0 +1,4 @@
+<launch>
+  <node pkg="intellwheels_rl" type="robot2_dqn_stage_1.py" name="robot2_dqn_stage_1" output="screen" />
+</launch>
+  

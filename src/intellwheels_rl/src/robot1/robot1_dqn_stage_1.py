@@ -7,12 +7,13 @@ import numpy as np
 import random
 import time
 
+
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
 from collections import deque
 from std_msgs.msg import Float32MultiArray
-from src.base_robot_environment_stage_1 import Env
+from robot1.robot1_environment_stage_1 import Env
 
 from keras.models import Sequential, load_model
 from keras.optimizers import RMSprop
@@ -26,7 +27,7 @@ class ReinforceAgent():
         self.pub_result = rospy.Publisher('result', Float32MultiArray, queue_size=50)
         self.dirPath = os.path.dirname(os.path.realpath(__file__))
 
-        self.dirPath = self.dirPath.replace('intellwheels_rl/src', 'intellwheels_rl/save_model/base_robot_stage_1_')
+        self.dirPath = self.dirPath.replace('intellwheels_rl/src/robot1', 'intellwheels_rl/save_model/robot1_stage_1_')
         
         self.result = Float32MultiArray()
 
@@ -134,7 +135,7 @@ class ReinforceAgent():
         self.model.fit(X_batch, Y_batch, batch_size=self.batch_size, epochs=1, verbose=0)
 
 if __name__ == '__main__':
-    rospy.init_node('base_robot_dqn_stage_1')
+    rospy.init_node('robot1_dqn_stage_1')
 
     pub_result = rospy.Publisher('result', Float32MultiArray, queue_size=5)
     pub_get_action = rospy.Publisher('get_action', Float32MultiArray, queue_size=5)

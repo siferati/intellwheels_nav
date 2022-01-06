@@ -20,8 +20,8 @@ class Env():
         self.initGoal = True
         self.get_goalbox = False
         self.position = Pose()
-        self.pub_cmd_vel = rospy.Publisher('cmd_vel', Twist, queue_size=5)
-        self.sub_odom = rospy.Subscriber('odom', Odometry, self.getOdometry)
+        self.pub_cmd_vel = rospy.Publisher('/robot1/cmd_vel', Twist, queue_size=5)
+        self.sub_odom = rospy.Subscriber('/robot1/odom', Odometry, self.getOdometry)
         self.reset_proxy = rospy.ServiceProxy('gazebo/reset_simulation', Empty)
         self.unpause_proxy = rospy.ServiceProxy('gazebo/unpause_physics', Empty)
         self.pause_proxy = rospy.ServiceProxy('gazebo/pause_physics', Empty)
@@ -120,7 +120,7 @@ class Env():
         data = None
         while data is None:
             try:
-                data = rospy.wait_for_message('base_scan', LaserScan, timeout=5)
+                data = rospy.wait_for_message('robot1_base_scan', LaserScan, timeout=5)
             except:
                 pass
 
@@ -142,7 +142,7 @@ class Env():
         data = None
         while data is None:
             try:
-                data = rospy.wait_for_message('base_scan', LaserScan, timeout=50)
+                data = rospy.wait_for_message('robot1_base_scan', LaserScan, timeout=50)
             except:
                 pass
 

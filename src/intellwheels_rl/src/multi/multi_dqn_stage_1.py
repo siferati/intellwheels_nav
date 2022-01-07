@@ -20,7 +20,7 @@ from keras.optimizers import RMSprop
 from keras.layers import Dense, Dropout, Activation
 
 
-EPISODES = 20
+EPISODES = 100
 
 class ReinforceAgent():
     def __init__(self, state_size, action_size):
@@ -135,6 +135,13 @@ class ReinforceAgent():
         self.model.fit(X_batch, Y_batch, batch_size=self.batch_size, epochs=1, verbose=0)
 
 if __name__ == '__main__':
+
+    y_pos = rospy.get_param('/multi_dqn_stage_1/y')
+    print("Param: ..............................................................................................", y_pos)
+    print("Param: ..............................................................................................")
+    print("Param: ..............................................................................................")
+    print("Param: ..............................................................................................")
+
     rospy.init_node('multi_dqn_stage_1')
 
     pub_result = rospy.Publisher('result', Float32MultiArray, queue_size=5)

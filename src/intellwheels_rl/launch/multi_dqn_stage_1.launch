@@ -1,4 +1,6 @@
 <launch>
-  <node pkg="intellwheels_rl" type="multi_dqn_stage_1.py" name="multi_dqn_stage_1" output="screen" />
+  <node pkg="intellwheels_rl" type="multi_dqn_stage_1.py" name="multi_dqn_stage_1" output="screen" >
+    <param name="y" value="-6.0" />
+  </node>
 </launch>
   

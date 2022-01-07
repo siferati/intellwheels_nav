@@ -5,7 +5,7 @@
   
   <group ns="robot1">
     <param name="tf_prefix" value="robot1_tf" />
-    <arg name="init_pose" value="-x 3 -y 1 -z 0" />
+    <arg name="init_pose" value="-x 0.5 -y -1.5 -z 0" />
     <arg name="robot_name"  value="robot1" />
     
     <param name="/robot1/robot_description" command="xacro '$(find intellwheels_desc)/urdf/wheelchair.urdf.xacro'"/>
@@ -18,7 +18,7 @@
 
   <group ns="robot2">
     <param name="tf_prefix" value="robot2_tf" />
-    <arg name="init_pose" value="-x -4 -y 1 -z 0" />
+    <arg name="init_pose" value="-x 0.5 -y 1 -z 0" />
     <arg name="robot_name"  value="robot2" />
     <param name="/robot2/robot_description" command="xacro '$(find intellwheels_desc)/urdf/wheelchair.urdf.xacro'"/>
     <node name="spawn_model" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"

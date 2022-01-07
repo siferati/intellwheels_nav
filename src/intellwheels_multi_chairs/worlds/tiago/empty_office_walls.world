@@ -272,7 +272,103 @@
         <kinematic>0</kinematic>
         <gravity>1</gravity>
       </link>
-    </model>    
+    </model>
+    <model name="wall_5_model">
+      <pose>-2.25 -3.0 1.0 0.0 0.0 0.0</pose>
+      <static>1</static>
+      <link name="wall_5_body">
+        <inertial>
+          <mass>1.000000</mass>
+          <inertia>
+            <ixx>1.000000</ixx>
+            <ixy>0.000000</ixy>
+            <ixz>0.000000</ixz>
+            <iyy>1.000000</iyy>
+            <iyz>0.000000</iyz>
+            <izz>1.000000</izz>
+          </inertia>
+        </inertial>
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>5.500000 0.200000 2.000000</size>
+            </box>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <bounce />
+            <friction>
+              <ode />
+            </friction>
+            <contact>
+              <ode />
+            </contact>
+          </surface>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>5.500000 0.200000 2.000000</size>
+            </box>
+          </geometry>
+        </visual>
+        <velocity_decay>
+          <linear>0.000000</linear>
+          <angular>0.000000</angular>
+        </velocity_decay>
+        <self_collide>0</self_collide>
+        <kinematic>0</kinematic>
+        <gravity>1</gravity>
+      </link>
+    </model>
+    <model name="wall_6_model">
+      <pose>3.75 -3.0 1.0 0.0 0.0 0.0</pose>
+      <static>1</static>
+      <link name="wall_6_body">
+        <inertial>
+          <mass>1.000000</mass>
+          <inertia>
+            <ixx>1.000000</ixx>
+            <ixy>0.000000</ixy>
+            <ixz>0.000000</ixz>
+            <iyy>1.000000</iyy>
+            <iyz>0.000000</iyz>
+            <izz>1.000000</izz>
+          </inertia>
+        </inertial>
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>2.500000 0.200000 2.000000</size>
+            </box>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <bounce />
+            <friction>
+              <ode />
+            </friction>
+            <contact>
+              <ode />
+            </contact>
+          </surface>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>2.500000 0.200000 2.000000</size>
+            </box>
+          </geometry>
+        </visual>
+        <velocity_decay>
+          <linear>0.000000</linear>
+          <angular>0.000000</angular>
+        </velocity_decay>
+        <self_collide>0</self_collide>
+        <kinematic>0</kinematic>
+        <gravity>1</gravity>
+      </link>
+    </model>
     <scene>
       <ambient>0.200000 0.200000 0.200000 1.000000</ambient>
       <background>0.700000 0.700000 0.700000 1.000000</background>

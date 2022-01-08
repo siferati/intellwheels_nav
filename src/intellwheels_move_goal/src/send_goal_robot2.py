@@ -43,6 +43,10 @@ if __name__ == '__main__':
     topic = rospy.get_param('send_goal_robot2/topic')
     x_pos = rospy.get_param('send_goal_robot2/x')
     y_pos = rospy.get_param('send_goal_robot2/y')
+
+    # just wait 2 seconds for the robot1 start
+    rospy.sleep(2.)
+
     send_goals(node, topic, x_pos, y_pos)
     
     

@@ -87,12 +87,14 @@ class Env():
             tr = 1 - 4 * math.fabs(0.5 - math.modf(0.25 + 0.5 * angle % (2 * math.pi) / math.pi)[0])
             yaw_reward.append(tr)
 
+        # reward the actions where the heading points to the target
+
         distance_rate = 2 ** (current_distance / self.goal_distance)
         reward = ((round(yaw_reward[action] * 5, 2)) * distance_rate)
 
         if done:
             rospy.loginfo("Collision!!")
-            reward = -200
+            reward = -100
             self.pub_cmd_vel.publish(Twist()) # stop
 
         if self.get_goalbox:

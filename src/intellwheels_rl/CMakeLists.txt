@@ -45,7 +45,6 @@ catkin_install_python(PROGRAMS
   src/robot1/respawnGoal.py
   src/robot2/robot2_dqn_stage_1.py
   src/robot2/robot2_environment_stage_1.py
-  src/robot2/respawnGoal.py
   src/multi/multi_dqn_stage_1.py
   src/multi/multi_environment_stage_1.py
   src/multi/respawnGoal.py

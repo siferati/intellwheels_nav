@@ -20,7 +20,7 @@ from keras.optimizers import RMSprop
 from keras.layers import Dense, Dropout, Activation
 
 
-EPISODES = 20
+EPISODES = 100
 
 class ReinforceAgent():
     def __init__(self, state_size, action_size):
@@ -42,8 +42,8 @@ class ReinforceAgent():
 
         self.state_size = state_size
         self.action_size = action_size
-        self.episode_step = 6000
-        self.target_update = 2000
+        self.episode_step = 1000
+        self.target_update = 200
         self.discount_factor = 0.99
         self.learning_rate = 0.00025
         self.epsilon = 1.0

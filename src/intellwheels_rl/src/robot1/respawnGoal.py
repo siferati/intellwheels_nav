@@ -18,7 +18,7 @@ class Respawn():
         self.model = self.f.read()
         self.goal_position = Pose()
         self.init_goal_x = 1.5
-        self.init_goal_y = -2.2
+        self.init_goal_y = -4.2
         self.goal_position.position.x = self.init_goal_x
         self.goal_position.position.y = self.init_goal_y
         self.modelName = 'goal'
@@ -63,6 +63,8 @@ class Respawn():
 
         self.goal_position.position.x = random.randrange(-12, 13) / 10.0
         self.goal_position.position.y = random.randrange(-12, 13) / 10.0
+
+        rospy.loginfo("Goal at .... = %f , %f ", self.goal_position.position.x, self.goal_position.position.y )
         
         time.sleep(0.5)
         self.respawnModel()

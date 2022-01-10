@@ -15,7 +15,7 @@ class Env():
         
         self.action_size = action_size
         self.initGoal = True
-        self.get_goalbox = False
+        self.near_to_chair = False
         
         # pose of robot1
         self.pose_r1 = Pose()
@@ -84,7 +84,9 @@ class Env():
     def getState(self, scan):
         scan_range = []
         heading = self.heading_r2
-        min_range = 0.17
+        min_range = 0.13
+        min_distance_to_chair = 1.5
+        max_safe_zone = 2
         wall_collision = False
         
         #this need more work
@@ -105,16 +107,18 @@ class Env():
         #print distance bewtween the robots
         chair_safe_zone = False
         current_distance_to_chair1 = self.getDistance(self.pose_r1.position.x, self.pose_r2.position.x, self.pose_r1.position.y, self.pose_r2.position.y) 
+
+        # rospy.loginfo("Distance to chair 1 = %f", current_distance_to_chair1)        
         
-        if current_distance_to_chair1 < 0.2:
-            self.get_goalbox = True
+        if current_distance_to_chair1 < min_distance_to_chair:
+            self.near_to_chair = True
 
         if(current_distance_to_chair1 < self.distance_to_chair1):
             self.distance_to_chair1 = current_distance_to_chair1
-            if(self.distance_to_chair1 >= 0.2 and self.distance_to_chair1 <= 0.4):
-                chair_safe_zone = True;
+            if(self.distance_to_chair1 >= min_distance_to_chair and self.distance_to_chair1 <= max_safe_zone):
+                chair_safe_zone = True
         
-        #rospy.loginfo("Distance to chair 1 = %f", current_distance_to_chair1)
+        rospy.loginfo("Distance to chair 1 = %f .... safe zone between %f and %f",current_distance_to_chair1, min_distance_to_chair, max_safe_zone )
         
         return scan_range + [heading, current_distance_to_chair1], wall_collision, chair_safe_zone
 
@@ -146,14 +150,15 @@ class Env():
         if chair_safe_zone:
             rospy.loginfo("Chair2 is in safe zone related to Chair1")
             reward = 10
+            #self.pub_cmd_vel_r2.publish(Twist()) #Todo: maybe should not stop             
         
 
-        if self.get_goalbox:
+        if self.near_to_chair:
             rospy.loginfo("Goal!!")
             reward = 200
             self.pub_cmd_vel_r2.publish(Twist()) #stop
             self.goal_distance = self.getDistance(self.pose_r1.position.x, self.pose_r2.position.x, self.pose_r1.position.y, self.pose_r2.position.y)
-            self.get_goalbox = False
+            self.near_to_chair = False
 
         return reward
     

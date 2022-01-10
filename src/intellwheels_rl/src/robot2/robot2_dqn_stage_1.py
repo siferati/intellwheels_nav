@@ -6,6 +6,7 @@ import json
 import numpy as np
 import random
 import time
+import pandas as pd
 
 import tensorflow as tf
 from datetime import datetime
@@ -26,7 +27,7 @@ from tensorflow.keras.callbacks import TensorBoard
 EPISODES = 100
 
 class ReinforceAgent():
-    def __init__(self, state_size, action_size, use_tensorboard=False):
+    def __init__(self, state_size, action_size, use_tensorboard):
         self.pub_result = rospy.Publisher('result', Float32MultiArray, queue_size=50)
         self.dirPath = os.path.dirname(os.path.realpath(__file__))
 
@@ -58,6 +59,7 @@ class ReinforceAgent():
 
         self.model = self.buildModel()
         self.target_model = self.buildModel()
+              
 
         if use_tensorboard:
 
@@ -65,8 +67,8 @@ class ReinforceAgent():
             if not os.path.exists(tensor_board_model_path):
                 os.makedirs(tensor_board_model_path)
 
-            tf_callback = TensorBoard(log_dir=tensor_board_model_path,update_freq=1)
-            tf_callback.set_model(self.model)
+            self.tf_callback = TensorBoard(log_dir=tensor_board_model_path,update_freq=1)
+            self.tf_callback.set_model(self.model)
 
             print("Save Model (model) on : ", tensor_board_model_path)
 
@@ -75,8 +77,8 @@ class ReinforceAgent():
             if not os.path.exists(tensor_board_target_path):
                 os.makedirs(tensor_board_target_path)
 
-            tf_callback2 = TensorBoard(log_dir=tensor_board_target_path,update_freq=1)
-            tf_callback2.set_model(self.target_model)
+            self.tf_callback2 = TensorBoard(log_dir=tensor_board_target_path,update_freq=1)
+            self.tf_callback2.set_model(self.target_model)
     
             print("Save Model (target) on : ", tensor_board_target_path)
 
@@ -156,10 +158,17 @@ class ReinforceAgent():
                 X_batch = np.append(X_batch, np.array([next_states.copy()]), axis=0)
                 Y_batch = np.append(Y_batch, np.array([[rewards] * self.action_size]), axis=0)
 
-        self.model.fit(X_batch, Y_batch, batch_size=self.batch_size, epochs=1, verbose=0)
+
+        #tf_callback2 = TensorBoard(log_dir=tensor_board_target_path,update_freq=1)
+        self.model.fit(X_batch, Y_batch, batch_size=self.batch_size, epochs=1, verbose=0, callbacks=[self.tf_callback])
 
 if __name__ == '__main__':
     rospy.init_node('robot2_dqn_stage_1')
+
+    #log file path 
+    modelPath = os.path.dirname(os.path.realpath(__file__))
+    modelPath = modelPath.replace('intellwheels_rl/src/robot2','intellwheels_rl/save_model')
+    path_to_save_csv = modelPath + os.sep + "robot2.csv"
 
     pub_result = rospy.Publisher('result', Float32MultiArray, queue_size=5)
     pub_get_action = rospy.Publisher('get_action', Float32MultiArray, queue_size=5)
@@ -246,6 +255,13 @@ if __name__ == '__main__':
 
                 rospy.loginfo('Ep: %d score: %.2f memory: %d epsilon: %.2f time: %d:%02d:%02d',
                               e, score, len(agent.memory), agent.epsilon, h, m, s)
+
+                 # save log              
+
+                data_csv = [[ e, score, np.max(agent.q_value) ,len(agent.memory), agent.epsilon, str(h) + ":" + str(m)  + ":" + str(s) ]]
+                df = pd.DataFrame(data_csv, columns = ['Episode', 'Score', 'q-value' , 'Memory', 'Epsilon', 'Time'])
+                df.to_csv(path_to_save_csv, mode='a', header=(e==0))
+
                 param_keys = ['epsilon']
                 param_values = [agent.epsilon]
                 param_dictionary = dict(zip(param_keys, param_values))

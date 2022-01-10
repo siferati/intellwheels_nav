@@ -7,6 +7,8 @@ import numpy as np
 import random
 import time
 
+import tensorflow as tf
+from datetime import datetime
 
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
@@ -18,12 +20,13 @@ from robot2.robot2_environment_stage_1 import Env
 from keras.models import Sequential, load_model
 from keras.optimizers import RMSprop
 from keras.layers import Dense, Dropout, Activation
+from tensorflow.keras.callbacks import TensorBoard
 
 
 EPISODES = 100
 
 class ReinforceAgent():
-    def __init__(self, state_size, action_size):
+    def __init__(self, state_size, action_size, use_tensorboard=False):
         self.pub_result = rospy.Publisher('result', Float32MultiArray, queue_size=50)
         self.dirPath = os.path.dirname(os.path.realpath(__file__))
 
@@ -36,8 +39,8 @@ class ReinforceAgent():
 #        self.load_episode = 0
 
         # Load model from last EPISODE
-        self.load_model = False # If 'False', start from scratch
-        self.load_episode = 0 # If 'True' start from this episode number 'self.load_episode'
+        self.load_model = True # If 'False', start from scratch
+        self.load_episode = 90 # If 'True' start from this episode number 'self.load_episode'
         # ----------------------------
 
         self.state_size = state_size
@@ -55,6 +58,27 @@ class ReinforceAgent():
 
         self.model = self.buildModel()
         self.target_model = self.buildModel()
+
+        if use_tensorboard:
+
+            tensor_board_model_path = os.getcwd() + os.sep + os.path.join('tb_model_chair2') + os.sep + datetime.now().strftime("%Y%m%d-%H%M%S")
+            if not os.path.exists(tensor_board_model_path):
+                os.makedirs(tensor_board_model_path)
+
+            tf_callback = TensorBoard(log_dir=tensor_board_model_path,update_freq=1)
+            tf_callback.set_model(self.model)
+
+            print("Save Model (model) on : ", tensor_board_model_path)
+
+            tensor_board_target_path = os.getcwd() + os.sep  + os.path.join('tb_target_mode_chair2') + os.sep + datetime.now().strftime("%Y%m%d-%H%M%S")
+
+            if not os.path.exists(tensor_board_target_path):
+                os.makedirs(tensor_board_target_path)
+
+            tf_callback2 = TensorBoard(log_dir=tensor_board_target_path,update_freq=1)
+            tf_callback2.set_model(self.target_model)
+    
+            print("Save Model (target) on : ", tensor_board_target_path)
 
         self.updateTargetModel()
 
@@ -148,7 +172,7 @@ if __name__ == '__main__':
 
     env = Env(action_size)
 
-    agent = ReinforceAgent(state_size, action_size)
+    agent = ReinforceAgent(state_size, action_size, True)
     scores, episodes = [], []
     global_step = 0
     start_time = time.time()

@@ -103,28 +103,22 @@ class Env():
 
                
         #print distance bewtween the robots
-        chair_get_close = False
-        chair_collision = False
+        chair_safe_zone = False
         current_distance_to_chair1 = self.getDistance(self.pose_r1.position.x, self.pose_r2.position.x, self.pose_r1.position.y, self.pose_r2.position.y) 
-
-        ''' 
+        
         if current_distance_to_chair1 < 0.2:
             self.get_goalbox = True
 
         if(current_distance_to_chair1 < self.distance_to_chair1):
             self.distance_to_chair1 = current_distance_to_chair1
-            chair_get_close = True;
-
+            if(self.distance_to_chair1 >= 0.2 and self.distance_to_chair1 <= 0.4):
+                chair_safe_zone = True;
         
-        if(current_distance_to_chair1 < 0.2):
-            chair_collision = True
-
-        '''
         #rospy.loginfo("Distance to chair 1 = %f", current_distance_to_chair1)
         
-        return scan_range + [heading, current_distance_to_chair1], wall_collision, chair_collision, chair_get_close
+        return scan_range + [heading, current_distance_to_chair1], wall_collision, chair_safe_zone
 
-    def setReward(self, state, wall_collision, chair_collision, chair_get_close ,action):
+    def setReward(self, state, wall_collision, chair_safe_zone ,action):
         yaw_reward = []
         current_distance = state[-1]
         heading = state[-2]
@@ -141,22 +135,19 @@ class Env():
 
         if wall_collision:
             rospy.loginfo("Collision!!")
-            reward = -200
-            self.pub_cmd_vel_r2.publish(Twist()) # stop
-        '''
-        if chair_collision:
-            rospy.loginfo("Possible chair collision!!")
-            reward = -200
+            reward = -100
             self.pub_cmd_vel_r2.publish(Twist()) # stop
         
-        if chair_get_close:
-            #rospy.loginfo("Chair2 is getting close to Chair1")
-            reward = 200
-        else: 
-            #rospy.loginfo("Chair2 is getting far to Chair1")
-            reward = -200
+        #if chair_collision:
+        #    #rospy.loginfo("Possible chair collision!!")
+        #    reward = -100
+        #    self.pub_cmd_vel_r2.publish(Twist()) # stop
+        
+        if chair_safe_zone:
+            rospy.loginfo("Chair2 is in safe zone related to Chair1")
+            reward = 10
+        
 
-        '''
         if self.get_goalbox:
             rospy.loginfo("Goal!!")
             reward = 200
@@ -187,8 +178,8 @@ class Env():
             except:
                 pass
 
-        state, wall_collision, chair_collision, chair_get_close = self.getState(data)
-        reward = self.setReward(state, wall_collision, chair_collision, chair_get_close , action)
+        state, wall_collision, chair_safe_zone = self.getState(data)
+        reward = self.setReward(state, wall_collision, chair_safe_zone , action)
         return np.asarray(state), reward, wall_collision
 
     def reset(self):
@@ -210,6 +201,6 @@ class Env():
             self.initGoal = False
 
         self.goal_distance = self.getDistance(self.pose_r1.position.x, self.pose_r2.position.x, self.pose_r1.position.y, self.pose_r2.position.y)
-        state, _, _ , _= self.getState(data)
+        state, _, _ = self.getState(data)
 
         return np.asarray(state)

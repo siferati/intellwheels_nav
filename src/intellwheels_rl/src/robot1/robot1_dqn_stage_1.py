@@ -37,8 +37,8 @@ class ReinforceAgent():
         self.result = Float32MultiArray()
 
 #       # Load model from last EPISODE
-        self.load_model = False # If 'False', start from scratch
-        self.load_episode = 0 # If 'True' start from this episode number 'self.load_episode'
+        self.load_model = True # If 'False', start from scratch
+        self.load_episode = 90 # If 'True' start from this episode number 'self.load_episode'
         # ----------------------------
 
         self.state_size = state_size
@@ -202,7 +202,7 @@ if __name__ == '__main__':
         #    if t >= 500 => it causes a rospy.loginfo("Time out!!")
         for t in range(agent.episode_step):
 
-            print("Episode ", t ," of ",  agent.episode_step)
+            #print("Episode ", t ," of ",  agent.episode_step)
 
             action = agent.getAction(state)
             next_state, reward, done = env.step(action)

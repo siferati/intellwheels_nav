@@ -84,14 +84,14 @@ class Env():
     def getState(self, scan):
         scan_range = []
         heading = self.heading_r2
-        min_range = 0.13
+        min_range = 0.17
         wall_collision = False
         
         #this need more work
 
         for i in range(len(scan.ranges)):
             if scan.ranges[i] == float('Inf'):
-                scan_range.append(3.5)
+                scan_range.append(15)
             elif np.isnan(scan.ranges[i]):
                 scan_range.append(0)
             else:

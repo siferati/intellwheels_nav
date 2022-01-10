@@ -20,6 +20,7 @@ class Env():
         self.initGoal = True
         self.get_goalbox = False
         self.position = Pose()
+        self.lastPose = Pose()
         self.pub_cmd_vel = rospy.Publisher('/robot1/cmd_vel', Twist, queue_size=5)
         self.sub_odom = rospy.Subscriber('/robot1/odom', Odometry, self.getOdometry)
         self.reset_proxy = rospy.ServiceProxy('gazebo/reset_simulation', Empty)
@@ -35,6 +36,13 @@ class Env():
 
     def getOdometry(self, odom):
         self.position = odom.pose.pose.position
+        
+        invertHeadging = False
+        if self.lastPose == odom.pose.pose:
+            invertHeading = True;
+            rospy.loginfo("Same pose")
+        self.lastPose == odom.pose.pose
+
         orientation = odom.pose.pose.orientation
         orientation_list = [orientation.x, orientation.y, orientation.z, orientation.w]
         _, _, yaw = euler_from_quaternion(orientation_list)
@@ -48,12 +56,15 @@ class Env():
         elif heading < -pi:
             heading += 2 * pi
 
-        self.heading = round(heading, 2)
+        if invertHeadging == True:
+            self.heading = - round(heading, 2)
+        else:
+            self.heading = round(heading, 2)
 
     def getState(self, scan):
         scan_range = []
         heading = self.heading
-        min_range = 0.13
+        min_range = 0.17
         done = False
         
         #laser_ranges_len = len(scan.ranges)
@@ -62,7 +73,7 @@ class Env():
         #for i in range(0,24):
         for i in range(len(scan.ranges)):
             if scan.ranges[i] == float('Inf'):
-                scan_range.append(3.5)
+                scan_range.append(15)
             elif np.isnan(scan.ranges[i]):
                 scan_range.append(0)
             else:

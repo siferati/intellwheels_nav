@@ -22,12 +22,8 @@ class Respawn():
         self.goal_position.position.x = self.init_goal_x
         self.goal_position.position.y = self.init_goal_y
         self.modelName = 'goal'
-        self.last_goal_x = self.init_goal_x
-        self.last_goal_y = self.init_goal_y
-        self.last_index = 0
         self.sub_model = rospy.Subscriber('gazebo/model_states', ModelStates, self.checkModel)
         self.check_model = False
-        self.index = 0
 
     def checkModel(self, model):
         self.check_model = False
@@ -41,8 +37,7 @@ class Respawn():
                 rospy.wait_for_service('gazebo/spawn_sdf_model')
                 spawn_model_prox = rospy.ServiceProxy('gazebo/spawn_sdf_model', SpawnModel)
                 spawn_model_prox(self.modelName, self.model, 'robotos_name_space', self.goal_position, "world")
-                rospy.loginfo("Goal position : %.1f, %.1f", self.goal_position.position.x,
-                              self.goal_position.position.y)
+                rospy.loginfo("Goal position : %.1f, %.1f", self.goal_position.position.x, self.goal_position.position.y)                
                 break
             else:
                 pass
@@ -61,15 +56,11 @@ class Respawn():
         if delete:
             self.deleteModel()
 
-        self.goal_position.position.x = random.randrange(-12, 13) / 10.0
-        self.goal_position.position.y = random.randrange(-12, 13) / 10.0
+        self.goal_position.position.x = random.randrange(-20, 17) / 10.0
+        self.goal_position.position.y = random.randrange(-42, -30) / 10.0
 
-        rospy.loginfo("Goal at .... = %f , %f ", self.goal_position.position.x, self.goal_position.position.y )
+        rospy.loginfo("Goal at .... = %f , %f ", self.goal_position.position.x, self.goal_position.position.y)
         
         time.sleep(0.5)
         self.respawnModel()
-
-        self.last_goal_x = self.goal_position.position.x
-        self.last_goal_y = self.goal_position.position.y
-
         return self.goal_position.position.x, self.goal_position.position.y

@@ -24,7 +24,7 @@ from keras.layers import Dense, Dropout, Activation
 from tensorflow.keras.callbacks import TensorBoard
 
 
-EPISODES = 100
+EPISODES = 210
 
 class ReinforceAgent():
     def __init__(self, state_size, action_size, use_tensorboard):
@@ -245,21 +245,41 @@ if __name__ == '__main__':
                 done = True
 
             if done:
+                # publish results
                 result.data = [score, np.max(agent.q_value)]
                 pub_result.publish(result)
+                
                 agent.updateTargetModel()
                 scores.append(score)
                 episodes.append(e)
                 m, s = divmod(int(time.time() - start_time), 60)
                 h, m = divmod(m, 60)
 
-                rospy.loginfo('Ep: %d score: %.2f memory: %d epsilon: %.2f time: %d:%02d:%02d',
-                              e, score, len(agent.memory), agent.epsilon, h, m, s)
+                rospy.loginfo('Ep: %d score: %.2f memory: %d epsilon: %.2f time: %d:%02d:%02d', 
+                    e, 
+                    score, 
+                    len(agent.memory), 
+                    agent.epsilon, 
+                    h, m, s
+                    )
 
                  # save log              
 
-                data_csv = [[ e, score, np.max(agent.q_value) ,len(agent.memory), agent.epsilon, str(h) + ":" + str(m)  + ":" + str(s) ]]
-                df = pd.DataFrame(data_csv, columns = ['Episode', 'Score', 'q-value' , 'Memory', 'Epsilon', 'Time'])
+                data_csv = [[
+                    e, 
+                    score, 
+                    np.max(agent.q_value),
+                    len(agent.memory), 
+                    agent.epsilon, 
+                    str(h) + ":" + str(m)  + ":" + str(s)
+                    ]]
+                df = pd.DataFrame(data_csv, columns = [
+                    'Episode', 
+                    'Score', 
+                    'q-value' , 
+                    'Memory', 
+                    'Epsilon', 
+                    'Time'])
                 df.to_csv(path_to_save_csv, mode='a', header=(e==0))
 
                 param_keys = ['epsilon']

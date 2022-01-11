@@ -25,11 +25,11 @@ from keras.layers import Dense, Dropout, Activation
 from tensorflow.keras.callbacks import TensorBoard
 
 
-EPISODES = 100
+EPISODES = 210
 
 class ReinforceAgent():
     def __init__(self, state_size, action_size, use_tensorboard=False):
-        self.pub_result = rospy.Publisher('result', Float32MultiArray, queue_size=50)
+        #self.pub_result = rospy.Publisher('result', Float32MultiArray, queue_size=50)
         self.dirPath = os.path.dirname(os.path.realpath(__file__))
 
         self.dirPath = self.dirPath.replace('intellwheels_rl/src/robot1', 'intellwheels_rl/save_model/robot1_stage_1_')
@@ -65,7 +65,6 @@ class ReinforceAgent():
 
             self.tf_callback = TensorBoard(log_dir=tensor_board_model_path,update_freq=1)
             self.tf_callback.set_model(self.model)
-            print("Save Model (model) on : ", tensor_board_model_path)
 
             tensor_board_target_path = os.getcwd() + os.sep  + os.path.join('tb_target_mode_chair1') + os.sep + datetime.now().strftime("%Y%m%d-%H%M%S")
 
@@ -74,7 +73,6 @@ class ReinforceAgent():
 
             self.tf_callback2 = TensorBoard(log_dir=tensor_board_target_path,update_freq=1)
             self.tf_callback2.set_model(self.target_model)
-            print("Save Model (target) on : ", tensor_board_target_path)
 
         self.updateTargetModel()
 
@@ -163,8 +161,8 @@ if __name__ == '__main__':
     modelPath = modelPath.replace('intellwheels_rl/src/robot1','intellwheels_rl/save_model')
     path_to_save_csv = modelPath + os.sep + "robot1.csv"
 
-    pub_result = rospy.Publisher('result', Float32MultiArray, queue_size=5)
-    pub_get_action = rospy.Publisher('get_action', Float32MultiArray, queue_size=5)
+    #pub_result = rospy.Publisher('result', Float32MultiArray, queue_size=5)
+    #pub_get_action = rospy.Publisher('get_action', Float32MultiArray, queue_size=5)
     
     result = Float32MultiArray()
     get_action = Float32MultiArray()
@@ -225,7 +223,7 @@ if __name__ == '__main__':
             score += reward
             state = next_state
             get_action.data = [action, score, reward]
-            pub_get_action.publish(get_action)
+            #pub_get_action.publish(get_action)
 
             # save the model at 10 in 10 steps
             if e % 10 == 0:
@@ -239,7 +237,7 @@ if __name__ == '__main__':
 
             if done:
                 result.data = [score, np.max(agent.q_value)]
-                pub_result.publish(result)
+                #pub_result.publish(result)
                 agent.updateTargetModel()
                 scores.append(score)
                 episodes.append(e)

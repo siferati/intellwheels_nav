@@ -168,7 +168,7 @@ if __name__ == '__main__':
     #log file path 
     modelPath = os.path.dirname(os.path.realpath(__file__))
     modelPath = modelPath.replace('intellwheels_rl/src/robot2','intellwheels_rl/save_model')
-    path_to_save_csv = modelPath + os.sep + "robot2.csv"
+    path_to_save_csv = modelPath + os.sep + "robot2_dqn.csv"
 
     pub_result = rospy.Publisher('result', Float32MultiArray, queue_size=5)
     pub_get_action = rospy.Publisher('get_action', Float32MultiArray, queue_size=5)

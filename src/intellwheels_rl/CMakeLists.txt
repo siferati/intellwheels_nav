@@ -37,18 +37,18 @@ catkin_package(
 # Install
 ################################################################################
 catkin_install_python(PROGRAMS
-  src/robot_gazebo_nav/base_robot_dqn_stage_1.py
-  src/robot_gazebo_nav/base_robot_environment_stage_1.py 
+  src/robot_gazebo_nav/base_robot_dqn.py
+  src/robot_gazebo_nav/base_robot_environment.py 
   src/robot_gazebo_nav/respawnGoal.py
-  src/robot1/robot1_dqn_stage_1.py
-  src/robot1/robot1_environment_stage_1.py
+  src/robot1/robot1_dqn.py
+  src/robot1/robot1_environment.py
   src/robot1/respawnGoal.py
-  src/robot1/robot1_qlearn_stage_1.py
+  src/robot1/robot1_qlearn.py
   src/robot1/qlearn.py
-  src/robot2/robot2_dqn_stage_1.py
-  src/robot2/robot2_environment_stage_1.py
-  src/multi/multi_dqn_stage_1.py
-  src/multi/multi_environment_stage_1.py
+  src/robot2/robot2_dqn.py
+  src/robot2/robot2_environment.py
+  src/multi/multi_dqn.py
+  src/multi/multi_environment.py
   src/multi/respawnGoal.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

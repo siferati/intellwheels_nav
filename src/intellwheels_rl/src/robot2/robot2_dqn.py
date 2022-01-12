@@ -163,7 +163,7 @@ class ReinforceAgent():
         self.model.fit(X_batch, Y_batch, batch_size=self.batch_size, epochs=1, verbose=0, callbacks=[self.tf_callback])
 
 if __name__ == '__main__':
-    rospy.init_node('robot2_dqn_stage_1')
+    rospy.init_node('robot2_dqn')
 
     #log file path 
     modelPath = os.path.dirname(os.path.realpath(__file__))

@@ -2,48 +2,49 @@
 
 import rospy
 import os
+import os.path
 import json
 import numpy as np
 import random
 import time
+import pandas as pd
 
+import tensorflow as tf
+from datetime import datetime
 
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
 from collections import deque
 from std_msgs.msg import Float32MultiArray
-from robot_gazebo_nav.base_robot_environment_stage_1 import Env
+from robot1.robot1_environment_stage_1 import Env
 
 from keras.models import Sequential, load_model
 from keras.optimizers import RMSprop
 from keras.layers import Dense, Dropout, Activation
+from tensorflow.keras.callbacks import TensorBoard
 
 
-EPISODES = 20
+EPISODES = 210
 
 class ReinforceAgent():
-    def __init__(self, state_size, action_size):
-        self.pub_result = rospy.Publisher('result', Float32MultiArray, queue_size=50)
+    def __init__(self, state_size, action_size, use_tensorboard=False):
+        #self.pub_result = rospy.Publisher('result', Float32MultiArray, queue_size=50)
         self.dirPath = os.path.dirname(os.path.realpath(__file__))
 
-        self.dirPath = self.dirPath.replace('intellwheels_rl/src/robot_gazebo_nav', 'intellwheels_rl/save_model/base_robot_stage_1_')
+        self.dirPath = self.dirPath.replace('intellwheels_rl/src/robot1', 'intellwheels_rl/save_model/robot1_stage_1_')
         
         self.result = Float32MultiArray()
 
-#       Assuming there is no previous model
-#        self.load_model = False
-#        self.load_episode = 0
-
-        # Load model from last EPISODE
-        self.load_model = False # If 'False', start from scratch
-        self.load_episode = 0 # If 'True' start from this episode number 'self.load_episode'
+#       # Load model from last EPISODE
+        self.load_model = True # If 'False', start from scratch
+        self.load_episode = 90 # If 'True' start from this episode number 'self.load_episode'
         # ----------------------------
 
         self.state_size = state_size
         self.action_size = action_size
-        self.episode_step = 6000
-        self.target_update = 2000
+        self.episode_step = 1000
+        self.target_update = 200
         self.discount_factor = 0.99
         self.learning_rate = 0.00025
         self.epsilon = 1.0
@@ -55,6 +56,23 @@ class ReinforceAgent():
 
         self.model = self.buildModel()
         self.target_model = self.buildModel()
+        
+        if use_tensorboard:
+
+            tensor_board_model_path = os.getcwd() + os.sep + os.path.join('tb_model_chair1') + os.sep + datetime.now().strftime("%Y%m%d-%H%M%S")
+            if not os.path.exists(tensor_board_model_path):
+                os.makedirs(tensor_board_model_path)
+
+            self.tf_callback = TensorBoard(log_dir=tensor_board_model_path,update_freq=1)
+            self.tf_callback.set_model(self.model)
+
+            tensor_board_target_path = os.getcwd() + os.sep  + os.path.join('tb_target_mode_chair1') + os.sep + datetime.now().strftime("%Y%m%d-%H%M%S")
+
+            if not os.path.exists(tensor_board_target_path):
+                os.makedirs(tensor_board_target_path)
+
+            self.tf_callback2 = TensorBoard(log_dir=tensor_board_target_path,update_freq=1)
+            self.tf_callback2.set_model(self.target_model)
 
         self.updateTargetModel()
 
@@ -64,7 +82,7 @@ class ReinforceAgent():
             with open(self.dirPath+str(self.load_episode)+'.json') as outfile:
                 param = json.load(outfile)
                 self.epsilon = param.get('epsilon')
-
+        
     def buildModel(self):
         model = Sequential()
         dropout = 0.2
@@ -97,6 +115,7 @@ class ReinforceAgent():
 
     def appendMemory(self, state, action, reward, next_state, done):
         self.memory.append((state, action, reward, next_state, done))
+
 
     #### .trainModel() loops '.batch_size = 64' times
     def trainModel(self, target=False):
@@ -132,13 +151,18 @@ class ReinforceAgent():
                 X_batch = np.append(X_batch, np.array([next_states.copy()]), axis=0)
                 Y_batch = np.append(Y_batch, np.array([[rewards] * self.action_size]), axis=0)
 
-        self.model.fit(X_batch, Y_batch, batch_size=self.batch_size, epochs=1, verbose=0)
+        self.model.fit(X_batch, Y_batch, batch_size=self.batch_size, epochs=1, verbose=0, callbacks=[self.tf_callback])
 
 if __name__ == '__main__':
-    rospy.init_node('base_robot_dqn_stage_1')
+    rospy.init_node('robot1_dqn')
 
-    pub_result = rospy.Publisher('result', Float32MultiArray, queue_size=5)
-    pub_get_action = rospy.Publisher('get_action', Float32MultiArray, queue_size=5)
+    #log file path 
+    modelPath = os.path.dirname(os.path.realpath(__file__))
+    modelPath = modelPath.replace('intellwheels_rl/src/robot1','intellwheels_rl/save_model')
+    path_to_save_csv = modelPath + os.sep + "robot1_dqn.csv"
+
+    #pub_result = rospy.Publisher('result', Float32MultiArray, queue_size=5)
+    #pub_get_action = rospy.Publisher('get_action', Float32MultiArray, queue_size=5)
     
     result = Float32MultiArray()
     get_action = Float32MultiArray()
@@ -148,7 +172,7 @@ if __name__ == '__main__':
 
     env = Env(action_size)
 
-    agent = ReinforceAgent(state_size, action_size)
+    agent = ReinforceAgent(state_size, action_size, True)
     scores, episodes = [], []
     global_step = 0
     start_time = time.time()
@@ -171,6 +195,7 @@ if __name__ == '__main__':
     else:
         load_episode = agent.load_episode
     
+    
     # Run every new episode
     for e in range(agent.load_episode + 1, EPISODES):
         done = False
@@ -179,6 +204,8 @@ if __name__ == '__main__':
         # Loop t over a maximum of '.episode_step = 6000'
         #    if t >= 500 => it causes a rospy.loginfo("Time out!!")
         for t in range(agent.episode_step):
+
+            #print("Episode ", t ," of ",  agent.episode_step)
 
             action = agent.getAction(state)
             next_state, reward, done = env.step(action)
@@ -196,14 +223,11 @@ if __name__ == '__main__':
             score += reward
             state = next_state
             get_action.data = [action, score, reward]
-            pub_get_action.publish(get_action)
+            #pub_get_action.publish(get_action)
 
             # save the model at 10 in 10 steps
             if e % 10 == 0:
                 agent.model.save(agent.dirPath + str(e) + '.h5')
-
-                #print ("SAVE MODEL AT: ", agent.dirPath)
-                
                 with open(agent.dirPath + str(e) + '.json', 'w') as outfile:
                     json.dump(param_dictionary, outfile)
 
@@ -213,15 +237,22 @@ if __name__ == '__main__':
 
             if done:
                 result.data = [score, np.max(agent.q_value)]
-                pub_result.publish(result)
+                #pub_result.publish(result)
                 agent.updateTargetModel()
                 scores.append(score)
                 episodes.append(e)
+
                 m, s = divmod(int(time.time() - start_time), 60)
                 h, m = divmod(m, 60)
-
                 rospy.loginfo('Ep: %d score: %.2f memory: %d epsilon: %.2f time: %d:%02d:%02d',
                               e, score, len(agent.memory), agent.epsilon, h, m, s)
+
+                # save log              
+
+                data_csv = [[ e, score, np.max(agent.q_value) ,len(agent.memory), agent.epsilon, str(h) + ":" + str(m)  + ":" + str(s) ]]
+                df = pd.DataFrame(data_csv, columns = ['Episode', 'Score', 'q-value' , 'Memory', 'Epsilon', 'Time'])
+                df.to_csv(path_to_save_csv, mode='a', header=(e==0))
+
                 param_keys = ['epsilon']
                 param_values = [agent.epsilon]
                 param_dictionary = dict(zip(param_keys, param_values))
@@ -231,6 +262,7 @@ if __name__ == '__main__':
             
             if global_step % agent.target_update == 0:
                 rospy.loginfo("UPDATE TARGET NETWORK")
-
+    
         if agent.epsilon > agent.epsilon_min:
             agent.epsilon *= agent.epsilon_decay
+        

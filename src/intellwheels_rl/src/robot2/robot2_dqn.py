@@ -16,7 +16,7 @@ sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
 from collections import deque
 from std_msgs.msg import Float32MultiArray
-from robot2.robot2_environment_stage_1 import Env
+from robot2.robot2_environment import Env
 
 from keras.models import Sequential, load_model
 from keras.optimizers import RMSprop
@@ -31,7 +31,7 @@ class ReinforceAgent():
         self.pub_result = rospy.Publisher('result', Float32MultiArray, queue_size=50)
         self.dirPath = os.path.dirname(os.path.realpath(__file__))
 
-        self.dirPath = self.dirPath.replace('intellwheels_rl/src/robot2', 'intellwheels_rl/save_model/robot2_stage_1_')
+        self.dirPath = self.dirPath.replace('intellwheels_rl/src/robot2', 'intellwheels_rl/save_model/robot2_dqn_')
         
         self.result = Float32MultiArray()
 

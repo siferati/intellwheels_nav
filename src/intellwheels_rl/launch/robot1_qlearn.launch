@@ -1,4 +1,4 @@
 <launch>
-  <node pkg="intellwheels_rl" type="robot1_qlearn_stage_1.py" name="robot1_qlearn_stage_1" output="screen" />
+  <node pkg="intellwheels_rl" type="robot1_qlearn.py" name="robot1_qlearn" output="screen" />
 </launch>
   

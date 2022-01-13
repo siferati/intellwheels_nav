@@ -1,8 +1,8 @@
 <launch>
   <node pkg="intellwheels_rl" type="robot1_dqn.py" name="robot1_dqn" output="screen" >
-    <param name="train_mode" value="True" />
+    <param name="train_mode" value="False" />
     <param name="start_episode" value="100" />    
-    <param name="total_episodes" value="100" />
+    <param name="total_episodes" value="200" />
   </node>
 </launch>
   

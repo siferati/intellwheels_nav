@@ -10,7 +10,7 @@ from geometry_msgs.msg import Pose
 
 
 class Respawn():
-    def __init__(self):
+    def __init__(self, random_goal_position = True):
         self.modelPath = os.path.dirname(os.path.realpath(__file__))
         self.modelPath = self.modelPath.replace('intellwheels_rl/src/robot1',
                                                 'intellwheels_rl/meshes/goal_box/model.sdf')
@@ -19,6 +19,7 @@ class Respawn():
         self.goal_position = Pose()
         self.init_goal_x = 1.5
         self.init_goal_y = -4.2
+        self.random_goal_position = random_goal_position
         self.goal_position.position.x = self.init_goal_x
         self.goal_position.position.y = self.init_goal_y
         self.modelName = 'goal'
@@ -52,12 +53,13 @@ class Respawn():
             else:
                 pass
 
-    def getPosition(self, position_check=False, delete=False):
+    def getPosition(self, delete):
         if delete:
             self.deleteModel()
 
-        self.goal_position.position.x = random.randrange(-20, 17) / 10.0
-        self.goal_position.position.y = random.randrange(-42, -30) / 10.0
+        if(self.random_goal_position):
+            self.goal_position.position.x = random.randrange(-20, 17) / 10.0
+            self.goal_position.position.y = random.randrange(-42, -30) / 10.0
 
         rospy.loginfo("Goal at .... = %f , %f ", self.goal_position.position.x, self.goal_position.position.y)
         

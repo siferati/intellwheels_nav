@@ -10,9 +10,10 @@ from nav_msgs.msg import Odometry
 from std_srvs.srv import Empty
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
 from respawnGoal import Respawn
+from tools.sample_scan import SampleScan
 
 class Env():
-    def __init__(self, action_size):
+    def __init__(self, action_size, random_goal_position):
         self.goal_x = 0
         self.goal_y = 0
         self.heading = 0
@@ -27,7 +28,9 @@ class Env():
         self.unpause_proxy = rospy.ServiceProxy('gazebo/unpause_physics', Empty)
         self.pause_proxy = rospy.ServiceProxy('gazebo/pause_physics', Empty)
         
-        self.respawn_goal = Respawn()
+        self.respawn_goal = Respawn(random_goal_position)
+
+        self.sample_scan = SampleScan(10)
 
     def getGoalDistace(self):
         goal_distance = round(math.hypot(self.goal_x - self.position.x, self.goal_y - self.position.y), 2)
@@ -67,17 +70,19 @@ class Env():
         min_range = 0.17
         done = False
         
-        #laser_ranges_len = len(scan.ranges)
-        #print("Scan Ranges: ", len(scan.ranges) )
+        laser_ranges_len = len(scan)
+        
+        #print("Scan Ranges (size): ", len(scan) )
+        #print("Type : ", type(scan))
 
-        #for i in range(0,24):
-        for i in range(len(scan.ranges)):
-            if scan.ranges[i] == float('Inf'):
+        
+        for i in range(len(scan)):
+            if scan[i] == float('Inf'):
                 scan_range.append(15)
-            elif np.isnan(scan.ranges[i]):
+            elif np.isnan(scan[i]):
                 scan_range.append(0)
             else:
-                scan_range.append(scan.ranges[i])
+                scan_range.append(scan[i])
 
         if min_range > min(scan_range) > 0:
             done = True
@@ -112,11 +117,15 @@ class Env():
             rospy.loginfo("Goal!!")
             reward = 200
             self.pub_cmd_vel.publish(Twist()) #stop
-            self.goal_x, self.goal_y = self.respawn_goal.getPosition(True, delete=True)
+            self.goal_x, self.goal_y = self.respawn_goal.getPosition(True)
             self.goal_distance = self.getGoalDistace()
             self.get_goalbox = False
 
         return reward
+
+    
+    
+    
 
     def step(self, action):
         max_angular_vel = 1.5
@@ -138,7 +147,17 @@ class Env():
             except:
                 pass
 
-        #print("Data: ", data)
+        
+        # filter data here !!!
+
+        #print("Data: ", data.ranges)
+        #print("Data : ", self.get_sample_from_laser_scan(data.ranges, 10))
+        #print("Data (max): ",  len(self.get_sample_from_laser_scan(data.ranges, 10)))
+        #print("Data (max): ", data.range_max)
+        #print("Data (min): ", data.range_min)
+        #print("Type: ", type(data))
+
+        data = self.sample_scan.get_sample_from_laser_scan(data.ranges)
 
         state, done = self.getState(data)
         reward = self.setReward(state, done, action)
@@ -161,9 +180,10 @@ class Env():
                 pass
 
         if self.initGoal:
-            self.goal_x, self.goal_y = self.respawn_goal.getPosition()
+            self.goal_x, self.goal_y = self.respawn_goal.getPosition(False)
             self.initGoal = False
 
+        data = self.sample_scan.get_sample_from_laser_scan(data.ranges)
         self.goal_distance = self.getGoalDistace()
         state, done = self.getState(data)
 

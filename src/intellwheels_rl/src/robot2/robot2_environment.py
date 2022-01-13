@@ -9,6 +9,7 @@ from sensor_msgs.msg import LaserScan
 from nav_msgs.msg import Odometry
 from std_srvs.srv import Empty
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
+from tools.sample_scan import SampleScan
 
 class Env():
     def __init__(self, action_size):
@@ -46,6 +47,8 @@ class Env():
         self.reset_proxy = rospy.ServiceProxy('gazebo/reset_simulation', Empty)
         self.unpause_proxy = rospy.ServiceProxy('gazebo/unpause_physics', Empty)
         self.pause_proxy = rospy.ServiceProxy('gazebo/pause_physics', Empty)
+
+        self.sample_scan = SampleScan(10)
         
 
     def getDistance(self, pos_x, pos_y, goal_x, goal_y):
@@ -91,13 +94,13 @@ class Env():
         
         #this need more work
 
-        for i in range(len(scan.ranges)):
-            if scan.ranges[i] == float('Inf'):
+        for i in range(len(scan)):
+            if scan[i] == float('Inf'):
                 scan_range.append(15)
-            elif np.isnan(scan.ranges[i]):
+            elif np.isnan(scan[i]):
                 scan_range.append(0)
             else:
-                scan_range.append(scan.ranges[i])
+                scan_range.append(scan[i])
 
         if min_range > min(scan_range) > 0:
             rospy.loginfo("Wall collision !!")
@@ -190,6 +193,7 @@ class Env():
             except:
                 pass
 
+        data = self.sample_scan.get_sample_from_laser_scan(data.ranges)
         state, wall_collision, chair_safe_zone = self.getState(data)
 
         done = False
@@ -219,6 +223,7 @@ class Env():
         if self.initGoal:
             self.initGoal = False
 
+        data = self.sample_scan.get_sample_from_laser_scan(data.ranges)
         self.goal_distance = self.getDistance(self.pose_r1.position.x, self.pose_r2.position.x, self.pose_r1.position.y, self.pose_r2.position.y)
         state, _, _ = self.getState(data)
 

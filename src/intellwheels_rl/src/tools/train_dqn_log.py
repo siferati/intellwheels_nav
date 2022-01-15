@@ -1,6 +1,6 @@
 import pandas as pd
 
-class TrainLog():
+class TrainDQNLog():
     def __init__(self, path):
         self.path = path
 

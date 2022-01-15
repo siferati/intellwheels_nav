@@ -49,7 +49,8 @@ catkin_install_python(PROGRAMS
   src/robot2/robot2_dqn.py
   src/robot2/robot2_environment.py
   src/tools/sample_scan.py
-  src/tools/train_log.py
+  src/tools/train_dqn_log.py
+  src/tools/train_qlearn_log.py
   src/tools/trajectory_log.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

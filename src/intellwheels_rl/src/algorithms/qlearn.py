@@ -34,13 +34,13 @@ class QLearn:
             self.q[(state, action)] = oldv + self.alpha * (value - oldv)
 
     def chooseAction(self, state, return_q=False):
-        print("===============")
-        print("Actions: ", self.actions)
+        #print("===============")
+        #print("Actions: ", self.actions)
         q = [self.getQ(state, a) for a in self.actions]
 
-        print("Q-value:  ", q)
-        print("Q-value type:  ", type(q))
-        print("===============")
+        #print("Q-value:  ", q)
+        #print("Q-value type:  ", type(q))
+        #print("===============")
         maxQ = max(q)
 
         if random.random() < self.epsilon:

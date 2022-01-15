@@ -18,7 +18,7 @@ from std_msgs.msg import Float32MultiArray
 from robot2.robot2_environment import Env
 
 from algorithms.dqn import ReinforceAgentDQN
-from tools.train_log import TrainLog
+from tools.train_dqn_log import TrainDQNLog
 
 if __name__ == '__main__':
     rospy.init_node('robot2_dqn')
@@ -29,7 +29,7 @@ if __name__ == '__main__':
     
     # log
     path_to_save_csv = modelPath + os.sep + "robot2_dqn.csv"
-    traing_log = TrainLog(path_to_save_csv)
+    traing_log = TrainDQNLog(path_to_save_csv)
 
     #publish results and actions
     pub_result = rospy.Publisher('result', Float32MultiArray, queue_size=5)

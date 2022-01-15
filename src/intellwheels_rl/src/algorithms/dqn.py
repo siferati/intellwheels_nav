@@ -18,7 +18,7 @@ from datetime import datetime
 
 
 class ReinforceAgentDQN():
-    def __init__(self, state_size, action_size, reuse_model, episode_number, algorithm_path, save_robot_model):
+    def __init__(self, state_size, action_size, learning_rate , reuse_model, episode_number, algorithm_path, save_robot_model):
 
         self.dirPath = os.path.dirname(os.path.realpath(__file__))
         self.dirPath = self.dirPath.replace(algorithm_path, save_robot_model)
@@ -33,7 +33,7 @@ class ReinforceAgentDQN():
         self.episode_step = 1000
         self.target_update = 200
         self.discount_factor = 0.99
-        self.learning_rate = 0.0003
+        self.learning_rate = learning_rate
         self.epsilon = 1.0
         self.epsilon_decay = 0.99
         self.epsilon_min = 0.05

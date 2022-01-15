@@ -3,6 +3,7 @@
     <param name="load_model" value="True" />
     <param name="start_from_episode" value="240" />    
     <param name="total_episodes" value="1000" />
+    <param name="learning_rate" value="0.0003" />    
   </node>
 </launch>
   

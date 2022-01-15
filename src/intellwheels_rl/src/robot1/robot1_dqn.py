@@ -43,6 +43,8 @@ if __name__ == '__main__':
     load_model = rospy.get_param('/robot1_dqn/load_model')
     start_from_episode =  rospy.get_param('/robot1_dqn/start_from_episode')
     total_episodes = rospy.get_param('/robot1_dqn/total_episodes')
+    learning_rate =  rospy.get_param('/robot1_dqn/learning_rate')
+
 
     # training mode
 
@@ -50,7 +52,7 @@ if __name__ == '__main__':
     action_size = 5
 
     env = Env(action_size, True)       
-    agent = ReinforceAgentDQN(state_size, action_size, load_model, start_from_episode,
+    agent = ReinforceAgentDQN(state_size, action_size, learning_rate, load_model, start_from_episode,
              'intellwheels_rl/src/algorithms', 'intellwheels_rl/save_model/robot1_dqn_')
 
     scores, episodes = [], []

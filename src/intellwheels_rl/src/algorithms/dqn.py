@@ -33,7 +33,7 @@ class ReinforceAgentDQN():
         self.episode_step = 1000
         self.target_update = 200
         self.discount_factor = 0.99
-        self.learning_rate = 0.00025
+        self.learning_rate = 0.0003
         self.epsilon = 1.0
         self.epsilon_decay = 0.99
         self.epsilon_min = 0.05

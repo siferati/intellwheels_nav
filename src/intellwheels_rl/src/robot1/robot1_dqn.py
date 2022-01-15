@@ -83,7 +83,7 @@ if __name__ == '__main__':
 
             print("Episdode: ", e , " Step: ", t)
 
-            next_state, reward, collision, goal = env.step(action)
+            next_state, reward, collision, goal = env.step(action, e, t)
 
             #print("Types..................")
             #print("state: ",  type(state) , " ", state   )

@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 import rospy
+import os
+import os.path
 import numpy as np
 import math
 from math import pi
@@ -10,7 +12,11 @@ from nav_msgs.msg import Odometry
 from std_srvs.srv import Empty
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
 from respawnGoal import Respawn
+
 from tools.sample_scan import SampleScan
+from tools.goal_log import GoalLog
+from tools.trajectory_log import TrajectoryLog
+
 
 class Env():
     def __init__(self, action_size, random_goal_position):
@@ -20,6 +26,10 @@ class Env():
         self.action_size = action_size
         self.initGoal = True
         self.get_goalbox = False
+
+        self.current_episode = 0
+        self.curent_step = 0
+
         self.position = Pose()
         self.lastPose = Pose()
         self.pub_cmd_vel = rospy.Publisher('/robot1/cmd_vel', Twist, queue_size=5)
@@ -29,13 +39,21 @@ class Env():
         self.pause_proxy = rospy.ServiceProxy('gazebo/pause_physics', Empty)
         
         self.respawn_goal = Respawn(random_goal_position)
-
         self.sample_scan = SampleScan(10)
 
-    def getGoalDistace(self):
-        goal_distance = round(math.hypot(self.goal_x - self.position.x, self.goal_y - self.position.y), 2)
+        #log file path 
+        modelPath = os.path.dirname(os.path.realpath(__file__))
+        modelPath = modelPath.replace('intellwheels_rl/src/robot1','intellwheels_rl/save_model')
 
-        return goal_distance
+        # log
+        path_to_save_csv = modelPath + os.sep + "robot1_dqn_goal.csv"
+        self.goal_log = GoalLog(path_to_save_csv)
+        path_to_save_csv = modelPath + os.sep + "robot1_dqn_trajectory.csv"
+        self.trajectory_log = TrajectoryLog(path_to_save_csv)
+
+
+    def getGoalDistace(self):
+        return round(math.hypot(self.goal_x - self.position.x, self.goal_y - self.position.y), 2)
 
     def getOdometry(self, odom):
         self.position = odom.pose.pose.position
@@ -108,6 +126,9 @@ class Env():
             rospy.loginfo("Collision!!")
             reward = -100
             self.pub_cmd_vel.publish(Twist()) # stop
+            #save log
+            self.goal_log.save(self.current_episode, self.curent_step, 'collision')
+
 
         if self.get_goalbox:
             rospy.loginfo("Goal!!")
@@ -116,11 +137,17 @@ class Env():
             self.goal_x, self.goal_y = self.respawn_goal.getPosition(True)
             self.goal_distance = self.getGoalDistace()
             self.get_goalbox = False
+            #save log
+            self.goal_log.save(self.current_episode, self.curent_step, 'goal')
 
         return reward
 
 
-    def step(self, action):
+    def step(self, action, episode, step):
+
+        self.current_episode = episode
+        self.curent_step = step
+
         max_angular_vel = 1.5
         ang_vel = ((self.action_size - 1)/2 - action) * max_angular_vel * 0.5
 
@@ -141,6 +168,9 @@ class Env():
 
         state, collision = self.getState(data)
         reward = self.setReward(state, collision, action)
+
+        # save log         
+        self.trajectory_log.save(episode, step, self.position.x, self.position.y,self.goal_x, self.goal_y)
 
         return np.asarray(state), reward, collision, self.get_goalbox
 
@@ -166,5 +196,8 @@ class Env():
         data = self.sample_scan.get_sample_from_laser_scan(data.ranges)
         self.goal_distance = self.getGoalDistace()
         state, done = self.getState(data)
+
+        #save log
+        self.goal_log.save(self.current_episode, self.curent_step, 'reset')
 
         return np.asarray(state)

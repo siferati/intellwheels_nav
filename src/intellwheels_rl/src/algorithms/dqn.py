@@ -3,6 +3,7 @@ import os.path
 
 import numpy as np
 import random
+import json
 
 from collections import deque
 from std_msgs.msg import Float32MultiArray
@@ -17,16 +18,13 @@ from datetime import datetime
 
 
 class ReinforceAgentDQN():
-    def __init__(self, state_size, action_size, load_episode, episode_number, robot_name, robot_model):
-        #self.pub_result = rospy.Publisher('result', Float32MultiArray, queue_size=50)
-        self.dirPath = os.path.dirname(os.path.realpath(__file__))
+    def __init__(self, state_size, action_size, reuse_model, episode_number, algorithm_path, save_robot_model):
 
-        self.dirPath = self.dirPath.replace(robot_name, robot_model)
-        
-        self.result = Float32MultiArray()
+        self.dirPath = os.path.dirname(os.path.realpath(__file__))
+        self.dirPath = self.dirPath.replace(algorithm_path, save_robot_model)
 
         # Load model from last EPISODE
-        self.load_model = load_episode # If 'False', start from scratch
+        self.load_model = reuse_model # If 'False', start from scratch
         self.load_episode = episode_number # If 'True' start from this episode number 'self.load_episode'
         # ----------------------------
 

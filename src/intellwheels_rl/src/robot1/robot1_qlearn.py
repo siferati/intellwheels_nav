@@ -6,127 +6,110 @@ import json
 import numpy as np
 import random
 import time
-
-import qlearn
+import ast
 
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
 from collections import deque
 from std_msgs.msg import Float32MultiArray
-from robot1.robot1_environment_stage_1 import Env
+from std_msgs.msg import Float64
 
-from keras.models import Sequential, load_model
-from keras.optimizers import RMSprop
-from keras.layers import Dense, Dropout, Activation
-
-
-EPISODES = 100
+from robot1.robot1_environment import Env
+from algorithms.qlearn import QLearn
 
 
+def __numpy_to_string(A):
+    return str(round(np.sum(A), 3))
 
 if __name__ == '__main__':
     rospy.init_node('robot1_qlearn_1')
 
-    pub_result = rospy.Publisher('result', Float32MultiArray, queue_size=5)
-    pub_get_action = rospy.Publisher('get_action', Float32MultiArray, queue_size=5)
-    
-    result = Float32MultiArray()
-    get_action = Float32MultiArray()
-
-    state_size = 722 # input of the network
+    state_size = 12 # 
     action_size = 5
+    
+    env = Env(action_size, True)
+    last_time_steps = np.ndarray(0)
 
-    env = Env(action_size)
+    '''
+    Alpha = rospy.get_param("/alpha")
+    Epsilon = rospy.get_param("/epsilon")
+    Gamma = rospy.get_param("/gamma")
+    epsilon_discount = rospy.get_param("/epsilon_discount")
+    nepisodes = rospy.get_param("/nepisodes")
+    nsteps = rospy.get_param("/nsteps")
+    '''
 
-    agent = ReinforceAgent(state_size, action_size)
-    scores, episodes = [], []
-    global_step = 0
+    Alpha = 0.1
+    Epsilon = 0.7
+    Gamma = 0.9
+    epsilon_discount = 0.999
+    nepisodes = 100000
+    nsteps = 1000
+
+    qlearn = QLearn(actions=range(action_size),alpha=Alpha, gamma=Gamma, epsilon=Epsilon)
+
+    initial_epsilon = qlearn.epsilon
     start_time = time.time()
+    highest_reward = 0
 
-    rospy.loginfo("+++++++++++++++++++++++++++++++++++++++++++++++++++++")
-
-    if agent.load_model:
-        rospy.loginfo("START TRAINING MODEL FROM episode = %d", agent.load_episode)
-    else:
-        rospy.loginfo("START TRAINING MODEL FROM scratch") 
-    
-    rospy.loginfo("=====================================================")
-    
-    # Run number of 'EPISODES = 3000'
-    # 'global_step' resets to 0 for every new EPISODE
-
-    # Determine the number of the starting episode
-    if agent.load_model == False:
-        load_episode = 0
-    else:
-        load_episode = agent.load_episode
-    
-    # Run every new episode
-    for e in range(agent.load_episode + 1, EPISODES):
-        done = False
+    for x in range(nepisodes):
+        cumulated_reward = 0
+        collision = False
+        if qlearn.epsilon > 0.05:
+            qlearn.epsilon *= epsilon_discount
+       
         state = env.reset()
-        score = 0
-        # Loop t over a maximum of '.episode_step = 6000'
-        #    if t >= 500 => it causes a rospy.loginfo("Time out!!")
-        for t in range(agent.episode_step):
+        state = __numpy_to_string(state)
+               
+        # for each episode, we test the robot for nsteps
+        for i in range(nsteps):
 
-            #action = qlearn.chooseAction(state)
-            #rospy.loginfo ("Next action is:%d", action)
-            # Execute the action in the environment and get feedback
-            #observation, reward, done, info = env.step(action)
+            print("Episode: ", x, " Step: ", i)            
 
-            action = agent.getAction(state)
-            next_state, reward, done = env.step(action)
-            agent.appendMemory(state, action, reward, next_state, done)
+            # Pick an action based on the current state
+            action = qlearn.chooseAction(state)
+            
+            nextState, reward, collision, goal = env.step(action)
+            nextState = __numpy_to_string(nextState)
 
-            if len(agent.memory) >= agent.train_start:
-                # global_step  <=,else  (.target_update = 2000)
-                if global_step <= agent.target_update:
-                    # Prediction using '.target_model'
-                    agent.trainModel()
-                else:
-                    # Prediction using  '.model'
-                    agent.trainModel(True)
+            cumulated_reward += reward
+            if highest_reward < cumulated_reward:
+                highest_reward = cumulated_reward
 
-            score += reward
-            state = next_state
-            get_action.data = [action, score, reward]
-            pub_get_action.publish(get_action)
+            #rospy.logdebug("env.get_state...==>" + str(nextState))
 
-            # save the model at 10 in 10 steps
-            if e % 10 == 0:
-                agent.model.save(agent.dirPath + str(e) + '.h5')
+            # Make the algorithm learn based on the results
+            print("Types..................")
+            print("Episode: ", x, " Step: ", i)
+            print("state: ",  type(state) , " ", state   )
+            print("action: ", type(action), "  ", action)
+            print("reward: ", type(reward), " " , reward )
+            print("nextState: ", type(nextState), " ", nextState)
+            print("")
 
-                #print ("SAVE MODEL AT: ", agent.dirPath)
-                
-                with open(agent.dirPath + str(e) + '.json', 'w') as outfile:
-                    json.dump(param_dictionary, outfile)
+            qlearn.learn(state, action, reward, nextState)
 
-            if t >= 500:
-                rospy.loginfo("Time out!!")
-                done = True
-
-            if done:
-                result.data = [score, np.max(agent.q_value)]
-                pub_result.publish(result)
-                agent.updateTargetModel()
-                scores.append(score)
-                episodes.append(e)
-                m, s = divmod(int(time.time() - start_time), 60)
-                h, m = divmod(m, 60)
-
-                rospy.loginfo('Ep: %d score: %.2f memory: %d epsilon: %.2f time: %d:%02d:%02d',
-                              e, score, len(agent.memory), agent.epsilon, h, m, s)
-                param_keys = ['epsilon']
-                param_values = [agent.epsilon]
-                param_dictionary = dict(zip(param_keys, param_values))
+            if not(collision):
+                state = nextState
+            else:
+                rospy.logdebug("DONE EPISODE!")
+                last_time_steps = np.append(last_time_steps, [int(i + 1)])
                 break
 
-            global_step += 1
-            
-            if global_step % agent.target_update == 0:
-                rospy.loginfo("UPDATE TARGET NETWORK")
+            #rospy.logdebug("###################### END Step...["+str(i)+"]")
 
-        if agent.epsilon > agent.epsilon_min:
-            agent.epsilon *= agent.epsilon_decay
+        m, s = divmod(int(time.time() - start_time), 60)
+        h, m = divmod(m, 60)
+        rospy.logwarn( ("EP: "+str(x+1)+" - [alpha: "+str(round(qlearn.alpha,2))+" - gamma: "+str(round(qlearn.gamma,2))+" - epsilon: "+str(round(qlearn.epsilon,2))+"] - Reward: "+str(cumulated_reward)+"     Time: %d:%02d:%02d" % (h, m, s)))
+
+    rospy.loginfo ( ("\n|"+str(nepisodes)+"|"+str(qlearn.alpha)+"|"+str(qlearn.gamma)+"|"+str(initial_epsilon)+"*"+str(epsilon_discount)+"|"+str(highest_reward)+"| PICTURE |"))
+
+    l = last_time_steps.tolist()
+    l.sort()
+
+    #print("Parameters: a="+str)
+    print("Overall score: {:0.2f}".format(last_time_steps.mean()))
+    print("Best 100 score: {:0.2f}".format(reduce(lambda x, y: x + y, l[-100:]) / len(l[-100:])))
+
+    env.close()

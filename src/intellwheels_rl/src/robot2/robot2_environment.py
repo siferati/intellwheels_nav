@@ -84,34 +84,23 @@ class Env():
 
         return heading
 
+
     def getState(self, scan):
         scan_range = []
         heading = self.heading_r2
         min_range = 0.5
         min_distance_to_chair = 1.4
         max_safe_zone = 1.6
-        wall_collision = False
+        collision = False
         
-        #this need more work
-
-        for i in range(len(scan)):
-            if scan[i] == float('Inf'):
-                scan_range.append(15)
-            elif np.isnan(scan[i]):
-                scan_range.append(0)
-            else:
-                scan_range.append(scan[i])
+        scan_range = self.sample_scan.clean_data(scan)
 
         if min_range > min(scan_range) > 0:
-            rospy.loginfo("Wall collision !!")
-            wall_collision = True
-
+            rospy.loginfo("Collision !!")
+            collision = True
                
-        #print distance bewtween the robots
         chair_safe_zone = False
         current_distance_to_chair1 = self.getDistance(self.pose_r1.position.x, self.pose_r2.position.x, self.pose_r1.position.y, self.pose_r2.position.y) 
-
-        #rospy.loginfo("Distance to chair 1 = %f", current_distance_to_chair1)        
         
         if current_distance_to_chair1 < min_distance_to_chair:
             self.get_goal = True
@@ -130,25 +119,33 @@ class Env():
                         min_distance_to_chair, 
                         max_safe_zone )
         
-        return scan_range + [heading, current_distance_to_chair1], wall_collision, chair_safe_zone
+        return scan_range + [heading, current_distance_to_chair1], collision, chair_safe_zone
 
-    def setReward(self, state, wall_collision, chair_safe_zone ,action):
+    # reward the actions where the heading points to the target
+    def heading_reward(self, heading):
+        yaw_reward = []
+        for i in range(self.action_size):
+            angle = -pi / 4 + heading + (pi / 8 * i) + pi / 2
+            tr = 1 - 4 * math.fabs(0.5 - math.modf(0.25 + 0.5 * angle % (2 * math.pi) / math.pi)[0])
+            yaw_reward.append(tr)
+
+        return yaw_reward
+
+    def setReward(self, state, collision, chair_safe_zone ,action):
         yaw_reward = []
         current_distance = state[-1]
         heading = state[-2]
 
+        reward = 0
         if(self.goal_distance != 0):
 
-            for i in range(5):
-                angle = -pi / 4 + heading + (pi / 8 * i) + pi / 2
-                tr = 1 - 4 * math.fabs(0.5 - math.modf(0.25 + 0.5 * angle % (2 * math.pi) / math.pi)[0])
-                yaw_reward.append(tr)
+            yaw_reward = self.heading_reward(heading)
 
             distance_rate = 2 ** (current_distance / self.goal_distance)
             reward = ((round(yaw_reward[action] * 5, 2)) * distance_rate)
 
-            if wall_collision:
-                rospy.loginfo("Collision!!")
+            if collision:
+                rospy.loginfo("Collision with an object stop the chair !!")
                 reward = -100
                 self.pub_cmd_vel_r2.publish(Twist()) # stop
             
@@ -165,8 +162,8 @@ class Env():
 
             if self.get_goal:
                 rospy.loginfo("Find chair")
-                reward = 200
-                self.pub_cmd_vel_r2.publish(Twist()) #stop
+                reward = 100
+                #self.pub_cmd_vel_r2.publish(Twist()) #stop
                 self.goal_distance = self.getDistance(self.pose_r1.position.x, self.pose_r2.position.x, self.pose_r1.position.y, self.pose_r2.position.y)
                 self.get_goal = False
 
@@ -194,16 +191,14 @@ class Env():
                 pass
 
         data = self.sample_scan.get_sample_from_laser_scan(data.ranges)
-        state, wall_collision, chair_safe_zone = self.getState(data)
+        state, collision, chair_safe_zone = self.getState(data)
 
-        done = False
-        if(wall_collision or self.get_goal):
-            done = True
-            #self.get_goal = False
+        if(collision or self.get_goal):
+            self.get_goal = False
 
-        reward = self.setReward(state, wall_collision, chair_safe_zone, action)
+        reward = self.setReward(state, collision, chair_safe_zone, action)
 
-        return np.asarray(state), reward, done
+        return np.asarray(state), reward, collision, self.get_goal
 
     def reset(self):
         

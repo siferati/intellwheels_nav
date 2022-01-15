@@ -18,6 +18,7 @@ from std_msgs.msg import Float32MultiArray
 from robot2.robot2_environment import Env
 
 from algorithms.dqn import ReinforceAgentDQN
+from tools.train_log import TrainLog
 
 if __name__ == '__main__':
     rospy.init_node('robot2_dqn')
@@ -25,7 +26,10 @@ if __name__ == '__main__':
     #log file path 
     modelPath = os.path.dirname(os.path.realpath(__file__))
     modelPath = modelPath.replace('intellwheels_rl/src/robot2','intellwheels_rl/save_model')
+    
+    # log
     path_to_save_csv = modelPath + os.sep + "robot2_dqn.csv"
+    traing_log = TrainLog(path_to_save_csv)
 
     #publish results and actions
     pub_result = rospy.Publisher('result', Float32MultiArray, queue_size=5)
@@ -34,18 +38,17 @@ if __name__ == '__main__':
     result = Float32MultiArray()
     get_action = Float32MultiArray()
 
-     #parameters from launch files
-    start_from_scratch = rospy.get_param('/robot2_dqn/train_mode')
-    start_from_episode =  0 if start_from_scratch == True else rospy.get_param('/robot2_dqn/start_episode')
-    load_episode = not start_from_scratch
+    #parameters from launch files
+    load_model = rospy.get_param('/robot2_dqn/load_model')
+    start_from_episode =  rospy.get_param('/robot2_dqn/start_from_episode')
     total_episodes = rospy.get_param('/robot2_dqn/total_episodes')
 
     state_size = 12 # input of the network (12): 10 lidar samples + heading + current distance
     action_size = 5
 
     env = Env(action_size)
-    agent = ReinforceAgentDQN(state_size, action_size, load_episode, start_from_episode,
-             'intellwheels_rl/src/robot2', 'intellwheels_rl/save_model/robot2_dqn_')
+    agent = ReinforceAgentDQN(state_size, action_size, load_model, start_from_episode,
+             'intellwheels_rl/src/algorithms', 'intellwheels_rl/save_model/robot2_dqn_')
 
 
     scores, episodes = [], []
@@ -61,9 +64,6 @@ if __name__ == '__main__':
     
     rospy.loginfo("=====================================================")
     
-    # Run number of 'EPISODES = 3000'
-    # 'global_step' resets to 0 for every new EPISODE
-
     # Determine the number of the starting episode
     if agent.load_model == False:
         load_episode = 0
@@ -75,25 +75,21 @@ if __name__ == '__main__':
         done = False
         state = env.reset()
         score = 0
-        # Loop t over a maximum of '.episode_step = 6000'
-        #    if t >= 500 => it causes a rospy.loginfo("Time out!!")
         for t in range(agent.episode_step):
 
             action = agent.getAction(state)
-            next_state, reward, done = env.step(action)
-            agent.appendMemory(state, action, reward, next_state, done)
+            next_state, reward, collision, goal = env.step(action)
+            agent.appendMemory(state, action, reward, next_state, collision)
 
             if len(agent.memory) >= agent.train_start:
-                # global_step  <=,else  (.target_update = 2000)
                 if global_step <= agent.target_update:
-                    # Prediction using '.target_model'
                     agent.trainModel()
                 else:
-                    # Prediction using  '.model'
                     agent.trainModel(True)
 
             score += reward
             state = next_state
+            
             get_action.data = [action, score, reward]
             pub_get_action.publish(get_action)
 
@@ -106,11 +102,12 @@ if __name__ == '__main__':
                 with open(agent.dirPath + str(e) + '.json', 'w') as outfile:
                     json.dump(param_dictionary, outfile)
 
+            timeout = False
             if t >= 500:
                 rospy.loginfo("Time out!!")
-                done = True
+                timeout = True
 
-            if done:
+            if collision or timeout:
                 # publish results
                 result.data = [score, np.max(agent.q_value)]
                 pub_result.publish(result)
@@ -121,32 +118,21 @@ if __name__ == '__main__':
                 m, s = divmod(int(time.time() - start_time), 60)
                 h, m = divmod(m, 60)
 
-                rospy.loginfo('Ep: %d score: %.2f memory: %d epsilon: %.2f time: %d:%02d:%02d', 
-                    e, 
-                    score, 
-                    len(agent.memory), 
-                    agent.epsilon, 
-                    h, m, s
-                    )
+               # rospy.loginfo('Ep: %d score: %.2f memory: %d epsilon: %.2f time: %d:%02d:%02d', 
+               #     e, 
+               #     score, 
+               #     len(agent.memory), 
+               #     agent.epsilon, 
+               #     h, m, s
+               #     )
 
                  # save log              
+               
+                data_csv = [[ e, score, np.max(agent.q_value) ,len(agent.memory)
+                            , agent.epsilon, str(h) + ":" + str(m)  + ":" + str(s) 
+                            , str(timeout) , str(collision) , str(goal) ]]
 
-                data_csv = [[
-                    e, 
-                    score, 
-                    np.max(agent.q_value),
-                    len(agent.memory), 
-                    agent.epsilon, 
-                    str(h) + ":" + str(m)  + ":" + str(s)
-                    ]]
-                df = pd.DataFrame(data_csv, columns = [
-                    'Episode', 
-                    'Score', 
-                    'q-value' , 
-                    'Memory', 
-                    'Epsilon', 
-                    'Time'])
-                df.to_csv(path_to_save_csv, mode='a', header=(e==0))
+                traing_log.save(data_csv)
 
                 param_keys = ['epsilon']
                 param_values = [agent.epsilon]

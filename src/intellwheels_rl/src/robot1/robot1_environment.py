@@ -64,25 +64,14 @@ class Env():
         else:
             self.heading = round(heading, 2)
 
+    
     def getState(self, scan):
         scan_range = []
         heading = self.heading
         min_range = 0.17
         done = False
-        
-        laser_ranges_len = len(scan)
-        
-        #print("Scan Ranges (size): ", len(scan) )
-        #print("Type : ", type(scan))
-
-        
-        for i in range(len(scan)):
-            if scan[i] == float('Inf'):
-                scan_range.append(15)
-            elif np.isnan(scan[i]):
-                scan_range.append(0)
-            else:
-                scan_range.append(scan[i])
+                
+        scan_range = self.sample_scan.clean_data(scan)
 
         if min_range > min(scan_range) > 0:
             done = True
@@ -92,23 +81,30 @@ class Env():
             self.get_goalbox = True
 
         return scan_range + [heading, current_distance], done
+    
+    # reward the actions where the heading points to the target
+    def heading_reward(self, heading):
+        yaw_reward = []
+        for i in range(self.action_size):
+            angle = -pi / 4 + heading + (pi / 8 * i) + pi / 2
+            tr = 1 - 4 * math.fabs(0.5 - math.modf(0.25 + 0.5 * angle % (2 * math.pi) / math.pi)[0])
+            #print("i: ", i, " angle: ", angle, " tr: ", tr)
+            yaw_reward.append(tr)
 
-    def setReward(self, state, done, action):
+        return yaw_reward
+
+
+    def setReward(self, state, collision, action):
         yaw_reward = []
         current_distance = state[-1]
         heading = state[-2]
 
-        for i in range(5):
-            angle = -pi / 4 + heading + (pi / 8 * i) + pi / 2
-            tr = 1 - 4 * math.fabs(0.5 - math.modf(0.25 + 0.5 * angle % (2 * math.pi) / math.pi)[0])
-            yaw_reward.append(tr)
-
-        # reward the actions where the heading points to the target
+        yaw_reward = self.heading_reward(heading)
 
         distance_rate = 2 ** (current_distance / self.goal_distance)
         reward = ((round(yaw_reward[action] * 5, 2)) * distance_rate)
 
-        if done:
+        if collision:
             rospy.loginfo("Collision!!")
             reward = -100
             self.pub_cmd_vel.publish(Twist()) # stop
@@ -123,9 +119,6 @@ class Env():
 
         return reward
 
-    
-    
-    
 
     def step(self, action):
         max_angular_vel = 1.5
@@ -135,10 +128,7 @@ class Env():
         vel_cmd.linear.x = 0.15
         vel_cmd.angular.z = ang_vel
        
-        # publish the new speed
         self.pub_cmd_vel.publish(vel_cmd)
-
-        # print ("New speed: ", vel_cmd)
 
         data = None
         while data is None:
@@ -147,22 +137,12 @@ class Env():
             except:
                 pass
 
-        
-        # filter data here !!!
-
-        #print("Data: ", data.ranges)
-        #print("Data : ", self.get_sample_from_laser_scan(data.ranges, 10))
-        #print("Data (max): ",  len(self.get_sample_from_laser_scan(data.ranges, 10)))
-        #print("Data (max): ", data.range_max)
-        #print("Data (min): ", data.range_min)
-        #print("Type: ", type(data))
-
         data = self.sample_scan.get_sample_from_laser_scan(data.ranges)
 
-        state, done = self.getState(data)
-        reward = self.setReward(state, done, action)
+        state, collision = self.getState(data)
+        reward = self.setReward(state, collision, action)
 
-        return np.asarray(state), reward, done
+        return np.asarray(state), reward, collision, self.get_goalbox
 
     def reset(self):
         

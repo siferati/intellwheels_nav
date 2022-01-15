@@ -78,7 +78,7 @@ if __name__ == '__main__':
         for t in range(agent.episode_step):
 
             action = agent.getAction(state)
-            next_state, reward, collision, goal = env.step(action)
+            next_state, reward, collision, goal = env.step(action, e, t)
             agent.appendMemory(state, action, reward, next_state, collision)
 
             if len(agent.memory) >= agent.train_start:

@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 import rospy
+import os
+import os.path
 import numpy as np
 import math
 from math import pi
@@ -9,7 +11,10 @@ from sensor_msgs.msg import LaserScan
 from nav_msgs.msg import Odometry
 from std_srvs.srv import Empty
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
+
 from tools.sample_scan import SampleScan
+from tools.goal_log import GoalLog
+from tools.trajectory_log import TrajectoryLog
 
 class Env():
     def __init__(self, action_size):
@@ -17,6 +22,9 @@ class Env():
         self.action_size = action_size
         self.initGoal = True
         self.get_goal = False
+
+        self.current_episode = 0
+        self.curent_step = 0
         
         # pose of robot1
         self.pose_r1 = Pose()
@@ -49,6 +57,16 @@ class Env():
         self.pause_proxy = rospy.ServiceProxy('gazebo/pause_physics', Empty)
 
         self.sample_scan = SampleScan(10)
+
+         #log file path 
+        modelPath = os.path.dirname(os.path.realpath(__file__))
+        modelPath = modelPath.replace('intellwheels_rl/src/robot2','intellwheels_rl/save_model')
+
+        # log
+        path_to_save_csv = modelPath + os.sep + "robot2_dqn_close_to_chair.csv"
+        self.goal_log = GoalLog(path_to_save_csv)
+        path_to_save_csv = modelPath + os.sep + "robot2_dqn_trajectory.csv"
+        self.trajectory_log = TrajectoryLog(path_to_save_csv)
         
 
     def getDistance(self, pos_x, pos_y, goal_x, goal_y):
@@ -148,6 +166,8 @@ class Env():
                 rospy.loginfo("Collision with an object stop the chair !!")
                 reward = -100
                 self.pub_cmd_vel_r2.publish(Twist()) # stop
+                #save log
+                self.goal_log.save(self.current_episode, self.curent_step, 'collision')
             
             #if chair_collision:
             #    #rospy.loginfo("Possible chair collision!!")
@@ -157,7 +177,9 @@ class Env():
             if chair_safe_zone:
                 rospy.loginfo("Chair2 is in safe zone related to Chair1")
                 reward = 10
-                #self.pub_cmd_vel_r2.publish(Twist()) #Todo: maybe should not stop             
+                #self.pub_cmd_vel_r2.publish(Twist()) #Todo: maybe should not stop     
+                # #save log
+                self.goal_log.save(self.current_episode, self.curent_step, 'close_to_chair')        
             
 
             if self.get_goal:
@@ -170,7 +192,10 @@ class Env():
         return reward
     
     
-    def step(self, action):
+    def step(self, action, episode, step):
+        
+        self.current_episode = episode
+        self.curent_step = step
         
         max_angular_vel = 1.5
 
@@ -198,6 +223,10 @@ class Env():
 
         reward = self.setReward(state, collision, chair_safe_zone, action)
 
+        # save log         
+        self.trajectory_log.save(episode, step, self.pose_r1.position.x, self.pose_r1.position.y, 
+                                                self.pose_r2.position.x, self.pose_r2.position.y)
+
         return np.asarray(state), reward, collision, self.get_goal
 
     def reset(self):
@@ -221,5 +250,8 @@ class Env():
         data = self.sample_scan.get_sample_from_laser_scan(data.ranges)
         self.goal_distance = self.getDistance(self.pose_r1.position.x, self.pose_r2.position.x, self.pose_r1.position.y, self.pose_r2.position.y)
         state, _, _ = self.getState(data)
+
+        #save log
+        self.goal_log.save(self.current_episode, self.curent_step, 'reset')
 
         return np.asarray(state)

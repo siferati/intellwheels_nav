@@ -129,11 +129,8 @@ if __name__ == '__main__':
 
                  # save log              
                
-                data_csv = [[ e, score, np.max(agent.q_value) ,len(agent.memory)
-                            , agent.epsilon, str(h) + ":" + str(m)  + ":" + str(s) 
-                            , str(timeout) , str(collision) , str(goal) ]]
-
-                traing_log.save(data_csv)
+                f_time = str(h) + ":" + str(m)  + ":" + str(s)
+                traing_log.save(e,score,np.max(agent.q_value),len(agent.memory),agent.epsilon,ftime,str(timeout),str(collision),str(goal))
 
                 param_keys = ['epsilon']
                 param_values = [agent.epsilon]

@@ -65,15 +65,9 @@ if __name__ == '__main__':
        
         state = env.reset()
         state = __numpy_to_string(state)
-
-        print("Episode: ", tepisode)            
                
-        # for each episode, we test the robot for nsteps
         for tstep in range(nsteps):
 
-            #print("Episode: ", tepisode, " Step: ", tstep)            
-
-            # Pick an action based on the current state
             action = qlearn.chooseAction(state)
             
             nextState, reward, collision, goal = env.step(action, tepisode, tstep)
@@ -83,18 +77,6 @@ if __name__ == '__main__':
             if highest_reward < cumulated_reward:
                 highest_reward = cumulated_reward
 
-            rospy.logdebug("env.get_state...==>" + str(nextState))
-
-            # Make the algorithm learn based on the results
-            '''
-            print("Types..................")
-            print("Episode: ", tepisode, " Step: ", tstep)
-            print("state: ",  type(state) , " ", state   )
-            print("action: ", type(action), "  ", action)
-            print("reward: ", type(reward), " " , reward )
-            print("nextState: ", type(nextState), " ", nextState)
-            print("")
-            '''
 
             qlearn.learn(state, action, reward, nextState)
 
@@ -111,17 +93,11 @@ if __name__ == '__main__':
                 last_time_steps = np.append(last_time_steps, [int(tstep + 1)])
                 break
 
-            #rospy.logdebug("###################### END Step...["+str(i)+"]")
-
-        
         rospy.logwarn( ("EP: "+str(tepisode+1)+" - [alpha: "+str(qlearn.alpha)+" - gamma: "+str(qlearn.gamma)+" - epsilon: "+str(qlearn.epsilon)+"] - Reward: "+str(cumulated_reward)+"     Time: %d:%02d:%02d" % (h, m, s)))
-
-    rospy.loginfo ( ("\n|"+str(nepisodes)+"|"+str(qlearn.alpha)+"|"+str(qlearn.gamma)+"|"+str(initial_epsilon)+"*"+str(epsilon_discount)+"|"+str(highest_reward)+"| PICTURE |"))
 
     l = last_time_steps.tolist()
     l.sort()
 
-    #print("Parameters: a="+str)
     print("Overall score: {:0.2f}".format(last_time_steps.mean()))
     print("Best 100 score: {:0.2f}".format(reduce(lambda x, y: x + y, l[-100:]) / len(l[-100:])))
 

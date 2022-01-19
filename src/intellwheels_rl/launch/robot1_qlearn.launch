@@ -1,6 +1,12 @@
 <launch>
   <node pkg="intellwheels_rl" type="robot1_qlearn.py" name="robot1_qlearn" output="screen">
-  <param name="chair1_speed" value="0.15" /> 
+    <param name="chair1_speed" value="0.15" /> 
+    <param name="alpha" value="0.1" />
+    <param name="epsilon" value="0.32642" />
+    <param name="gamma" value="0.9" />
+    <param name="epsilon_discount" value="0.99987" />
+    <param name="nepisodes" value="100000" />
+    <param name="nsteps" value="5000" />
   </node>
 </launch>
   

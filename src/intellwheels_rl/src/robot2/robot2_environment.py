@@ -129,12 +129,13 @@ class Env():
                                                       self.pose_r2.position.x, 
                                                       self.pose_r1.position.y, 
                                                       self.pose_r2.position.y) 
-
+        '''
         rospy.loginfo("** dts to chair:[ %f ] min range [ %f ]  dist to chair = [ %f ]  min[ %f ]",
                         current_distance_to_chair1,
                         min_range,
                         current_distance_to_chair1,
                         min_distance_to_chair)
+        '''
         
         # chair has to stop
         if current_distance_to_chair1 > min_range and current_distance_to_chair1 < min_distance_to_chair:

@@ -2,11 +2,27 @@
 
 ## Setup
 
-Install the [Code Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) VS Code extension and *clone this repository in container volume.*
 
-**This is only supported for NVIDIA Container Toolkit.** If you are using an AMD or Intel GPU you need to edit `.devcontainer/devcontainer.json` to fit your needs - [this](http://wiki.ros.org/docker/Tutorials/Hardware%20Acceleration) is a good place to start.
 
-If you are just looking for a Dockerfile, you can find one inside the `.devcontainer` folder.
+This repository is a fork from [Intellwheels Navigation](https://github.com/siferati/intellwheels_nav) check the repository for
+
+## Python and requirements 
+
+ROS Noetic
+
+Python 2.7
+
+virtualenv
+
+
+To install the correct packages create a virtual environment and run the pip install
+
+    virtualenv env --python=python2.7
+
+    source env/bin/activate
+
+    pip install -r requirements.txt
+
 
 ## Dependencies
 
@@ -31,21 +47,39 @@ Describes the wheelchair 3d robot model.
 * `wheelchair.launch` - loads the robot description and publishes the joints and robot states.
 * `debug.launch` - useful for debugging the robot model. Spawns the wheelchair in an empty gazebo world with manual steering.
 
-### intellwheels_gazebo_nav
+### intellwheels_multi_chair
 
-Navigates the wheelchair in the lab gazebo world.
+Open a gazebo and a rviz with two chairs publish the joints to the ROS
 
-* `main.launch` - launches everything.
 
-### intellwheels_irl_nav
 
-Navigates the real (jeeves) wheelchair.
+### intellwheels_move_to_goal
 
-* `nav.launch` - launches the navigation module.
-* `rviz.launch` - launches rviz.
+Simple example using the stack navigation that move the two chairs independently to a predefined goal
 
-### intellwheels_stage_nav
 
-Navigates the wheelchair in the lab stage world.
+### intellwheels_rl
 
-* `main.launch world:=<lab_feup | lab>` - launches everything related to the given world name.
+Launch agent with reinforcement learning capabilities using DQN and Q-Learning
+
+#### Q-Learning
+
+...
+
+#### DQN
+
+...
+
+
+## Other experiments
+
+- run one robot
+- run without gazebo gui
+
+## Polish and errors
+...
+
+
+## Credits
+
+...

@@ -44,6 +44,7 @@ if __name__ == '__main__':
     start_from_episode =  rospy.get_param('/robot1_dqn/start_from_episode')
     total_episodes = rospy.get_param('/robot1_dqn/total_episodes')
     learning_rate =  rospy.get_param('/robot1_dqn/learning_rate')
+    chair1_speed =  rospy.get_param('/robot1_dqn/chair1_speed')
 
 
     # training mode
@@ -51,7 +52,7 @@ if __name__ == '__main__':
     state_size = 12 # input of the network (12): 10 lidar samples + heading + current distance
     action_size = 5
 
-    env = Env(action_size, True)       
+    env = Env(action_size,chair1_speed, True, "robot1_dqn_goal.csv", "robot1_dqn_trajectory.csv" )       
     agent = ReinforceAgentDQN(state_size, action_size, learning_rate, load_model, start_from_episode,
              'intellwheels_rl/src/algorithms', 'intellwheels_rl/save_model/robot1_dqn_')
 
@@ -80,10 +81,13 @@ if __name__ == '__main__':
         done = False
         state = env.reset()
         score = 0
+
+        print("Episdode: ", e)
+
         for t in range(agent.episode_step):
             action = agent.getAction(state)
 
-            print("Episdode: ", e , " Step: ", t)
+            #print("Episdode: ", e , " Step: ", t)
 
             next_state, reward, collision, goal = env.step(action, e, t)
 
@@ -135,13 +139,10 @@ if __name__ == '__main__':
                 rospy.loginfo('Ep: %d score: %.2f memory: %d epsilon: %.2f time: %d:%02d:%02d',
                               e, score, len(agent.memory), agent.epsilon, h, m, s)
 
-                # save log              
+                # save log 
 
-                data_csv = [[ e, score, np.max(agent.q_value) ,len(agent.memory)
-                            , agent.epsilon, str(h) + ":" + str(m)  + ":" + str(s) 
-                            , str(timeout) , str(collision) , str(goal) ]]
-
-                traing_log.save(data_csv)
+                f_time = str(h) + ":" + str(m)  + ":" + str(s)
+                traing_log.save(e, score, np.max(agent.q_value), agent.epsilon, f_time, str(timeout), str(collision), str(goal))
 
                 param_keys = ['epsilon']
                 param_values = [agent.epsilon]

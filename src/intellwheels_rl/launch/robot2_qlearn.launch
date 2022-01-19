@@ -1,4 +1,6 @@
 <launch>
-  <node pkg="intellwheels_rl" type="robot2_qlearn.py" name="robot2_qlearn" output="screen" />
+  <node pkg="intellwheels_rl" type="robot2_qlearn.py" name="robot2_qlearn" output="screen" >
+    <param name="chair2_speed" value="0.10" />    
+  </node>
 </launch>
   

@@ -19,9 +19,12 @@ from tools.trajectory_log import TrajectoryLog
 
 
 class Env():
-    def __init__(self, action_size, random_goal_position):
-        self.goal_x = 0
-        self.goal_y = 0
+    def __init__(self, action_size, chair1_speed , random_goal_position, goal_log_file, trajectory_log_file):
+        self.chair1_speed = chair1_speed
+        self.goal_log_file = goal_log_file
+        self.trajectory_log_file = trajectory_log_file
+        self.goal_x = 0.0
+        self.goal_y = 0.0
         self.heading = 0
         self.action_size = action_size
         self.initGoal = True
@@ -46,13 +49,13 @@ class Env():
         modelPath = modelPath.replace('intellwheels_rl/src/robot1','intellwheels_rl/save_model')
 
         # log
-        path_to_save_csv = modelPath + os.sep + "robot1_dqn_goal.csv"
+        path_to_save_csv = modelPath + os.sep + self.goal_log_file
         self.goal_log = GoalLog(path_to_save_csv)
-        path_to_save_csv = modelPath + os.sep + "robot1_dqn_trajectory.csv"
+        path_to_save_csv = modelPath + os.sep + self.trajectory_log_file
         self.trajectory_log = TrajectoryLog(path_to_save_csv)
 
 
-    def getGoalDistace(self):
+    def getGoalDistance(self):
         return round(math.hypot(self.goal_x - self.position.x, self.goal_y - self.position.y), 2)
 
     def getOdometry(self, odom):
@@ -71,6 +74,8 @@ class Env():
         goal_angle = math.atan2(self.goal_y - self.position.y, self.goal_x - self.position.x)
 
         heading = goal_angle - yaw
+        #print("heading ", heading , " goal angle ", goal_angle, " yaw ", yaw)
+
         if heading > pi:
             heading -= 2 * pi
 
@@ -86,27 +91,34 @@ class Env():
     def getState(self, scan):
         scan_range = []
         heading = self.heading
-        min_range = 0.17
+        min_range = 0.5
+        min_dst_goal = 1
         done = False
                 
         scan_range = self.sample_scan.clean_data(scan)
 
-        if min_range > min(scan_range) > 0:
-            done = True
-
         current_distance = round(math.hypot(self.goal_x - self.position.x, self.goal_y - self.position.y),2)
-        if current_distance < 0.2:
+        min_scan_range = min(scan_range)
+
+        if min_range > min_scan_range > 0:
+            #rospy.loginfo(" goal [%f] cur dst [%f] min scan [%f]  ", min_dst_goal, current_distance, min(scan_range))
+            done = True
+        
+
+        #rospy.loginfo("min. dst [%f] cur. dst [%f] of min. range [%f]  ", min_dst_goal, current_distance, min_scan_range)
+
+        if current_distance < min_dst_goal:
             self.get_goalbox = True
 
         return scan_range + [heading, current_distance], done
     
-    # reward the actions where the heading points to the target
+    # The ideia is to reward the actions where the heading points to the goal
+    # This issue is discussed here https://github.com/ROBOTIS-GIT/turtlebot3_machine_learning/issues/15
     def heading_reward(self, heading):
         yaw_reward = []
         for i in range(self.action_size):
             angle = -pi / 4 + heading + (pi / 8 * i) + pi / 2
             tr = 1 - 4 * math.fabs(0.5 - math.modf(0.25 + 0.5 * angle % (2 * math.pi) / math.pi)[0])
-            #print("i: ", i, " angle: ", angle, " tr: ", tr)
             yaw_reward.append(tr)
 
         return yaw_reward
@@ -120,22 +132,24 @@ class Env():
         yaw_reward = self.heading_reward(heading)
 
         distance_rate = 2 ** (current_distance / self.goal_distance)
+        #distance_rate = 2 ** (self.goal_distance / current_distance)
         reward = ((round(yaw_reward[action] * 5, 2)) * distance_rate)
+        #print("REWARD = ", reward, " yaw reward ", round(yaw_reward[action] * 5, 2) ," distance rate: ", distance_rate, " current distance: " ,current_distance, " goal distance ", self.goal_distance )
 
         if collision:
             rospy.loginfo("Collision!!")
             reward = -100
             self.pub_cmd_vel.publish(Twist()) # stop
+            self.reset()
             #save log
             self.goal_log.save(self.current_episode, self.curent_step, 'collision')
-
 
         if self.get_goalbox:
             rospy.loginfo("Goal!!")
             reward = 200
             self.pub_cmd_vel.publish(Twist()) #stop
             self.goal_x, self.goal_y = self.respawn_goal.getPosition(True)
-            self.goal_distance = self.getGoalDistace()
+            self.goal_distance = self.getGoalDistance()
             self.get_goalbox = False
             #save log
             self.goal_log.save(self.current_episode, self.curent_step, 'goal')
@@ -149,10 +163,12 @@ class Env():
         self.curent_step = step
 
         max_angular_vel = 1.5
+
+        # divide in slices the heading values between -1.5 (rad/s) and 1.5 (rad/s)
         ang_vel = ((self.action_size - 1)/2 - action) * max_angular_vel * 0.5
 
         vel_cmd = Twist()
-        vel_cmd.linear.x = 0.15
+        vel_cmd.linear.x = self.chair1_speed
         vel_cmd.angular.z = ang_vel
        
         self.pub_cmd_vel.publish(vel_cmd)
@@ -194,7 +210,7 @@ class Env():
             self.initGoal = False
 
         data = self.sample_scan.get_sample_from_laser_scan(data.ranges)
-        self.goal_distance = self.getGoalDistace()
+        self.goal_distance = self.getGoalDistance()
         state, done = self.getState(data)
 
         #save log

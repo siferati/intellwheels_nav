@@ -1,0 +1,5 @@
+<launch>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find intellwheels_multi_chairs)/rviz/navigation2chairs.rviz" /> 
+
+</launch>

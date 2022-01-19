@@ -31,13 +31,15 @@ if __name__ == '__main__':
     modelPath = modelPath.replace('intellwheels_rl/src/robot1','intellwheels_rl/save_model')
 
     # log
-    path_to_save_csv = modelPath + os.sep + "robot1_qlearn_goal.csv"
+    path_to_save_csv = modelPath + os.sep + "robot1_qlearn.csv"
     traing_log = TrainQlearnLog(path_to_save_csv)
 
     state_size = 12 # 
     action_size = 5
+
+    chair1_speed =  rospy.get_param('/robot1_qlearn/chair1_speed')
     
-    env = Env(action_size, True)
+    env = Env(action_size,  chair1_speed, False,  "robot1_qlearn_goal.csv", "robot1_qlearn_trajectory.csv")
     last_time_steps = np.ndarray(0)
 
     '''
@@ -48,13 +50,13 @@ if __name__ == '__main__':
     nepisodes = rospy.get_param("/nepisodes")
     nsteps = rospy.get_param("/nsteps")
     '''
-
+    
     Alpha = 0.1
-    Epsilon = 0.7
+    Epsilon = 0.32642
     Gamma = 0.9
-    epsilon_discount = 0.999
+    epsilon_discount = 0.99987
     nepisodes = 100000
-    nsteps = 1000
+    nsteps = 5000
 
     qlearn = QLearn(actions=range(action_size),alpha=Alpha, gamma=Gamma, epsilon=Epsilon)
 
@@ -70,11 +72,13 @@ if __name__ == '__main__':
        
         state = env.reset()
         state = __numpy_to_string(state)
+
+        print("Episode: ", tepisode)            
                
         # for each episode, we test the robot for nsteps
         for tstep in range(nsteps):
 
-            print("Episode: ", tepisode, " Step: ", tstep)            
+            #print("Episode: ", tepisode, " Step: ", tstep)            
 
             # Pick an action based on the current state
             action = qlearn.chooseAction(state)
@@ -86,7 +90,7 @@ if __name__ == '__main__':
             if highest_reward < cumulated_reward:
                 highest_reward = cumulated_reward
 
-            #rospy.logdebug("env.get_state...==>" + str(nextState))
+            rospy.logdebug("env.get_state...==>" + str(nextState))
 
             # Make the algorithm learn based on the results
             '''
@@ -104,7 +108,8 @@ if __name__ == '__main__':
             m, s = divmod(int(time.time() - start_time), 60)
             h, m = divmod(m, 60)
             f_time = str(h) + ":" + str(m)  + ":" + str(s)
-            traing_log.save(tepisode, tstep ,str(qlearn.alpha),str(qlearn.gamma), str(initial_epsilon), str(cumulated_reward), f_time )
+
+            traing_log.save(tepisode, tstep ,str(qlearn.alpha),str(qlearn.gamma), str(initial_epsilon), epsilon_discount , str(cumulated_reward) , highest_reward , f_time )
        
             if not(collision):
                 state = nextState
@@ -116,7 +121,7 @@ if __name__ == '__main__':
             #rospy.logdebug("###################### END Step...["+str(i)+"]")
 
         
-        rospy.logwarn( ("EP: "+str(tepisode+1)+" - [alpha: "+str(round(qlearn.alpha,2))+" - gamma: "+str(round(qlearn.gamma,2))+" - epsilon: "+str(round(qlearn.epsilon,2))+"] - Reward: "+str(cumulated_reward)+"     Time: %d:%02d:%02d" % (h, m, s)))
+        rospy.logwarn( ("EP: "+str(tepisode+1)+" - [alpha: "+str(qlearn.alpha)+" - gamma: "+str(qlearn.gamma)+" - epsilon: "+str(qlearn.epsilon)+"] - Reward: "+str(cumulated_reward)+"     Time: %d:%02d:%02d" % (h, m, s)))
 
     rospy.loginfo ( ("\n|"+str(nepisodes)+"|"+str(qlearn.alpha)+"|"+str(qlearn.gamma)+"|"+str(initial_epsilon)+"*"+str(epsilon_discount)+"|"+str(highest_reward)+"| PICTURE |"))
 

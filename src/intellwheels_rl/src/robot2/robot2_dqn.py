@@ -43,11 +43,13 @@ if __name__ == '__main__':
     start_from_episode =  rospy.get_param('/robot2_dqn/start_from_episode')
     total_episodes = rospy.get_param('/robot2_dqn/total_episodes')
     learning_rate =  rospy.get_param('/robot2_dqn/learning_rate')
+    chair2_speed =  rospy.get_param('/robot2_dqn/chair2_speed')
+
 
     state_size = 12 # input of the network (12): 10 lidar samples + heading + current distance
     action_size = 5
 
-    env = Env(action_size)
+    env = Env(action_size, chair2_speed, "robot2_dqn_close_to_chair.csv", "robot2_dqn_trajectory.csv" )
     agent = ReinforceAgentDQN(state_size, action_size, learning_rate, load_model, start_from_episode,
              'intellwheels_rl/src/algorithms', 'intellwheels_rl/save_model/robot2_dqn_')
 
@@ -130,7 +132,7 @@ if __name__ == '__main__':
                  # save log              
                
                 f_time = str(h) + ":" + str(m)  + ":" + str(s)
-                traing_log.save(e,score,np.max(agent.q_value),len(agent.memory),agent.epsilon,ftime,str(timeout),str(collision),str(goal))
+                traing_log.save(e, score, np.max(agent.q_value), agent.epsilon, f_time, str(timeout), str(collision), str(goal))
 
                 param_keys = ['epsilon']
                 param_values = [agent.epsilon]

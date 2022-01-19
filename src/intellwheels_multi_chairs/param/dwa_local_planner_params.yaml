@@ -52,5 +52,3 @@ DWAPlannerROS:
   global_frame_id: odom
 
 
-# Differential-drive robot configuration - necessary?
-#  holonomic_robot: false

@@ -3,6 +3,7 @@
     <param name="train_mode" value="False" />
     <param name="start_episode" value="100" />    
     <param name="total_episodes" value="200" />
+    <param name="chair1_speed" value="0.15" /> 
   </node>
 </launch>
   

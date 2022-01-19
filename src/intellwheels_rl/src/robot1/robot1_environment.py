@@ -74,7 +74,6 @@ class Env():
         goal_angle = math.atan2(self.goal_y - self.position.y, self.goal_x - self.position.x)
 
         heading = goal_angle - yaw
-        #print("heading ", heading , " goal angle ", goal_angle, " yaw ", yaw)
 
         if heading > pi:
             heading -= 2 * pi
@@ -101,11 +100,7 @@ class Env():
         min_scan_range = min(scan_range)
 
         if min_range > min_scan_range > 0:
-            #rospy.loginfo(" goal [%f] cur dst [%f] min scan [%f]  ", min_dst_goal, current_distance, min(scan_range))
             done = True
-        
-
-        #rospy.loginfo("min. dst [%f] cur. dst [%f] of min. range [%f]  ", min_dst_goal, current_distance, min_scan_range)
 
         if current_distance < min_dst_goal:
             self.get_goalbox = True
@@ -132,9 +127,7 @@ class Env():
         yaw_reward = self.heading_reward(heading)
 
         distance_rate = 2 ** (current_distance / self.goal_distance)
-        #distance_rate = 2 ** (self.goal_distance / current_distance)
         reward = ((round(yaw_reward[action] * 5, 2)) * distance_rate)
-        #print("REWARD = ", reward, " yaw reward ", round(yaw_reward[action] * 5, 2) ," distance rate: ", distance_rate, " current distance: " ,current_distance, " goal distance ", self.goal_distance )
 
         if collision:
             rospy.loginfo("Collision!!")
@@ -164,7 +157,6 @@ class Env():
 
         max_angular_vel = 1.5
 
-        # divide in slices the heading values between -1.5 (rad/s) and 1.5 (rad/s)
         ang_vel = ((self.action_size - 1)/2 - action) * max_angular_vel * 0.5
 
         vel_cmd = Twist()

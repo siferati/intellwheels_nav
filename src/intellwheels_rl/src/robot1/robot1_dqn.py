@@ -87,16 +87,7 @@ if __name__ == '__main__':
         for t in range(agent.episode_step):
             action = agent.getAction(state)
 
-            #print("Episdode: ", e , " Step: ", t)
-
             next_state, reward, collision, goal = env.step(action, e, t)
-
-            #print("Types..................")
-            #print("state: ",  type(state) , " ", state   )
-            #print("action: ", type(action), "  ", action)
-            #print("reward: ", type(reward), " " , reward )
-            #print("nextState: ", type(next_state), " ", next_state)
-            #print("")
 
             agent.appendMemory(state, action, reward, next_state, collision)
 
@@ -104,7 +95,6 @@ if __name__ == '__main__':
                 if global_step <= agent.target_update:
                     agent.trainModel()
                 else:
-                    # Prediction using  '.model'
                     agent.trainModel(True)
 
             score += reward

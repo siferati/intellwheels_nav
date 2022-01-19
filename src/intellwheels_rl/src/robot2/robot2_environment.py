@@ -129,14 +129,7 @@ class Env():
                                                       self.pose_r2.position.x, 
                                                       self.pose_r1.position.y, 
                                                       self.pose_r2.position.y) 
-        '''
-        rospy.loginfo("** dts to chair:[ %f ] min range [ %f ]  dist to chair = [ %f ]  min[ %f ]",
-                        current_distance_to_chair1,
-                        min_range,
-                        current_distance_to_chair1,
-                        min_distance_to_chair)
-        '''
-        
+               
         # chair has to stop
         if current_distance_to_chair1 > min_range and current_distance_to_chair1 < min_distance_to_chair:
             rospy.loginfo("DANGER ZONE")
@@ -147,18 +140,7 @@ class Env():
             if(self.distance_to_chair1 >= min_distance_to_chair and self.distance_to_chair1 <= max_safe_zone):
                 chair_safe_zone = True
 
-        ''' 
-        rospy.loginfo("min range:[%f] robot1 [ %f - %f ] and robot2 [ %f - %f ]  Dst chair 1 = %f .... safe[ %f - %f ]",
-                        min_range,
-                        self.pose_r1.position.x,
-                        self.pose_r1.position.y,
-                        self.pose_r2.position.x,
-                        self.pose_r2.position.y,
-                        current_distance_to_chair1, 
-                        min_distance_to_chair, 
-                        max_safe_zone )
-        '''
-        
+       
         return scan_range + [heading, current_distance_to_chair1], collision, chair_safe_zone
 
     # reward the actions where the heading points to the target
@@ -182,7 +164,6 @@ class Env():
             yaw_reward = self.heading_reward(heading)
 
             distance_rate = 2 ** (current_distance / self.goal_distance)
-            #distance_rate = 2 ** (self.goal_distance / current_distance)
             reward = ((round(yaw_reward[action] * 5, 2)) * distance_rate)
 
             if collision:
@@ -193,16 +174,9 @@ class Env():
                 #save log
                 self.goal_log.save(self.current_episode, self.curent_step, 'collision')
             
-            #if chair_collision:
-            #    #rospy.loginfo("Possible chair collision!!")
-            #    reward = -100
-            #    self.pub_cmd_vel_r2.publish(Twist()) # stop
-            
             if chair_safe_zone:
                 rospy.loginfo("Chair2 is in safe zone related to Chair1")
                 reward = 10
-                #self.pub_cmd_vel_r2.publish(Twist()) #Todo: maybe should not stop     
-                #self.force_brake = True
                 # #save log
                 self.goal_log.save(self.current_episode, self.curent_step, 'close_to_chair')        
             
@@ -210,9 +184,7 @@ class Env():
             if self.get_goal:
                 rospy.loginfo("Find chair")
                 reward = 100
-                #self.pub_cmd_vel_r2.publish(Twist()) #stop
                 self.force_brake = True
-                #self.goal_distance = self.getDistance(self.pose_r1.position.x, self.pose_r2.position.x, self.pose_r1.position.y, self.pose_r2.position.y)
                 self.get_goal = False
 
         return reward
@@ -227,7 +199,6 @@ class Env():
         
         max_angular_vel = self.chair2_speed
 
-        # divide in slices the heading values between -1.5 (rad/s) and 1.5 (rad/s)
         ang_vel = ((self.action_size - 1)/2 - action) * max_angular_vel * 0.5
 
         vel_cmd = Twist()
@@ -251,9 +222,6 @@ class Env():
 
         data = self.sample_scan.get_sample_from_laser_scan(data.ranges)
         state, collision, chair_safe_zone = self.getState(data)
-
-        #if(collision or self.get_goal):
-        #    self.get_goal = False
 
         reward = self.setReward(state, collision, chair_safe_zone, action)
 

@@ -31,12 +31,6 @@ if __name__ == '__main__':
     path_to_save_csv = modelPath + os.sep + "robot2_dqn.csv"
     traing_log = TrainDQNLog(path_to_save_csv)
 
-    #publish results and actions
-    pub_result = rospy.Publisher('result', Float32MultiArray, queue_size=5)
-    pub_get_action = rospy.Publisher('get_action', Float32MultiArray, queue_size=5)
-    
-    result = Float32MultiArray()
-    get_action = Float32MultiArray()
 
     #parameters from launch files
     load_model = rospy.get_param('/robot2_dqn/load_model')
@@ -100,8 +94,6 @@ if __name__ == '__main__':
             if e % 10 == 0:
                 agent.model.save(agent.dirPath + str(e) + '.h5')
 
-                #print ("SAVE MODEL AT: ", agent.dirPath)
-                
                 with open(agent.dirPath + str(e) + '.json', 'w') as outfile:
                     json.dump(param_dictionary, outfile)
 
@@ -111,25 +103,14 @@ if __name__ == '__main__':
                 timeout = True
 
             if collision or timeout:
-                # publish results
-                result.data = [score, np.max(agent.q_value)]
-                pub_result.publish(result)
-                
+
                 agent.updateTargetModel()
                 scores.append(score)
                 episodes.append(e)
                 m, s = divmod(int(time.time() - start_time), 60)
                 h, m = divmod(m, 60)
 
-               # rospy.loginfo('Ep: %d score: %.2f memory: %d epsilon: %.2f time: %d:%02d:%02d', 
-               #     e, 
-               #     score, 
-               #     len(agent.memory), 
-               #     agent.epsilon, 
-               #     h, m, s
-               #     )
-
-                 # save log              
+                # save log              
                
                 f_time = str(h) + ":" + str(m)  + ":" + str(s)
                 traing_log.save(e, score, np.max(agent.q_value), agent.epsilon, f_time, str(timeout), str(collision), str(goal))

@@ -76,7 +76,6 @@ class Env():
         
 
     def getDistance(self, pos_x, pos_y, goal_x, goal_y):
-        #goal_distance = round(math.hypot(self.goal_x - self.position.x, self.goal_y - self.position.y), 2)
         return round(math.hypot(goal_x - pos_x, goal_y - pos_y), 2)
 
     def getOdometryRobot1(self, odom):
@@ -104,9 +103,8 @@ class Env():
         elif heading < -pi:
             heading += 2 * pi
 
-        heading = round(heading, 2)
+        return round(heading, 2)
 
-        return heading
 
 
     def getState(self, scan):
@@ -120,7 +118,7 @@ class Env():
         scan_range = self.sample_scan.clean_data(scan)
 
         if min_range > min(scan_range) > 0:
-            rospy.loginfo("Collision   [ %f ] -  [ %f ]  ", min_range,  min(scan_range))
+            #rospy.loginfo("Collision   [ %f ] -  [ %f ]  ", min_range,  min(scan_range))
             collision = True
 
 
@@ -133,7 +131,7 @@ class Env():
                
         # chair has to stop
         if current_distance_to_chair1 > min_range and current_distance_to_chair1 < min_distance_to_chair:
-            rospy.loginfo("DANGER ZONE")
+            #rospy.loginfo("DANGER ZONE")
             self.get_goal = True
 
         if(current_distance_to_chair1 < self.distance_to_chair1):
@@ -168,9 +166,8 @@ class Env():
             reward = ((round(yaw_reward[action] * 5, 2)) * distance_rate)
 
             if collision:
-                rospy.loginfo("Collision with an object stop the chair !!")
+                #rospy.loginfo("Collision with an object stop the chair !!")
                 reward = -100
-                #self.pub_cmd_vel_r2.publish(Twist()) # stop
                 self.force_brake = True
                 #save log
                 self.goal_log.save(self.current_episode, self.curent_step, 'collision')
@@ -179,7 +176,10 @@ class Env():
                 rospy.loginfo("Chair2 is in safe zone related to Chair1")
                 reward = 10
                 # #save log
-                self.goal_log.save(self.current_episode, self.curent_step, 'close_to_chair')        
+                self.goal_log.save(self.current_episode, self.curent_step, 'in the chair zone')        
+            else:
+                self.goal_log.save(self.current_episode, self.curent_step, 'not in the zone')        
+
             
 
             if self.get_goal:
@@ -234,6 +234,7 @@ class Env():
 
     def reset(self):
 
+        '''
         rospy.wait_for_service('gazebo/reset_simulation')
         try:
             self.reset_proxy()
@@ -241,6 +242,8 @@ class Env():
             print("gazebo/reset_simulation service call failed")
 
         time.sleep(2.0)
+
+        '''
 
         data = None
         while data is None:

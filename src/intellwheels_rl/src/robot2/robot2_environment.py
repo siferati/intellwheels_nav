@@ -3,6 +3,7 @@
 import rospy
 import os
 import os.path
+import time
 import numpy as np
 import math
 from math import pi
@@ -238,6 +239,8 @@ class Env():
             self.reset_proxy()
         except (rospy.ServiceException) as e:
             print("gazebo/reset_simulation service call failed")
+
+        time.sleep(2.0)
 
         data = None
         while data is None:

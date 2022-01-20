@@ -4,6 +4,7 @@ import rospy
 import os
 import os.path
 import numpy as np
+import time
 import math
 from math import pi
 from geometry_msgs.msg import Twist, Point, Pose
@@ -19,7 +20,7 @@ from tools.trajectory_log import TrajectoryLog
 
 
 class Env():
-    def __init__(self, action_size, chair1_speed , random_goal_position, goal_log_file, trajectory_log_file):
+    def __init__(self, action_size, chair1_speed ,random_goal_position, goal_log_file, trajectory_log_file):
         self.chair1_speed = chair1_speed
         self.goal_log_file = goal_log_file
         self.trajectory_log_file = trajectory_log_file
@@ -189,6 +190,8 @@ class Env():
             self.reset_proxy()
         except (rospy.ServiceException) as e:
             print("gazebo/reset_simulation service call failed")
+
+        time.sleep(2.0)
 
         data = None
         while data is None:

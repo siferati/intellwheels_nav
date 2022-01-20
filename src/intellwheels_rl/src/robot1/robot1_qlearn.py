@@ -38,17 +38,16 @@ if __name__ == '__main__':
     action_size = 5
 
     chair1_speed =  rospy.get_param('/robot1_qlearn/chair1_speed')
-    
-    env = Env(action_size,  chair1_speed, True,  "robot1_qlearn_goal.csv", "robot1_qlearn_trajectory.csv")
-    last_time_steps = np.ndarray(0)
-
-    
     Alpha = rospy.get_param("/robot1_qlearn/alpha")
     Epsilon = rospy.get_param("/robot1_qlearn/epsilon")
     Gamma = rospy.get_param("/robot1_qlearn/gamma")
     epsilon_discount = rospy.get_param("/robot1_qlearn/epsilon_discount")
     nepisodes = rospy.get_param("/robot1_qlearn/nepisodes")
     nsteps = rospy.get_param("/robot1_qlearn/nsteps")
+    random_goal =  rospy.get_param('/robot1_qlearn/random_goal')  
+
+    env = Env(action_size,  chair1_speed, random_goal,  "robot1_qlearn_goal.csv", "robot1_qlearn_trajectory.csv")
+    last_time_steps = np.ndarray(0) 
     
     
     qlearn = QLearn(actions=range(action_size),alpha=Alpha, gamma=Gamma, epsilon=Epsilon)

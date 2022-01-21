@@ -46,7 +46,7 @@ if __name__ == '__main__':
     chair2_speed =  rospy.get_param('/robot2_qlearn/chair2_speed')
     max_angular_speed =  rospy.get_param('/robot2_qlearn/max_angular_speed')    
 
-    env = Env(action_size,chair2_speed, 'robot2_qlearn_close_to_chair.csv', 'robot2_qlearn_trajectory.csv')
+    env = Env(action_size,chair2_speed, max_angular_speed , 'robot2_qlearn_close_to_chair.csv', 'robot2_qlearn_trajectory.csv')
     last_time_steps = np.ndarray(0)        
 
 

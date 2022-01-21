@@ -2,11 +2,12 @@
   <node pkg="intellwheels_rl" type="robot2_qlearn.py" name="robot2_qlearn" output="screen" >
     <param name="chair2_speed" value="0.10" /> 
     <param name="alpha" value="0.1" />
-    <param name="epsilon" value="0.7" />
+    <param name="epsilon" value="0.3259" />
     <param name="gamma" value="0.9" />
-    <param name="epsilon_discount" value="0.95" />
+    <param name="epsilon_discount" value="0.99999" />
     <param name="nepisodes" value="100000" />
-    <param name="nsteps" value="5000" />   
-    <param name="release" value="False" />     
+    <param name="nsteps" value="5000" />  
+    <param name="release" value="False" /> 
+    <param name="max_angular_speed" value="1.5" />     
   </node>
 </launch>

@@ -20,8 +20,9 @@ from tools.trajectory_log import TrajectoryLog
 
 
 class Env():
-    def __init__(self, action_size, chair1_speed ,random_goal_position, goal_log_file, trajectory_log_file):
+    def __init__(self, action_size, chair1_speed, max_angular_speed ,random_goal_position, goal_log_file, trajectory_log_file):
         self.chair1_speed = chair1_speed
+        self.max_angular_speed = max_angular_speed
         self.goal_log_file = goal_log_file
         self.trajectory_log_file = trajectory_log_file
         self.goal_x = 0.0
@@ -35,7 +36,7 @@ class Env():
         self.curent_step = 0
 
         self.position = Pose()
-        self.lastPose = Pose()
+        
         self.pub_cmd_vel = rospy.Publisher('/robot1/cmd_vel', Twist, queue_size=5)
         self.sub_odom = rospy.Subscriber('/robot1/odom', Odometry, self.getOdometry)
         self.reset_proxy = rospy.ServiceProxy('gazebo/reset_simulation', Empty)
@@ -61,13 +62,6 @@ class Env():
 
     def getOdometry(self, odom):
         self.position = odom.pose.pose.position
-        
-        invertHeadging = False
-        if self.lastPose == odom.pose.pose:
-            invertHeading = True;
-            rospy.loginfo("Same pose")
-        self.lastPose == odom.pose.pose
-
         orientation = odom.pose.pose.orientation
         orientation_list = [orientation.x, orientation.y, orientation.z, orientation.w]
         _, _, yaw = euler_from_quaternion(orientation_list)
@@ -82,10 +76,7 @@ class Env():
         elif heading < -pi:
             heading += 2 * pi
 
-        if invertHeadging == True:
-            self.heading = - round(heading, 2)
-        else:
-            self.heading = round(heading, 2)
+        self.heading =  round(heading, 2)
 
     
     def getState(self, scan):
@@ -156,7 +147,7 @@ class Env():
         self.current_episode = episode
         self.curent_step = step
 
-        max_angular_vel = 1.5
+        max_angular_vel = self.max_angular_speed
 
         ang_vel = ((self.action_size - 1)/2 - action) * max_angular_vel * 0.5
 

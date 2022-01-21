@@ -32,10 +32,6 @@ if __name__ == '__main__':
     path_to_save_csv = modelPath + os.sep + "robot1_dqn.csv"
     traing_log = TrainDQNLog(path_to_save_csv)
 
-    # publish results
-    pub_result = rospy.Publisher('result', Float32MultiArray, queue_size=5)
-    pub_get_action = rospy.Publisher('get_action', Float32MultiArray, queue_size=5)
-    
     result = Float32MultiArray()
     get_action = Float32MultiArray()
 
@@ -46,6 +42,7 @@ if __name__ == '__main__':
     learning_rate =  rospy.get_param('/robot1_dqn/learning_rate')
     chair1_speed =  rospy.get_param('/robot1_dqn/chair1_speed')
     random_goal =  rospy.get_param('/robot1_dqn/random_goal')
+    max_angular_speed =  rospy.get_param('/robot1_dqn/max_angular_speed')
 
 
     # training mode
@@ -53,7 +50,7 @@ if __name__ == '__main__':
     state_size = 12 # input of the network (12): 10 lidar samples + heading + current distance
     action_size = 5
 
-    env = Env(action_size,chair1_speed, random_goal, "robot1_dqn_goal.csv", "robot1_dqn_trajectory.csv" )       
+    env = Env(action_size,chair1_speed, max_angular_speed , random_goal, "robot1_dqn_goal.csv", "robot1_dqn_trajectory.csv" )       
     agent = ReinforceAgentDQN(state_size, action_size, learning_rate, load_model, start_from_episode,
              'intellwheels_rl/src/algorithms', 'intellwheels_rl/save_model/robot1_dqn_')
 
@@ -101,9 +98,6 @@ if __name__ == '__main__':
             score += reward
             state = next_state
 
-            get_action.data = [action, score, reward]
-            pub_get_action.publish(get_action)
-
             # save the model at 10 in 10 steps
             if e % 10 == 0:
                 agent.model.save(agent.dirPath + str(e) + '.h5')
@@ -112,10 +106,6 @@ if __name__ == '__main__':
             
 
             if collision:
-                # publish results
-                #result.data = [score, np.max(agent.q_value)]
-                #pub_result.publish(result)
-                
                 agent.updateTargetModel()
                 scores.append(score)
                 episodes.append(e)

@@ -38,12 +38,13 @@ if __name__ == '__main__':
     total_episodes = rospy.get_param('/robot2_dqn/total_episodes')
     learning_rate =  rospy.get_param('/robot2_dqn/learning_rate')
     chair2_speed =  rospy.get_param('/robot2_dqn/chair2_speed')
+    max_angular_speed =  rospy.get_param('/robot2_dqn/max_angular_speed')
 
 
     state_size = 12 # input of the network (12): 10 lidar samples + heading + current distance
     action_size = 5
 
-    env = Env(action_size, chair2_speed, "robot2_dqn_close_to_chair.csv", "robot2_dqn_trajectory.csv" )
+    env = Env(action_size, chair2_speed, max_angular_speed , "robot2_dqn_close_to_chair.csv", "robot2_dqn_trajectory.csv" )
     agent = ReinforceAgentDQN(state_size, action_size, learning_rate, load_model, start_from_episode,
              'intellwheels_rl/src/algorithms', 'intellwheels_rl/save_model/robot2_dqn_')
 
@@ -87,9 +88,6 @@ if __name__ == '__main__':
             score += reward
             state = next_state
             
-            get_action.data = [action, score, reward]
-            pub_get_action.publish(get_action)
-
             # save the model at 10 in 10 steps
             if e % 10 == 0:
                 agent.model.save(agent.dirPath + str(e) + '.h5')
@@ -97,12 +95,8 @@ if __name__ == '__main__':
                 with open(agent.dirPath + str(e) + '.json', 'w') as outfile:
                     json.dump(param_dictionary, outfile)
 
-            timeout = False
-            if t >= 500:
-                rospy.loginfo("Time out!!")
-                timeout = True
 
-            if collision or timeout:
+            if collision:
 
                 agent.updateTargetModel()
                 scores.append(score)
@@ -113,7 +107,7 @@ if __name__ == '__main__':
                 # save log              
                
                 f_time = str(h) + ":" + str(m)  + ":" + str(s)
-                traing_log.save(e, score, np.max(agent.q_value), agent.epsilon, f_time, str(timeout), str(collision), str(goal))
+                traing_log.save(e, score, np.max(agent.q_value), agent.epsilon, f_time, str(collision), str(goal))
 
                 param_keys = ['epsilon']
                 param_values = [agent.epsilon]

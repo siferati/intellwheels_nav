@@ -1,0 +1,19 @@
+TebLocalPlannerROS:
+  map_frame: map
+  min_obstacle_dist: 0.5
+  inflation_dist: 0.6
+
+  acc_lim_theta: 0.5
+  max_vel_theta: 0.5
+  acc_lim_x: 1
+  max_vel_x: 1
+  max_vel_x_backwards: 1
+  weight_kinematics_forward_drive: 1000
+
+  footprint_model:
+    type: polygon
+    vertices: [[-0.5, -0.325], [0.7, -0.325], [0.7, 0.325], [-0.5, 0.325]]
+
+  costmap_converter_plugin: costmap_converter::CostmapToLinesDBSRANSAC
+  costmap_converter_spin_thread: true
+  costmap_converter_rate: 30

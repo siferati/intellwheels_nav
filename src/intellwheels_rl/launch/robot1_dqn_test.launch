@@ -4,7 +4,8 @@
     <param name="start_from_episode" value="350" />    
     <param name="total_episodes" value="1000" />
     <param name="learning_rate" value="0.00025" /> 
-    <param name="chair1_speed" value="0.15" />     
+    <param name="chair1_speed" value="0.15" />   
+    <param name="max_angular_speed" value="0.15" />  
     <param name="random_goal" value="False" />
   </node>
 </launch>

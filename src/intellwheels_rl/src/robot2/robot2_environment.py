@@ -18,8 +18,9 @@ from tools.goal_log import GoalLog
 from tools.trajectory_log import TrajectoryLog
 
 class Env():
-    def __init__(self, action_size, chair2_speed, close_to_chair_log, trajectory_log):
-        self.chair2_speed = chair2_speed        
+    def __init__(self, action_size, chair2_speed, max_angular_speed ,close_to_chair_log, trajectory_log):
+        self.chair2_speed = chair2_speed   
+        self.max_angular_speed = max_angular_speed     
         self.close_to_chair_log = close_to_chair_log
         self.trajectory_log = trajectory_log
 
@@ -120,8 +121,6 @@ class Env():
         if min_range > min(scan_range) > 0:
             #rospy.loginfo("Collision   [ %f ] -  [ %f ]  ", min_range,  min(scan_range))
             collision = True
-
-
                
         chair_safe_zone = False
         current_distance_to_chair1 = self.getDistance(self.pose_r1.position.x, 
@@ -180,8 +179,6 @@ class Env():
             else:
                 self.goal_log.save(self.current_episode, self.curent_step, 'not in the zone')        
 
-            
-
             if self.get_goal:
                 rospy.loginfo("Find chair")
                 reward = 100
@@ -198,7 +195,7 @@ class Env():
         self.current_episode = episode
         self.curent_step = step
         
-        max_angular_vel = self.chair2_speed
+        max_angular_vel = self.max_angular_speed
 
         ang_vel = ((self.action_size - 1)/2 - action) * max_angular_vel * 0.5
 

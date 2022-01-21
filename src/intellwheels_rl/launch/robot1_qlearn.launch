@@ -7,7 +7,8 @@
     <param name="epsilon_discount" value="0.99999" />
     <param name="nepisodes" value="100000" />
     <param name="nsteps" value="5000" />
-     <param name="random_goal" value="True" />
+    <param name="random_goal" value="True" />
+    <param name="max_angular_speed" value="1.0" />
   </node>
 </launch>
   

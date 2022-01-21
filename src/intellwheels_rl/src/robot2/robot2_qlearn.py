@@ -36,19 +36,6 @@ if __name__ == '__main__':
     state_size = 12 # 
     action_size = 5
     
-    chair2_speed =  rospy.get_param('/robot2_qlearn/chair2_speed')
-
-    env = Env(action_size,chair2_speed, 'robot2_qlearn_close_to_chair.csv', 'robot2_qlearn_trajectory.csv')
-    last_time_steps = np.ndarray(0)
-
-    
-    Alpha = 0.1
-    Epsilon = 0.7
-    Gamma = 0.9
-    epsilon_discount = 0.95
-    nepisodes = 100000
-    nsteps = 5000
-
     Alpha = rospy.get_param("/robot2_qlearn/alpha")
     Epsilon = rospy.get_param("/robot2_qlearn/epsilon")
     Gamma = rospy.get_param("/robot2_qlearn/gamma")
@@ -56,6 +43,12 @@ if __name__ == '__main__':
     nepisodes = rospy.get_param("/robot2_qlearn/nepisodes")
     nsteps = rospy.get_param("/robot2_qlearn/nsteps")
     RELEASE = rospy.get_param("/robot2_qlearn/release")
+    chair2_speed =  rospy.get_param('/robot2_qlearn/chair2_speed')
+    max_angular_speed =  rospy.get_param('/robot2_qlearn/max_angular_speed')    
+
+    env = Env(action_size,chair2_speed, 'robot2_qlearn_close_to_chair.csv', 'robot2_qlearn_trajectory.csv')
+    last_time_steps = np.ndarray(0)        
+
 
     qlearn = QLearn(actions=range(action_size),alpha=Alpha, gamma=Gamma, epsilon=Epsilon)
 

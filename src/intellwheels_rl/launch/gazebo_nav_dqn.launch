@@ -1,4 +1,0 @@
-<launch>
-  <node pkg="intellwheels_rl" type="base_robot_dqn.py" name="base_robot_dqn" output="screen" />
-</launch>
-  

@@ -44,9 +44,10 @@ if __name__ == '__main__':
     epsilon_discount = rospy.get_param("/robot1_qlearn/epsilon_discount")
     nepisodes = rospy.get_param("/robot1_qlearn/nepisodes")
     nsteps = rospy.get_param("/robot1_qlearn/nsteps")
-    random_goal =  rospy.get_param('/robot1_qlearn/random_goal')  
+    random_goal =  rospy.get_param('/robot1_qlearn/random_goal')
+    max_angular_speed =  rospy.get_param('/robot1_qlearn/max_angular_speed')  
 
-    env = Env(action_size,  chair1_speed, random_goal,  "robot1_qlearn_goal.csv", "robot1_qlearn_trajectory.csv")
+    env = Env(action_size,  chair1_speed, max_angular_speed , random_goal,  "robot1_qlearn_goal.csv", "robot1_qlearn_trajectory.csv")
     last_time_steps = np.ndarray(0) 
     
     

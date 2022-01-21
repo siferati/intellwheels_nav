@@ -17,7 +17,5 @@ class GoalLog():
 
         df = pd.DataFrame(data_csv, columns = ['Episode', 'Step', 'Action','Time'])
         df.to_csv(self.path, mode='a', header=False)
-        
-        self.start_time = time.time()
     
     

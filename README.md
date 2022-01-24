@@ -1,7 +1,27 @@
 # Intellwheels Navigation
 
 
-<!-- TOC -->autoauto- [Intellwheels Navigation](#intellwheels-navigation)auto    - [Setup](#setup)auto    - [Python and requirements](#python-and-requirements)auto        - [Open AI ROS](#open-ai-ros)auto        - [Virtual environment](#virtual-environment)auto    - [Dependencies](#dependencies)auto    - [Usage](#usage)auto    - [Packages & Launch Files](#packages--launch-files)auto        - [intellwheels_desc](#intellwheels_desc)auto        - [intellwheels_multi_chair](#intellwheels_multi_chair)auto        - [intellwheels_move_to_goal](#intellwheels_move_to_goal)auto        - [intellwheels_rl](#intellwheels_rl)auto            - [Q-Learning](#q-learning)auto            - [DQN](#dqn)auto            - [DQN - Test/Deploy](#dqn---testdeploy)auto    - [Other experiments](#other-experiments)auto        - [Run gazeo with one robot only](#run-gazeo-with-one-robot-only)auto        - [Run without gazebo gui](#run-without-gazebo-gui)auto    - [How to use multiple robots from the same model in Gazebo](#how-to-use-multiple-robots-from-the-same-model-in-gazebo)auto    - [Code structure](#code-structure)auto    - [Credits](#credits)autoauto<!-- /TOC -->
+- [Intellwheels Navigation](#intellwheels-navigation)    
+- [Setup](#setup)    
+- - [Python and requirements](#python-and-requirements)        
+- - [Open AI ROS](#open-ai-ros)
+- - [Virtual environment](#virtual-environment)   
+- - [Dependencies](#dependencies)  
+- - [Usage](#usage)
+- - [Packages & Launch Files](#packages--launch-files)       
+- - [intellwheels_desc](#intellwheels_desc)       
+- - [intellwheels_multi_chair](#intellwheels_multi_chair)      
+- - [intellwheels_move_to_goal](#intellwheels_move_to_goal)
+- - [intellwheels_rl](#intellwheels_rl)            
+- - [Q-Learning](#q-learning)            
+- - [DQN](#dqn)            
+- - [DQN - Test/Deploy](#dqn---testdeploy)
+- - [Other experiments](#other-experiments)        
+- - [Run gazeo with one robot only](#run-gazeo-with-one-robot-only)
+- - [Run without gazebo gui](#run-without-gazebo-gui)
+- - [How to use multiple robots from the same model in Gazebo](#how-to-use-multiple-robots-from-the-same-model-in-gazebo)
+- [Code structure](#code-structure)  
+- - [Credits](#credits)
 
 
 ## Setup

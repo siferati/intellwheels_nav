@@ -114,7 +114,7 @@ $ roslaunch intellwheels_rl robot1_qlearn.launch
 
 $ source env/bin/activate
 
-$ roslaunch intellwheels_r2 robot1_qlearn.launch
+$ roslaunch intellwheels_rl robot2_qlearn.launch
 
 ```
 
@@ -140,7 +140,7 @@ $ roslaunch intellwheels_rl robot1_dqn.launch
 
 $ source env/bin/activate
 
-$ roslaunch intellwheels_r2 robot1_qdn.launch
+$ roslaunch intellwheels_rl robot2_qdn.launch
 
 ```
 
@@ -165,7 +165,7 @@ $ roslaunch intellwheels_rl robot1_dqn_test.launch
 
 $ source env/bin/activate
 
-$ roslaunch intellwheels_r2 robot2_dqn_test.launch
+$ roslaunch intellwheels_rl robot2_dqn_test.launch
 
 ```
 
@@ -385,6 +385,8 @@ Code
 
 
 ## Credits
+
+The source code was based on:
 
 **DQN**
 

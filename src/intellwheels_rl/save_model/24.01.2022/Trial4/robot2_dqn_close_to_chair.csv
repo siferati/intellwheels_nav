@@ -1,0 +1,338 @@
+0,0,0,reset,0:0:4
+0,351,0,not in the zone,0:0:4
+0,351,1,not in the zone,0:0:5
+0,351,2,not in the zone,0:0:5
+0,351,3,not in the zone,0:0:5
+0,351,4,not in the zone,0:0:5
+0,351,5,not in the zone,0:0:5
+0,351,6,not in the zone,0:0:5
+0,351,7,not in the zone,0:0:5
+0,351,8,not in the zone,0:0:5
+0,351,9,not in the zone,0:0:5
+0,351,10,not in the zone,0:0:5
+0,351,11,not in the zone,0:0:5
+0,351,12,not in the zone,0:0:6
+0,351,13,not in the zone,0:0:6
+0,351,14,not in the zone,0:0:6
+0,351,15,not in the zone,0:0:6
+0,351,16,not in the zone,0:0:6
+0,351,17,not in the zone,0:0:6
+0,351,18,not in the zone,0:0:6
+0,351,19,not in the zone,0:0:6
+0,351,20,not in the zone,0:0:6
+0,351,21,not in the zone,0:0:7
+0,351,22,not in the zone,0:0:7
+0,351,23,collision,0:0:7
+0,351,23,not in the zone,0:0:7
+0,351,23,reset,0:0:7
+0,352,0,not in the zone,0:0:7
+0,352,1,not in the zone,0:0:7
+0,352,2,not in the zone,0:0:7
+0,352,3,not in the zone,0:0:7
+0,352,4,not in the zone,0:0:7
+0,352,5,not in the zone,0:0:7
+0,352,6,not in the zone,0:0:7
+0,352,7,not in the zone,0:0:8
+0,352,8,not in the zone,0:0:8
+0,352,9,not in the zone,0:0:8
+0,352,10,not in the zone,0:0:8
+0,352,11,not in the zone,0:0:8
+0,352,12,not in the zone,0:0:8
+0,352,13,not in the zone,0:0:8
+0,352,14,not in the zone,0:0:8
+0,352,15,not in the zone,0:0:8
+0,352,16,not in the zone,0:0:8
+0,352,17,not in the zone,0:0:8
+0,352,18,not in the zone,0:0:8
+0,352,19,not in the zone,0:0:9
+0,352,20,not in the zone,0:0:9
+0,352,21,not in the zone,0:0:9
+0,352,22,not in the zone,0:0:9
+0,352,23,not in the zone,0:0:9
+0,352,24,not in the zone,0:0:9
+0,352,25,not in the zone,0:0:9
+0,352,26,not in the zone,0:0:9
+0,352,27,not in the zone,0:0:9
+0,352,28,not in the zone,0:0:9
+0,352,29,not in the zone,0:0:9
+0,352,30,not in the zone,0:0:9
+0,352,31,not in the zone,0:0:10
+0,352,32,not in the zone,0:0:10
+0,352,33,not in the zone,0:0:10
+0,352,34,not in the zone,0:0:10
+0,352,35,not in the zone,0:0:10
+0,352,36,not in the zone,0:0:10
+0,352,37,not in the zone,0:0:10
+0,352,38,not in the zone,0:0:10
+0,352,39,not in the zone,0:0:10
+0,352,40,not in the zone,0:0:12
+0,352,41,not in the zone,0:0:13
+0,352,42,not in the zone,0:0:14
+0,352,43,not in the zone,0:0:15
+0,352,44,not in the zone,0:0:15
+0,352,45,not in the zone,0:0:16
+0,352,46,not in the zone,0:0:17
+0,352,47,not in the zone,0:0:17
+0,352,48,not in the zone,0:0:18
+0,352,49,not in the zone,0:0:18
+0,352,50,not in the zone,0:0:19
+0,352,51,not in the zone,0:0:20
+0,352,52,not in the zone,0:0:20
+0,352,53,not in the zone,0:0:21
+0,352,54,not in the zone,0:0:21
+0,352,55,not in the zone,0:0:22
+0,352,56,not in the zone,0:0:22
+0,352,57,not in the zone,0:0:23
+0,352,58,not in the zone,0:0:24
+0,352,59,not in the zone,0:0:24
+0,352,60,not in the zone,0:0:25
+0,352,61,not in the zone,0:0:25
+0,352,62,not in the zone,0:0:26
+0,352,63,not in the zone,0:0:27
+0,352,64,not in the zone,0:0:27
+0,352,65,not in the zone,0:0:28
+0,352,66,not in the zone,0:0:28
+0,352,67,not in the zone,0:0:29
+0,352,68,not in the zone,0:0:30
+0,352,69,not in the zone,0:0:30
+0,352,70,not in the zone,0:0:31
+0,352,71,not in the zone,0:0:31
+0,352,72,not in the zone,0:0:32
+0,352,73,not in the zone,0:0:33
+0,352,74,not in the zone,0:0:33
+0,352,75,not in the zone,0:0:34
+0,352,76,not in the zone,0:0:34
+0,352,77,not in the zone,0:0:35
+0,352,78,not in the zone,0:0:36
+0,352,79,not in the zone,0:0:36
+0,352,80,not in the zone,0:0:37
+0,352,81,not in the zone,0:0:37
+0,352,82,not in the zone,0:0:38
+0,352,83,not in the zone,0:0:38
+0,352,84,not in the zone,0:0:39
+0,352,85,not in the zone,0:0:40
+0,352,86,not in the zone,0:0:40
+0,352,87,not in the zone,0:0:41
+0,352,88,not in the zone,0:0:42
+0,352,89,not in the zone,0:0:42
+0,352,90,not in the zone,0:0:43
+0,352,91,not in the zone,0:0:44
+0,352,92,not in the zone,0:0:44
+0,352,93,not in the zone,0:0:45
+0,352,94,not in the zone,0:0:46
+0,352,95,not in the zone,0:0:47
+0,352,96,not in the zone,0:0:47
+0,352,97,not in the zone,0:0:48
+0,352,98,not in the zone,0:0:49
+0,352,99,not in the zone,0:0:50
+0,352,100,not in the zone,0:0:50
+0,352,101,not in the zone,0:0:51
+0,352,102,not in the zone,0:0:52
+0,352,103,not in the zone,0:0:53
+0,352,104,not in the zone,0:0:54
+0,352,105,not in the zone,0:0:55
+0,352,106,not in the zone,0:0:56
+0,352,107,not in the zone,0:0:57
+0,352,108,not in the zone,0:0:58
+0,352,109,not in the zone,0:0:59
+0,352,110,not in the zone,0:0:59
+0,352,111,not in the zone,0:1:0
+0,352,112,not in the zone,0:1:1
+0,352,113,not in the zone,0:1:1
+0,352,114,not in the zone,0:1:2
+0,352,115,not in the zone,0:1:3
+0,352,116,not in the zone,0:1:3
+0,352,117,not in the zone,0:1:4
+0,352,118,not in the zone,0:1:5
+0,352,119,not in the zone,0:1:5
+0,352,120,not in the zone,0:1:6
+0,352,121,not in the zone,0:1:7
+0,352,122,not in the zone,0:1:8
+0,352,123,not in the zone,0:1:8
+0,352,124,not in the zone,0:1:9
+0,352,125,not in the zone,0:1:10
+0,352,126,not in the zone,0:1:10
+0,352,127,not in the zone,0:1:11
+0,352,128,not in the zone,0:1:12
+0,352,129,not in the zone,0:1:13
+0,352,130,not in the zone,0:1:13
+0,352,131,not in the zone,0:1:14
+0,352,132,not in the zone,0:1:15
+0,352,133,not in the zone,0:1:16
+0,352,134,not in the zone,0:1:16
+0,352,135,not in the zone,0:1:17
+0,352,136,not in the zone,0:1:18
+0,352,137,not in the zone,0:1:18
+0,352,138,not in the zone,0:1:19
+0,352,139,not in the zone,0:1:19
+0,352,140,not in the zone,0:1:20
+0,352,141,not in the zone,0:1:21
+0,352,142,not in the zone,0:1:22
+0,352,143,not in the zone,0:1:22
+0,352,144,not in the zone,0:1:23
+0,352,145,not in the zone,0:1:24
+0,352,146,not in the zone,0:1:24
+0,352,147,not in the zone,0:1:25
+0,352,148,not in the zone,0:1:26
+0,352,149,not in the zone,0:1:26
+0,352,150,not in the zone,0:1:27
+0,352,151,not in the zone,0:1:27
+0,352,152,not in the zone,0:1:28
+0,352,153,not in the zone,0:1:28
+0,352,154,collision,0:1:29
+0,352,154,not in the zone,0:1:29
+0,352,154,reset,0:1:30
+0,353,0,not in the zone,0:1:30
+0,353,1,collision,0:1:31
+0,353,1,not in the zone,0:1:31
+0,353,1,reset,0:1:31
+0,354,0,not in the zone,0:1:31
+0,354,1,collision,0:1:32
+0,354,1,not in the zone,0:1:32
+0,354,1,reset,0:1:33
+0,355,0,collision,0:1:33
+0,355,0,not in the zone,0:1:33
+0,355,0,reset,0:1:34
+0,356,0,not in the zone,0:1:34
+0,356,1,collision,0:1:34
+0,356,1,not in the zone,0:1:34
+0,356,1,reset,0:1:35
+0,357,0,not in the zone,0:1:35
+0,357,1,not in the zone,0:1:36
+0,357,2,collision,0:1:36
+0,357,2,not in the zone,0:1:36
+0,357,2,reset,0:1:37
+0,358,0,collision,0:1:37
+0,358,0,not in the zone,0:1:37
+0,358,0,reset,0:1:38
+0,359,0,collision,0:1:38
+0,359,0,not in the zone,0:1:38
+0,359,0,reset,0:1:39
+0,360,0,not in the zone,0:1:39
+0,360,1,collision,0:1:39
+0,360,1,not in the zone,0:1:39
+0,360,1,reset,0:1:40
+0,361,0,collision,0:1:40
+0,361,0,not in the zone,0:1:40
+0,361,0,reset,0:1:41
+0,362,0,not in the zone,0:1:41
+0,362,1,not in the zone,0:1:42
+0,362,2,not in the zone,0:1:42
+0,362,3,not in the zone,0:1:43
+0,362,4,not in the zone,0:1:44
+0,362,5,not in the zone,0:1:44
+0,362,6,collision,0:1:45
+0,362,6,not in the zone,0:1:45
+0,362,6,reset,0:1:46
+0,363,0,not in the zone,0:1:46
+0,363,1,collision,0:1:47
+0,363,1,not in the zone,0:1:47
+0,363,1,reset,0:1:47
+0,364,0,collision,0:1:47
+0,364,0,not in the zone,0:1:47
+0,364,0,reset,0:1:48
+0,365,0,collision,0:1:48
+0,365,0,not in the zone,0:1:48
+0,365,0,reset,0:1:49
+0,366,0,collision,0:1:49
+0,366,0,not in the zone,0:1:49
+0,366,0,reset,0:1:50
+0,367,0,collision,0:1:50
+0,367,0,not in the zone,0:1:50
+0,367,0,reset,0:1:50
+0,368,0,not in the zone,0:1:50
+0,368,1,collision,0:1:51
+0,368,1,not in the zone,0:1:51
+0,368,1,reset,0:1:52
+0,369,0,collision,0:1:52
+0,369,0,not in the zone,0:1:52
+0,369,0,reset,0:1:53
+0,370,0,collision,0:1:53
+0,370,0,not in the zone,0:1:53
+0,370,0,reset,0:1:53
+0,371,0,not in the zone,0:1:53
+0,371,1,not in the zone,0:1:54
+0,371,2,collision,0:1:55
+0,371,2,not in the zone,0:1:55
+0,371,2,reset,0:1:55
+0,372,0,not in the zone,0:1:55
+0,372,1,collision,0:1:56
+0,372,1,not in the zone,0:1:56
+0,372,1,reset,0:1:57
+0,373,0,not in the zone,0:1:57
+0,373,1,collision,0:1:57
+0,373,1,not in the zone,0:1:57
+0,373,1,reset,0:1:58
+0,374,0,collision,0:1:58
+0,374,0,not in the zone,0:1:58
+0,374,0,reset,0:1:59
+0,375,0,collision,0:1:59
+0,375,0,not in the zone,0:1:59
+0,375,0,reset,0:1:59
+0,376,0,collision,0:2:0
+0,376,0,not in the zone,0:2:0
+0,376,0,reset,0:2:0
+0,377,0,collision,0:2:0
+0,377,0,not in the zone,0:2:0
+0,377,0,reset,0:2:1
+0,378,0,collision,0:2:1
+0,378,0,not in the zone,0:2:1
+0,378,0,reset,0:2:1
+0,379,0,collision,0:2:1
+0,379,0,not in the zone,0:2:1
+0,379,0,reset,0:2:2
+0,380,0,collision,0:2:2
+0,380,0,not in the zone,0:2:2
+0,380,0,reset,0:2:3
+0,381,0,collision,0:2:3
+0,381,0,not in the zone,0:2:3
+0,381,0,reset,0:2:3
+0,382,0,not in the zone,0:2:3
+0,382,1,not in the zone,0:2:4
+0,382,2,not in the zone,0:2:5
+0,382,3,not in the zone,0:2:5
+0,382,4,not in the zone,0:2:6
+0,382,5,not in the zone,0:2:7
+0,382,6,not in the zone,0:2:7
+0,382,7,not in the zone,0:2:8
+0,382,8,not in the zone,0:2:9
+0,382,9,not in the zone,0:2:10
+0,382,10,not in the zone,0:2:10
+0,382,11,not in the zone,0:2:11
+0,382,12,not in the zone,0:2:11
+0,382,13,not in the zone,0:2:12
+0,382,14,not in the zone,0:2:13
+0,382,15,not in the zone,0:2:13
+0,382,16,not in the zone,0:2:14
+0,382,17,not in the zone,0:2:15
+0,382,18,not in the zone,0:2:15
+0,382,19,not in the zone,0:2:16
+0,382,20,not in the zone,0:2:17
+0,382,21,not in the zone,0:2:18
+0,382,22,not in the zone,0:2:18
+0,382,23,not in the zone,0:2:19
+0,382,24,not in the zone,0:2:20
+0,382,25,not in the zone,0:2:20
+0,382,26,not in the zone,0:2:21
+0,382,27,not in the zone,0:2:22
+0,382,28,not in the zone,0:2:22
+0,382,29,not in the zone,0:2:23
+0,382,30,not in the zone,0:2:23
+0,382,31,not in the zone,0:2:24
+0,382,32,not in the zone,0:2:25
+0,382,33,not in the zone,0:2:26
+0,382,34,not in the zone,0:2:26
+0,382,35,not in the zone,0:2:27
+0,382,36,not in the zone,0:2:28
+0,382,37,not in the zone,0:2:28
+0,382,38,not in the zone,0:2:29
+0,382,39,not in the zone,0:2:30
+0,382,40,not in the zone,0:2:31
+0,382,41,not in the zone,0:2:31
+0,382,42,not in the zone,0:2:32
+0,382,43,not in the zone,0:2:33
+0,382,44,not in the zone,0:2:33
+0,382,45,not in the zone,0:2:34
+0,382,46,not in the zone,0:2:35
+0,382,47,not in the zone,0:2:35
+0,382,48,not in the zone,0:2:36

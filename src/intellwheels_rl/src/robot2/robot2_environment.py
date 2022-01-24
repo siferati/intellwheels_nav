@@ -84,9 +84,6 @@ class Env():
 
     def getOdometryRobot2(self, odom):
         self.pose_r2 = odom.pose.pose    
-
-        #print("Pose: ",self.pose_r2 )
-
         self.heading_r2 = self.getHeadingToRobot1(odom)
 
     def getHeadingToRobot1(self, odom):
@@ -119,7 +116,6 @@ class Env():
         scan_range = self.sample_scan.clean_data(scan)
 
         if min_range > min(scan_range) > 0:
-            #rospy.loginfo("Collision   [ %f ] -  [ %f ]  ", min_range,  min(scan_range))
             collision = True
                
         chair_safe_zone = False
@@ -130,7 +126,6 @@ class Env():
                
         # chair has to stop
         if current_distance_to_chair1 > min_range and current_distance_to_chair1 < min_distance_to_chair:
-            #rospy.loginfo("DANGER ZONE")
             self.get_goal = True
 
         if(current_distance_to_chair1 < self.distance_to_chair1):
@@ -165,14 +160,12 @@ class Env():
             reward = ((round(yaw_reward[action] * 5, 2)) * distance_rate)
 
             if collision:
-                #rospy.loginfo("Collision with an object stop the chair !!")
                 reward = -100
                 self.force_brake = True
                 #save log
                 self.goal_log.save(self.current_episode, self.curent_step, 'collision')
             
             if chair_safe_zone:
-                rospy.loginfo("Chair2 is in safe zone related to Chair1")
                 reward = 10
                 # #save log
                 self.goal_log.save(self.current_episode, self.curent_step, 'in the chair zone')        
@@ -227,20 +220,11 @@ class Env():
         self.trajectory_log.save(episode, step, self.pose_r1.position.x, self.pose_r1.position.y, 
                                                 self.pose_r2.position.x, self.pose_r2.position.y)
 
+        print("Robot2: %f %f  ", self.pose_r2.position.x, self.pose_r2.position.y )
+
         return np.asarray(state), reward, collision, self.get_goal
 
     def reset(self):
-
-        '''
-        rospy.wait_for_service('gazebo/reset_simulation')
-        try:
-            self.reset_proxy()
-        except (rospy.ServiceException) as e:
-            print("gazebo/reset_simulation service call failed")
-
-        time.sleep(2.0)
-
-        '''
 
         data = None
         while data is None:

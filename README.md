@@ -1,14 +1,13 @@
 # Intellwheels Navigation
 
 
-- [Intellwheels Navigation](#intellwheels-navigation)    
 - [Setup](#setup)    
 - - [Python and requirements](#python-and-requirements)        
 - - [Open AI ROS](#open-ai-ros)
 - - [Virtual environment](#virtual-environment)   
 - - [Dependencies](#dependencies)  
-- - [Usage](#usage)
-- - [Packages & Launch Files](#packages--launch-files)       
+- [Usage](#usage)
+- [Packages & Launch Files](#packages--launch-files)       
 - - [intellwheels_desc](#intellwheels_desc)       
 - - [intellwheels_multi_chair](#intellwheels_multi_chair)      
 - - [intellwheels_move_to_goal](#intellwheels_move_to_goal)
@@ -21,7 +20,7 @@
 - - [Run without gazebo gui](#run-without-gazebo-gui)
 - - [How to use multiple robots from the same model in Gazebo](#how-to-use-multiple-robots-from-the-same-model-in-gazebo)
 - [Code structure](#code-structure)  
-- - [Credits](#credits)
+- [Credits](#credits)
 
 
 ## Setup
@@ -87,21 +86,21 @@ $ source devel/setup.bash
 $ roslaunch <package> <file>
 ```
 
-## Packages & Launch Files
+# Packages & Launch Files
 
-### intellwheels_desc
+## intellwheels_desc
 
 Describes the wheelchair 3d robot model.
 
 * `wheelchair.launch` - loads the robot description and publishes the joints and robot states.
 * `debug.launch` - useful for debugging the robot model. Spawns the wheelchair in an empty gazebo world with manual steering.
 
-### intellwheels_multi_chair
+## intellwheels_multi_chair
 
 Open a gazebo and a rviz with two chairs publish the joints to the ROS.
 
 
-### intellwheels_move_to_goal
+## intellwheels_move_to_goal
 
 Simple example using the stack navigation that move the two chairs independently to a predefined goal.
 
@@ -115,11 +114,11 @@ $ roslaunch intellwheels_multi_chairs empty_office.launch
 $ roslaunch intellwheels_move_goal main.launch
 ```
 
-### intellwheels_rl
+## intellwheels_rl
 
 Launch agent with reinforcement learning capabilities using DQN and Q-Learning.
 
-#### Q-Learning
+### Q-Learning
 
 ```
 
@@ -142,7 +141,7 @@ $ roslaunch intellwheels_rl robot2_qlearn.launch
 
 ```
 
-#### DQN
+### DQN
 
 To run the DQN it is necessary to activate the virtual environment.
 
@@ -168,7 +167,7 @@ $ roslaunch intellwheels_rl robot2_qdn.launch
 
 ```
 
-#### DQN - Test/Deploy
+### DQN - Test/Deploy
 
 To run the DQN it is necessary to activate the virtual environment.
 
@@ -194,9 +193,9 @@ $ roslaunch intellwheels_rl robot2_dqn_test.launch
 ```
 
 
-## Other experiments
+# Other experiments
 
-### Run gazeo with one robot only
+## Run gazeo with one robot only
 
 To run the DQN it is necessary to activate the virtual environment.
 
@@ -216,7 +215,7 @@ $ roslaunch intellwheels_rl robot1_dqn_test.launch
 ```
 
 
-### Run without gazebo gui
+## Run without gazebo gui
 
 ```
 **Terminal 1:  **
@@ -355,7 +354,7 @@ move_base_2.launch
 ```
 
 
-## Code structure 
+# Code structure 
 
 The most important package is the intellwheels_rl with the following code structure:
 
@@ -410,7 +409,7 @@ Code
 
 
 
-## Credits
+# Credits
 
 The source code was based on:
 

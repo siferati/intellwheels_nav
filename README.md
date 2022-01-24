@@ -30,7 +30,7 @@ source devel/setup.bash
 rosdep install openai_ros
 ```
 
-More information at [(http://wiki.ros.org/openai_ros](http://wiki.ros.org/openai_ros)
+More information at [http://wiki.ros.org/openai_ros](http://wiki.ros.org/openai_ros)
 
 
 ### Virtual environment
@@ -81,14 +81,15 @@ Open a gazebo and a rviz with two chairs publish the joints to the ROS.
 
 Simple example using the stack navigation that move the two chairs independently to a predefined goal.
 
-Terminal 1: 
+```
+**Terminal 1:** 
 
 $ roslaunch intellwheels_multi_chairs empty_office.launch
 
-Terminal 2:
+**Terminal 2:**
 
 $ roslaunch intellwheels_move_goal main.launch
-
+```
 
 ### intellwheels_rl
 
@@ -98,18 +99,18 @@ Launch agent with reinforcement learning capabilities using DQN and Q-Learning.
 
 ```
 
-Terminal 1: 
+**Terminal 1:** 
 
 $ roslaunch intellwheels_multi_chairs empty_office.launch
 
-Terminal 2: 
+**Terminal 2:**
 
 $ source env/bin/activate
 
 $ roslaunch intellwheels_rl robot1_qlearn.launch
 
 
-Terminal 2: 
+**Terminal 3:** 
 
 $ source env/bin/activate
 
@@ -123,18 +124,19 @@ To run the DQN it is necessary to activate the virtual enviroment.
 
 ```
 
-Terminal 1: 
+**Terminal 1:** 
 
 $ roslaunch intellwheels_multi_chairs empty_office.launch
 
-Terminal 2: 
+
+**Terminal 2:**
 
 $ source env/bin/activate
 
 $ roslaunch intellwheels_rl robot1_dqn.launch
 
 
-Terminal 2: 
+**Terminal 3:** 
 
 $ source env/bin/activate
 
@@ -148,18 +150,18 @@ To run the DQN it is necessary to activate the virtual enviroment.
 
 ```
 
-Terminal 1: 
+**Terminal 1:** 
 
 $ roslaunch intellwheels_multi_chairs empty_office.launch
 
-Terminal 2: 
+**Terminal 2: **
 
 $ source env/bin/activate
 
 $ roslaunch intellwheels_rl robot1_dqn_test.launch
 
 
-Terminal 2: 
+**Terminal 3:** 
 
 $ source env/bin/activate
 
@@ -181,7 +183,7 @@ To run the DQN it is necessary to activate the virtual enviroment.
 
 $ roslaunch intellwheels_multi_chairs empty_office_robot1.launch
 
-**Terminal 2: **
+**Terminal 2:**
 
 $ source env/bin/activate
 
@@ -331,7 +333,7 @@ move_base_2.launch
 
 The most important package is the intellwheels_rl with the following code structure:
 
-
+```
 Code
 |
 |_src
@@ -362,6 +364,7 @@ Code
          |
          |_ worlds
 
+```
 
 **launch**: files to start the dqn and qlearn agent in developemnt and test mode
 
@@ -375,9 +378,9 @@ Code
 
 **robot1**: the main for the robot1 and their enviroment
 
-**robot2**: the main for the robot12 and their enviroment
+**robot2**: the main for the robot2 and their enviroment
 
-**tools**:  classes common for both agents
+**tools**: classes common for both agents
 
 
 

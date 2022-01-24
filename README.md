@@ -6,6 +6,7 @@ This repository is a fork from [Intellwheels Navigation](https://github.com/sife
 
 ## Python and requirements 
 
+```
 ROS Noetic
 
 Python 2.7
@@ -15,6 +16,7 @@ virtualenv
 Keras = 2.1.5
 
 tensorflow-gpu = 1.14.0
+```
 
 ### Open AI ROS
 
@@ -31,6 +33,8 @@ rosdep install openai_ros
 More information at [(http://wiki.ros.org/openai_ros](http://wiki.ros.org/openai_ros)
 
 
+### Virtual environment
+
 To install the correct packages create a virtual environment and run the pip install
 
 ```
@@ -41,6 +45,8 @@ source env/bin/activate
 pip install -r requirements.txt
 
 ```
+
+**NOTE: every time that you need to launch with DQN you have to activate the virtual environment before**
 
 
 ## Dependencies
@@ -192,7 +198,9 @@ Terminal 1:  roslaunch intellwheels_multi_chairs empty_office_no_gazebo.launch
 
 **DQN**
 
-Hands-On ROS for Robotics Programming (Ronquillo, 2020)
+Book: "Hands-On ROS for Robotics Programming"
+
+ISBN 9781838551308
 
 [https://github.com/ROBOTIS-GIT/turtlebot3_machine_learning](https://github.com/ROBOTIS-GIT/turtlebot3_machine_learning) 
 

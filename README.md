@@ -170,18 +170,18 @@ $ roslaunch intellwheels_r2 robot2_dqn_test.launch
 
 ## Other experiments
 
-### Run one robot
+### Run gazeo with one robot only
 
 To run the DQN it is necessary to activate the virtual enviroment.
 
 
 ```
 
-Terminal 1: 
+**Terminal 1:** 
 
 $ roslaunch intellwheels_multi_chairs empty_office_robot1.launch
 
-Terminal 2: 
+**Terminal 2: **
 
 $ source env/bin/activate
 
@@ -197,9 +197,9 @@ Terminal 1:  roslaunch intellwheels_multi_chairs empty_office_no_gazebo.launch
 
 ```
 
-## How to use multple robots from the same model in Gazebo
+## How to use multiple robots from the same model in Gazebo
 
-It necessary to define a namespace, prefix, a frame and **don't forget to repeat the parameter description inside the namespace with proper perfix:**
+It necessary to define a namespace, prefix, a frame and **don't forget to repeat the parameter description inside the namespace with proper perfix !!! **
 
 **-param /robot1/robot_description"**
 
@@ -326,14 +326,59 @@ move_base_2.launch
 
 ```
 
-```
-(...)
-
-```
 
 ## Code structure 
 
-(...)
+The most important package is the intellwheels_rl with the following code structure:
+
+
+Code
+|
+|_src
+    |
+    |_ **intellwheels_rl**
+         |
+         |_ config
+         |
+         |_ launch
+         |
+         |_ meshes
+         |
+         |_ metrics
+         |
+         |_rviz
+         |
+         |_ save_mode
+         |
+         |_ srs
+         |    |
+         |    |_ algorithms
+         |    |
+         |    |_ robot1
+         |    |
+         |    |_ robot2
+         |    |  
+         |    |_ tools
+         |
+         |_ worlds
+
+
+**launch**: files to start the dqn and qlearn agent in developemnt and test mode
+
+**meshes**: mesh used to represent the goal of the leader chair
+
+**metrics**: *.csv and pyton code used to plot the graphics
+
+**save_model**: model used to train the DQN agent
+
+**algorithms**: the DQN agent and Q-Learning agent source code 
+
+**robot1**: the main for the robot1 and their enviroment
+
+**robot2**: the main for the robot12 and their enviroment
+
+**tools**:  classes common for both agents
+
 
 
 ## Credits

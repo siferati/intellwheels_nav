@@ -1,5 +1,9 @@
 # Intellwheels Navigation
 
+
+<!-- TOC -->autoauto- [Intellwheels Navigation](#intellwheels-navigation)auto    - [Setup](#setup)auto    - [Python and requirements](#python-and-requirements)auto        - [Open AI ROS](#open-ai-ros)auto        - [Virtual environment](#virtual-environment)auto    - [Dependencies](#dependencies)auto    - [Usage](#usage)auto    - [Packages & Launch Files](#packages--launch-files)auto        - [intellwheels_desc](#intellwheels_desc)auto        - [intellwheels_multi_chair](#intellwheels_multi_chair)auto        - [intellwheels_move_to_goal](#intellwheels_move_to_goal)auto        - [intellwheels_rl](#intellwheels_rl)auto            - [Q-Learning](#q-learning)auto            - [DQN](#dqn)auto            - [DQN - Test/Deploy](#dqn---testdeploy)auto    - [Other experiments](#other-experiments)auto        - [Run gazeo with one robot only](#run-gazeo-with-one-robot-only)auto        - [Run without gazebo gui](#run-without-gazebo-gui)auto    - [How to use multiple robots from the same model in Gazebo](#how-to-use-multiple-robots-from-the-same-model-in-gazebo)auto    - [Code structure](#code-structure)auto    - [Credits](#credits)autoauto<!-- /TOC -->
+
+
 ## Setup
 
 This repository is a fork from [Intellwheels Navigation](https://github.com/siferati/intellwheels_nav) 
@@ -120,7 +124,7 @@ $ roslaunch intellwheels_rl robot2_qlearn.launch
 
 #### DQN
 
-To run the DQN it is necessary to activate the virtual enviroment.
+To run the DQN it is necessary to activate the virtual environment.
 
 ```
 
@@ -146,7 +150,7 @@ $ roslaunch intellwheels_rl robot2_qdn.launch
 
 #### DQN - Test/Deploy
 
-To run the DQN it is necessary to activate the virtual enviroment.
+To run the DQN it is necessary to activate the virtual environment.
 
 ```
 
@@ -174,7 +178,7 @@ $ roslaunch intellwheels_rl robot2_dqn_test.launch
 
 ### Run gazeo with one robot only
 
-To run the DQN it is necessary to activate the virtual enviroment.
+To run the DQN it is necessary to activate the virtual environment.
 
 
 ```
@@ -195,7 +199,9 @@ $ roslaunch intellwheels_rl robot1_dqn_test.launch
 ### Run without gazebo gui
 
 ```
-Terminal 1:  roslaunch intellwheels_multi_chairs empty_office_no_gazebo.launch
+**Terminal 1:  **
+
+$ roslaunch intellwheels_multi_chairs empty_office_no_gazebo.launch
 
 ```
 
@@ -370,15 +376,15 @@ Code
 
 **meshes**: mesh used to represent the goal of the leader chair
 
-**metrics**: *.csv and pyton code used to plot the graphics
+**metrics**: *.csv and python code used to plot the graphics
 
 **save_model**: model used to train the DQN agent
 
 **algorithms**: the DQN agent and Q-Learning agent source code 
 
-**robot1**: the main for the robot1 and their enviroment
+**robot1**: the main for the robot1 and their environment
 
-**robot2**: the main for the robot2 and their enviroment
+**robot2**: the main for the robot2 and their environment
 
 **tools**: classes common for both agents
 
